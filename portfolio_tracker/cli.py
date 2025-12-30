@@ -3253,6 +3253,29 @@ class PortfolioCLI:
             perf_str = f"{perf_amt:+.2f}%" if isinstance(perf_amt, (int, float)) else "N/A"
             perf_annualized_str = f"{perf_annualized:+.2f}%/an" if isinstance(perf_annualized, (int, float)) else "N/A"
 
+            # Calculer la performance annualisée si strike à la prochaine constatation
+            perf_annualized_if_strike = None
+            perf_if_strike = r.get("perf_if_strike_next")
+            next_obs = r.get("next_obs")
+            is_sold_or_terminated_check = r.get("is_sold_or_terminated", False)
+            if not is_sold_or_terminated_check and perf_if_strike is not None and next_obs:
+                try:
+                    next_obs_date = datetime.fromisoformat(str(next_obs)).date() if isinstance(next_obs, str) else next_obs
+                    position = self.portfolio.get_position(r.get("position_id"))
+                    if position:
+                        months_until_next = self._months_elapsed(position.investment.subscription_date, next_obs_date)
+                        if months_until_next > 0:
+                            years_until_next = months_until_next / 12.0
+                            # Annualiser la performance si strike
+                            perf_annualized_if_strike = ((1.0 + perf_if_strike / 100.0) ** (1.0 / years_until_next) - 1.0) * 100.0
+                        else:
+                            # Si moins d'un mois, utiliser la performance brute
+                            perf_annualized_if_strike = perf_if_strike
+                except Exception:
+                    pass
+            
+            perf_annualized_if_strike_str = f"{perf_annualized_if_strike:+.2f}%/an" if isinstance(perf_annualized_if_strike, (int, float)) else ("terminé" if is_sold_or_terminated_check else "N/A")
+
             # Utiliser display_name qui inclut le portefeuille si nécessaire
             name = r.get("display_name", r["name"])
             if isinstance(r.get("coupon_pct"), (int, float)):
@@ -3340,6 +3363,8 @@ class PortfolioCLI:
                 value_if_strike_str = f"{r['value_if_strike_next']:,.2f} €" if isinstance(r.get("value_if_strike_next"), (int, float)) else "N/A"
                 gain_if_strike_str = f"{r['gain_if_strike_next']:,.2f} €" if isinstance(r.get("gain_if_strike_next"), (int, float)) else "N/A"
                 perf_if_strike_str = f"{r['perf_if_strike_next']:+.2f}%" if isinstance(r.get("perf_if_strike_next"), (int, float)) else "N/A"
+            
+            # perf_annualized_if_strike_str est déjà calculé plus haut
 
             # Tronquer le nom du portefeuille à 5 caractères
             portfolio_name = r.get("contract_name", "N/A")
@@ -3366,6 +3391,7 @@ class PortfolioCLI:
                 "Valeur si strike": value_if_strike_str,
                 "Gain si strike": gain_if_strike_str,
                 "Perf si strike": perf_if_strike_str,
+                "Perf/an si strike": perf_annualized_if_strike_str,
             })
 
         if wide:
@@ -3389,6 +3415,7 @@ class PortfolioCLI:
                 "Valeur si strike",
                 "Gain si strike",
                 "Perf si strike",
+                "Perf/an si strike",
             ]
             aligns = {
                 "Mois": "r",
@@ -3403,6 +3430,7 @@ class PortfolioCLI:
                 "Valeur si strike": "r",
                 "Gain si strike": "r",
                 "Perf si strike": "r",
+                "Perf/an si strike": "r",
             }
             # Caps par défaut (évite des lignes infinies). Ajustables au besoin.
             max_widths = {
@@ -3421,8 +3449,8 @@ class PortfolioCLI:
             return
 
         # Vue compacte (par défaut) : moins de colonnes => pas de wrap, + détails en 2e ligne.
-        compact_headers = ["Nom", "Portefeuille", "Mois", "Prochaine", "Remb. si ajd ?", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Valeur si strike", "Gain si strike", "Perf si strike"]
-        compact_aligns = {"Mois": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r"}
+        compact_headers = ["Nom", "Portefeuille", "Mois", "Prochaine", "Remb. si ajd ?", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Valeur si strike", "Gain si strike", "Perf si strike", "Perf/an si strike"]
+        compact_aligns = {"Mois": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r", "Perf/an si strike": "r"}
         compact_rows = [{h: r.get(h) for h in compact_headers} for r in table_rows]
 
         # Ajuster largeur du nom selon la place dispo (pour éviter le wrap).
@@ -3440,6 +3468,7 @@ class PortfolioCLI:
             "Valeur si strike": 16,
             "Gain si strike": 14,
             "Perf si strike": 10,
+            "Perf/an si strike": 14,
         }
         sep_len = 2 * (len(compact_headers) - 1)
         fixed = sum(other_caps.values()) + sep_len

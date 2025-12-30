@@ -243,6 +243,10 @@ def fetch_nav_for_asset_id(
         else:
             html = _http_get_text(url, user_agent=user_agent, timeout_s=timeout_s)
 
+        # Normaliser les espaces insécables HTML (&nbsp; et \u00A0) en espaces normaux
+        # pour que le regex puisse les capturer correctement
+        html = html.replace("&nbsp;", " ").replace("\u00A0", " ")
+
         value_re = cfg.get("value_regex")
         if not value_re:
             raise ValueError(f"{asset_id}: value_regex manquant pour html_regex")
@@ -311,6 +315,10 @@ def fetch_nav_for_asset_id(
         matches = list(re.finditer(str(value_re), html, flags=re.IGNORECASE | re.MULTILINE))
         if not matches:
             raise ValueError(f"{asset_id}: valeur introuvable via regex")
+        
+        # Trier les matches par longueur décroissante pour privilégier les valeurs complètes
+        # (ex: "1 777.24" au lieu de "777.24")
+        matches = sorted(matches, key=lambda m: len(m.group(1)), reverse=True)
         
         # Essayer chaque match jusqu'à trouver une valeur valide
         val = None
