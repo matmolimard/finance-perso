@@ -1,0 +1,102 @@
+nav_sources:
+  # Eleva Absolute Return Europe A1 EUR Acc (LU1331971769)
+  # Source: https://www.quantalys.com/Fonds/405242
+  uc_eleva_absolute_return_europe:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/405242"
+    # Extrait "Valeur liquidative 153,58 EUR" ou "1 777,236 EUR" (gère les espaces dans les nombres)
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    # Extrait "22/12/2025"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # Helium Selection B-EUR (LU1112771503)
+  # Source: https://www.quantalys.com/Fonds/408051
+  uc_helium_selection_b_eur:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/408051"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # BDL Rempart C (FR0010174144)
+  # Source: https://www.quantalys.com/Fonds/13406
+  uc_bdl_rempart_c:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/13406"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # Stratégie & Conviction (FR0011347236)
+  # Source: https://www.quantalys.com/Fonds/100501
+  uc_strategie_conviction:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/100501"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # DNCA Flexibonds C EUR (FR001400OJI4)
+  # Source: https://www.quantalys.com/Fonds/2178788
+  uc_dnca_flexibonds_c_eur:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/2178788"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # Eleva Absolute Return Europe Fund A2 EUR Acc (LU1920211973)
+  # Source: https://www.quantalys.com/Fonds/733949
+  uc_eleva_absolute_return_europe_a2:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/733949"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # IVO Fixed Income Short Duration SRI EUR R Cap (LU2061939729)
+  # Source: https://www.quantalys.com/Fonds/928325
+  uc_ivo_fixed_income_short_duration_sri_r:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/928325"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # DNCA Invest Alpha Bonds B EUR (LU1694789535)
+  # Source: https://www.quantalys.com/Fonds/549478
+  uc_dnca_invest_alpha_bonds_b_eur:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/549478"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+
+  # Dynastrat C (FR00140039O0)
+  # Source: https://www.quantalys.com/Fonds/2007067
+  uc_dynastrat_c:
+    kind: html_regex
+    url: "https://www.quantalys.com/Fonds/2007067"
+    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
+    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
+    date_format: "%d/%m/%Y"
+    currency: "EUR"
+    headless: true
+

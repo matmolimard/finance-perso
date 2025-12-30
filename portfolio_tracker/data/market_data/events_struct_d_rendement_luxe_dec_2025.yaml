@@ -1,0 +1,220 @@
+# Événements pour le produit structuré
+# "D Rendement Luxe Décembre 2025" (FR00140101H2)
+#
+# events: événements réellement constatés (paiements)
+# expected_events: calendrier/conditions attendues (issu de la brochure)
+
+events: []
+expected_events:
+- type: autocall_observation
+  date: '2026-12-21'
+  description: Évaluation semestrielle (semestre 2) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 2
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 100.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2027-01-04'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2027-06-21'
+  description: Évaluation semestrielle (semestre 3) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 3
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 97.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2027-07-05'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2027-12-20'
+  description: Évaluation semestrielle (semestre 4) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 4
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 95.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2028-01-03'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2028-06-19'
+  description: Évaluation semestrielle (semestre 5) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 5
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 92.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2028-07-03'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2028-12-19'
+  description: Évaluation semestrielle (semestre 6) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 6
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 90.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2029-01-02'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2029-06-19'
+  description: Évaluation semestrielle (semestre 7) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 7
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 87.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2029-07-03'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2029-12-19'
+  description: Évaluation semestrielle (semestre 8) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 8
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 85.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2030-01-02'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2030-06-19'
+  description: Évaluation semestrielle (semestre 9) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 9
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 82.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2030-07-03'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2030-12-19'
+  description: Évaluation semestrielle (semestre 10) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 10
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 80.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2031-01-02'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2031-06-19'
+  description: Évaluation semestrielle (semestre 11) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 11
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 77.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2031-07-03'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2031-12-19'
+  description: Évaluation semestrielle (semestre 12) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 12
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 75.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2032-01-02'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2032-06-21'
+  description: Évaluation semestrielle (semestre 13) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 13
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 72.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2032-07-05'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2032-12-20'
+  description: Évaluation semestrielle (semestre 14) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 14
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 70.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2033-01-03'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2033-06-20'
+  description: Évaluation semestrielle (semestre 15) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 15
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 67.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2033-07-04'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2033-12-19'
+  description: Évaluation semestrielle (semestre 16) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 16
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 65.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2034-01-02'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2034-06-19'
+  description: Évaluation semestrielle (semestre 17) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 17
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 62.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2034-07-03'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2034-12-19'
+  description: Évaluation semestrielle (semestre 18) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 18
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 60.0
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2035-01-02'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2035-06-19'
+  description: Évaluation semestrielle (semestre 19) - autocall si Indice >= barrière dégressive
+  metadata:
+    semester: 19
+    underlying: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    autocall_barrier_pct_of_initial: 57.5
+    gain_per_semester: 0.04
+    payment_delay_business_days: 10
+    payment_date_estimated_weekends_only: '2035-07-03'
+    business_day_adjustment: following
+- type: maturity_observation
+  date: '2035-12-19'
+  description: Évaluation finale (>=55% => capital+80%; [50%,55%) => capital; <50% => perte)
+  metadata:
+    threshold_capital_plus_gain_pct_of_initial: 55.0
+    threshold_capital_only_pct_of_initial: 50.0
+    final_gain: 0.8
+- type: maturity_payment_expected
+  date: '2036-01-02'
+  description: Échéance (paiement)
+  metadata:
+    final_observation_date: '2035-12-19'
+
+

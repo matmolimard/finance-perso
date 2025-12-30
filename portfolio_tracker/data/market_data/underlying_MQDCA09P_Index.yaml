@@ -1,0 +1,12 @@
+underlying_id: MQDCA09P Index
+source: merqube
+identifier: MQDCA09P
+last_updated: '2025-12-29T23:46:08'
+history:
+- date: '2025-02-07'
+  value: 14.46
+- date: '2025-12-24'
+  value: 17.02
+url: https://merqube.com/indices/MQDCA09P
+notes: 'MerQube CA SA 0.9 Point Decrement (EUR) - ticker Bloomberg: MQDCA09P Index'
+metric: total_return

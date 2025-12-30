@@ -1,0 +1,200 @@
+# Événements pour le produit structuré
+# "D RENDEMENT BOUYGUES DIV FIX 1,70 € FÉVRIER 2025" (FR1459AB5562)
+#
+# events: événements réellement constatés (paiements)
+# expected_events: calendrier/conditions attendues (issu de la brochure)
+
+events: []
+expected_events:
+- type: autocall_possible
+  date: '2026-03-13'
+  description: Remboursement anticipé possible (semestre 2) si Indice >= niveau initial
+  metadata:
+    semester: 2
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2026-02-27'
+    payment_date: '2026-03-13'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2026-09-10'
+  description: Remboursement anticipé possible (semestre 3) si Indice >= niveau initial
+  metadata:
+    semester: 3
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2026-08-27'
+    payment_date: '2026-09-10'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2027-03-15'
+  description: Remboursement anticipé possible (semestre 4) si Indice >= niveau initial
+  metadata:
+    semester: 4
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2027-03-01'
+    payment_date: '2027-03-15'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2027-09-10'
+  description: Remboursement anticipé possible (semestre 5) si Indice >= niveau initial
+  metadata:
+    semester: 5
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2027-08-27'
+    payment_date: '2027-09-10'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2028-03-13'
+  description: Remboursement anticipé possible (semestre 6) si Indice >= niveau initial
+  metadata:
+    semester: 6
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2028-02-28'
+    payment_date: '2028-03-13'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2028-09-11'
+  description: Remboursement anticipé possible (semestre 7) si Indice >= niveau initial
+  metadata:
+    semester: 7
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2028-08-28'
+    payment_date: '2028-09-11'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2029-03-13'
+  description: Remboursement anticipé possible (semestre 8) si Indice >= niveau initial
+  metadata:
+    semester: 8
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2029-02-27'
+    payment_date: '2029-03-13'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2029-09-10'
+  description: Remboursement anticipé possible (semestre 9) si Indice >= niveau initial
+  metadata:
+    semester: 9
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2029-08-27'
+    payment_date: '2029-09-10'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2030-03-13'
+  description: Remboursement anticipé possible (semestre 10) si Indice >= niveau initial
+  metadata:
+    semester: 10
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2030-02-27'
+    payment_date: '2030-03-13'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2030-09-10'
+  description: Remboursement anticipé possible (semestre 11) si Indice >= niveau initial
+  metadata:
+    semester: 11
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2030-08-27'
+    payment_date: '2030-09-10'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2031-03-13'
+  description: Remboursement anticipé possible (semestre 12) si Indice >= niveau initial
+  metadata:
+    semester: 12
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2031-02-27'
+    payment_date: '2031-03-13'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2031-09-10'
+  description: Remboursement anticipé possible (semestre 13) si Indice >= niveau initial
+  metadata:
+    semester: 13
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2031-08-27'
+    payment_date: '2031-09-10'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2032-03-12'
+  description: Remboursement anticipé possible (semestre 14) si Indice >= niveau initial
+  metadata:
+    semester: 14
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2032-02-27'
+    payment_date: '2032-03-12'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2032-09-10'
+  description: Remboursement anticipé possible (semestre 15) si Indice >= niveau initial
+  metadata:
+    semester: 15
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2032-08-27'
+    payment_date: '2032-09-10'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2033-03-14'
+  description: Remboursement anticipé possible (semestre 16) si Indice >= niveau initial
+  metadata:
+    semester: 16
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2033-02-28'
+    payment_date: '2033-03-14'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2033-09-12'
+  description: Remboursement anticipé possible (semestre 17) si Indice >= niveau initial
+  metadata:
+    semester: 17
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2033-08-29'
+    payment_date: '2033-09-12'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2034-03-13'
+  description: Remboursement anticipé possible (semestre 18) si Indice >= niveau initial
+  metadata:
+    semester: 18
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2034-02-27'
+    payment_date: '2034-03-13'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: autocall_possible
+  date: '2034-09-11'
+  description: Remboursement anticipé possible (semestre 19) si Indice >= niveau initial
+  metadata:
+    semester: 19
+    underlying: Euronext_G_Bouygues_261021_GR_Decrement_1.7
+    observation_date: '2034-08-28'
+    payment_date: '2034-09-11'
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.065
+- type: maturity_observation
+  date: '2035-02-27'
+  description: 'Observation finale (seuil perte en capital: 50% du niveau initial)'
+  metadata:
+    capital_protection_threshold_pct_of_initial: 50.0
+- type: maturity_payment_expected
+  date: '2035-03-13'
+  description: Échéance (paiement)
+  metadata:
+    final_observation_date: '2035-02-27'
+
+

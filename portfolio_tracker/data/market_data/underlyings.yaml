@@ -1,0 +1,55 @@
+# Configuration des sous-jacents à suivre (séries temporelles)
+#
+# Chaque entrée décrit comment récupérer le niveau d'un sous-jacent et le stocker
+# dans un fichier YAML dédié : underlying_<underlying_id_sanitized>.yaml
+#
+# Remarque:
+# - Certaines sources (ex: CMS via sites bancaires) peuvent être derrière des murs de consentement/compliance.
+# - Les fetchers implémentés ici visent des pages accessibles publiquement (Solactive / Euronext / MerQube / Natixis).
+
+underlyings:
+  # Bouygues (indice Euronext)
+  - underlying_id: euronext_fr:FRIX00000185-XPAR
+    source: euronext
+    identifier: FRIX00000185-XPAR
+    url: https://live.euronext.com/fr/product/indices/FRIX00000185-XPAR
+    notes: "Euronext G Bouygues 261021 GR Decrement 1.7 (SGBD)"
+
+  # ENI (indice Euronext)
+  - underlying_id: euronext_fr:FRIX00001324-XPAR
+    source: euronext
+    identifier: FRIX00001324-XPAR
+    url: https://live.euronext.com/fr/product/indices/FRIX00001324-XPAR
+    notes: "Euronext G Eni SPA 010622 GR Decrement 0.91 (SGEID)"
+
+  # ENGIE (indice Solactive)
+  - underlying_id: solactive:DE000SL0MLE8
+    source: solactive
+    identifier: DE000SL0MLE8
+    url: https://www.solactive.com/indices/?indexhistory=DE000SL0MLE8&indexhistorytype=max
+    notes: "Solactive ENGIE AR 0.95 Index (SOLEN095 Index)"
+
+  # Crédit Agricole (indice MerQube) - MQDCA09P Index
+  - underlying_id: "MQDCA09P Index"
+    source: merqube
+    identifier: MQDCA09P
+    metric: total_return
+    url: https://merqube.com/indices/MQDCA09P
+    notes: "MerQube CA SA 0.9 Point Decrement (EUR) - ticker Bloomberg: MQDCA09P Index"
+
+  # iEdge Transatlantic Luxury Goods & Services 10 EW Decrement 50 Points GTR® (Natixis)
+  - underlying_id: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
+    source: natixis
+    identifier: LUXGSTDG
+    url: https://equityderivatives.natixis.com/fr/indice/luxgstdg/
+    notes: "iEdge Transatlantic Luxury Goods & Services 10 EW Decrement 50 Points GTR® - Bloomberg: LUXGSTDG Index"
+
+  # CMS EUR 10Y (Investing.com)
+  - underlying_id: CMS_EUR_10Y
+    type: rate
+    source: investing
+    identifier: CMS_EUR_10Y
+    url: https://fr.investing.com/rates-bonds/eur-10-years-irs-interest-rate-swap
+    notes: "Taux CMS EUR 10 ans (Interest Rate Swap) - Investing.com"
+
+

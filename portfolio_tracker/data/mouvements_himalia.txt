@@ -1,0 +1,156 @@
+Mouvements sur le compte
+
+Frais de gestion - 22/09/2025
+-312,68 €
+Frais
+312,68 €
+
+FR0010174144
+BDL Rempart C
+-15,81 €
+Quantité
+-0,0649
+Cours
+243,66 €
+Montant net
+-15,81 €
+
+FR1459AB5562
+D Rendement Bouygues Div Fix 1,70 € Fevrier 2025
+-63,26 €
+Quantité
+-0,0589
+Cours
+1 074,00 €
+Montant net
+-63,26 €
+
+FR001400TBR1
+D Rendement Distribution Fevrier 2025
+-104,77 €
+Quantité
+-0,1179
+Cours
+888,60 €
+Montant net
+-104,77 €
+
+LU1331971769
+Eleva Absolute Return Europe Fund A1 EUR Acc
+-16,42 €
+Quantité
+-0,1094
+Cours
+150,07 €
+Montant net
+-16,42 €
+
+FR001400OJI4
+DNCA Flexibonds C EUR
+-16,23 €
+Quantité
+-0,1542
+Cours
+105,26 €
+Montant net
+-16,23 €
+
+LU1112771503
+Helium Selection B-EUR
+-16,14 €
+Quantité
+-0,0093
+Cours
+1 735,914 €
+Montant net
+-16,14 €
+
+FRIP00000YI4
+D Rendement Ca Dividende Forfaitaire 0,90 EUR Février 2025
+-63,69 €
+Quantité
+-0,0589
+Cours
+1 081,40 €
+Montant net
+-63,69 €
+
+FR0011347236
+Stratégie & Conviction
+-16,36 €
+Quantité
+-0,108
+Cours
+151,46 €
+Montant net
+-16,36 €
+
+Versement libre complémentaire - 04/09/2025
+50 000,00 €
+Montant net
+50 000,00 €
+
+FR0010174144
+BDL Rempart C
+6 500,00 €
+Quantité
+25,975
+Cours
+250,24 €
+Montant net
+6 500,00 €
+
+AGGV090
+Actif Général Generali Vie
+17 500,00 €
+Quantité
+17 500
+Cours
+1,00 €
+Montant net
+17 500,00 €
+
+FR0011347236
+Stratégie & Conviction
+6 500,00 €
+Quantité
+43,2065
+Cours
+150,44 €
+Montant net
+6 500,00 €
+
+LU1112771503
+Helium Selection B-EUR
+6 500,00 €
+Quantité
+3,7486
+Cours
+1 733,945 €
+Montant net
+6 500,00 €
+
+LU1331971769
+Eleva Absolute Return Europe Fund A1 EUR Acc
+6 500,00 €
+Quantité
+43,7946
+Cours
+148,42 €
+Montant net
+6 500,00 €
+
+FR001400OJI4
+DNCA Flexibonds C EUR
+6 500,00 €
+Quantité
+61,7108
+Cours
+105,33 €
+Montant net
+6 500,00 €
+
+
+
+
+

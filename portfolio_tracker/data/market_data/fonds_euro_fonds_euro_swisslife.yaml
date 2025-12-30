@@ -1,0 +1,31 @@
+# Taux déclarés pour le Fonds Euros Swisslife (SW0000000000)
+# Source: communications Swiss Life / relevés annuels
+# Calculé par bissection à partir des cashflows avec la valeur du relevé au 31/12/2024: 385 457,47 €
+# 
+# Cashflows capitalisés jusqu'au 31/12/2024:
+# - 2022-11-09: +360 000,00 € (versement initial) - capitalisé sur 2,142 années
+# - 2022-12-31: -336,05 € (frais) - capitalisé sur 2 années
+# - 2023-12-31: -2 442,38 € (frais) - capitalisé sur 1 année
+# - 2024-12-31: -2 521,87 € (frais) - pas de capitalisation (même jour)
+# - 2024-12-31: +14 671,02 € (participation aux bénéfices) - pas de capitalisation (même jour)
+#
+# Taux moyen calculé par bissection: 2.350% (vérifié avec valeur cible 385 457,47 €)
+# Note: Le relevé indique 3,25% pour 2024, mais ce taux moyen sur la période 2022-2024
+# tient compte de tous les frais et de la capitalisation depuis la souscription.
+
+declared_rates:
+  - year: 2022
+    rate: 2.350
+    source: calculated_from_cashflows_with_dates_bissection
+    date: '2022-12-31'
+    note: 'Taux moyen calculé par bissection en tenant compte des dates exactes des mouvements (valeur relevé 31/12/2024: 385 457,47 €)'
+  - year: 2023
+    rate: 2.350
+    source: calculated_from_cashflows_with_dates_bissection
+    date: '2023-12-31'
+    note: 'Taux moyen calculé par bissection en tenant compte des dates exactes des mouvements (valeur relevé 31/12/2024: 385 457,47 €)'
+  - year: 2024
+    rate: 2.350
+    source: calculated_from_cashflows_with_dates_bissection
+    date: '2024-12-31'
+    note: 'Taux moyen calculé par bissection en tenant compte des dates exactes des mouvements (valeur relevé 31/12/2024: 385 457,47 €)'

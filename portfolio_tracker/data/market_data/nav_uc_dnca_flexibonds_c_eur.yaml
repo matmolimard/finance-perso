@@ -1,0 +1,16 @@
+nav_history:
+- date: '2022-11-24'
+  value: 105.79000308349903
+  currency: EUR
+  source: purchase_nav
+- date: '2025-09-04'
+  value: 105.85801996645115
+  currency: EUR
+  source: purchase_nav
+- date: '2025-12-22'
+  value: 105.75
+  currency: EUR
+- date: '2025-12-23'
+  value: 105.92
+  currency: EUR
+  source: html_regex

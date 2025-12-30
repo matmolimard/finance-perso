@@ -1,0 +1,83 @@
+# Notes Quantalys des fonds
+# Source: https://www.quantalys.com
+# Dernière mise à jour: 2025-12-22
+
+ratings:
+- isin: FR0010174144
+  name: BDL Rempart C
+  quantalys_rating: 4
+  quantalys_category: null
+  last_update: '2025-12-23'
+  notes: Note globale Quantalys
+- isin: FR0010233726
+  name: Generali Trésorerie ISR B
+  quantalys_rating: 3
+  quantalys_category: Monétaire
+  last_update: '2025-12-28'
+  notes: Note globale Quantalys (historique)
+- isin: FR0011347236
+  name: Stratégie & Conviction
+  quantalys_rating: 1
+  quantalys_category: null
+  last_update: '2025-12-23'
+  notes: Note globale Quantalys
+- isin: FR0013301629
+  name: Swiss Life Funds (F) Short Term Euro P1
+  quantalys_rating: 3
+  quantalys_category: Monétaire
+  last_update: '2025-12-28'
+  notes: Note globale Quantalys (historique)
+- isin: FR00140039O0
+  name: Dynastrat C
+  quantalys_rating: 2
+  quantalys_category: null
+  last_update: '2025-12-22'
+  notes: Note globale Quantalys
+- isin: FR0014009IF7
+  name: SCI Cap Santé
+  quantalys_rating: null
+  quantalys_category: Immobilier
+  last_update: '2025-12-28'
+  notes: Non noté par Quantalys (SCPI)
+- isin: FR001400OJI4
+  name: DNCA Flexibonds C EUR
+  quantalys_rating: 5
+  quantalys_category: null
+  last_update: '2025-12-23'
+  notes: Note globale Quantalys
+- isin: LU1112771503
+  name: Helium Selection B-EUR
+  quantalys_rating: 5
+  quantalys_category: null
+  last_update: '2025-12-22'
+  notes: Note globale Quantalys
+- isin: LU1331971769
+  name: Eleva Absolute Return Europe
+  quantalys_rating: 4
+  quantalys_category: null
+  last_update: '2025-12-22'
+  notes: Note globale Quantalys
+- isin: LU1694789535
+  name: DNCA Invest Alpha Bonds B EUR
+  quantalys_rating: 3
+  quantalys_category: null
+  last_update: '2025-12-23'
+  notes: Note globale Quantalys
+- isin: LU1920211973
+  name: Eleva Absolute Return Europe Fund A2 EUR Acc
+  quantalys_rating: 4
+  quantalys_category: null
+  last_update: '2025-12-22'
+  notes: Note globale Quantalys
+- isin: LU2061939729
+  name: IVO Fixed Income Short Duration SRI EUR R Cap
+  quantalys_rating: 5
+  quantalys_category: null
+  last_update: '2025-12-22'
+  notes: Note globale Quantalys
+- isin: LU2219227013
+  name: Tikehau Short Duration R EUR Acc
+  quantalys_rating: 3
+  quantalys_category: Obligations Court Terme
+  last_update: '2025-12-28'
+  notes: Note globale Quantalys (historique)

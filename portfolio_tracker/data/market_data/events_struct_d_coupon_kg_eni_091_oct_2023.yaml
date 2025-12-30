@@ -1,0 +1,210 @@
+# Événements pour le produit structuré
+# "D Coupon Kg Eni 0.91 Octobre 2023" (FR001400HJD9)
+#
+# events: événements réellement constatés (paiements)
+# expected_events: calendrier/conditions attendues (issu de la brochure)
+
+events: []
+expected_events:
+- type: autocall_observation
+  date: '2024-10-21'
+  description: Observation autocall (semestre 2) - barrière dégressive
+  metadata:
+    semester: 2
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 100.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2024-10-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2025-04-21'
+  description: Observation autocall (semestre 3) - barrière dégressive
+  metadata:
+    semester: 3
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 99.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2025-04-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2025-10-21'
+  description: Observation autocall (semestre 4) - barrière dégressive
+  metadata:
+    semester: 4
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 98.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2025-10-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2026-04-21'
+  description: Observation autocall (semestre 5) - barrière dégressive
+  metadata:
+    semester: 5
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 97.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2026-04-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2026-10-21'
+  description: Observation autocall (semestre 6) - barrière dégressive
+  metadata:
+    semester: 6
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 96.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2026-10-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2027-04-21'
+  description: Observation autocall (semestre 7) - barrière dégressive
+  metadata:
+    semester: 7
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 95.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2027-04-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2027-10-21'
+  description: Observation autocall (semestre 8) - barrière dégressive
+  metadata:
+    semester: 8
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 94.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2027-10-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2028-04-21'
+  description: Observation autocall (semestre 9) - barrière dégressive
+  metadata:
+    semester: 9
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 93.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2028-04-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2028-10-23'
+  description: Observation autocall (semestre 10) - barrière dégressive
+  metadata:
+    semester: 10
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 92.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2028-10-30'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2029-04-23'
+  description: Observation autocall (semestre 11) - barrière dégressive
+  metadata:
+    semester: 11
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 91.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2029-04-30'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2029-10-22'
+  description: Observation autocall (semestre 12) - barrière dégressive
+  metadata:
+    semester: 12
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 90.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2029-10-29'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2030-04-22'
+  description: Observation autocall (semestre 13) - barrière dégressive
+  metadata:
+    semester: 13
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 89.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2030-04-29'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2030-10-21'
+  description: Observation autocall (semestre 14) - barrière dégressive
+  metadata:
+    semester: 14
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 88.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2030-10-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2031-04-21'
+  description: Observation autocall (semestre 15) - barrière dégressive
+  metadata:
+    semester: 15
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 87.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2031-04-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2031-10-21'
+  description: Observation autocall (semestre 16) - barrière dégressive
+  metadata:
+    semester: 16
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 86.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2031-10-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2032-04-21'
+  description: Observation autocall (semestre 17) - barrière dégressive
+  metadata:
+    semester: 17
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 85.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2032-04-28'
+    business_day_adjustment: following
+- type: autocall_observation
+  date: '2032-10-21'
+  description: Observation autocall (semestre 18) - barrière dégressive
+  metadata:
+    semester: 18
+    underlying: Euronext_G_ENI_SPA_010622_GR_Decrement_0.91
+    autocall_threshold_pct_of_initial: 84.0
+    gain_per_semester: 0.0275
+    payment_delay_business_days: 5
+    payment_date_estimated_weekends_only: '2032-10-28'
+    business_day_adjustment: following
+- type: maturity_observation
+  date: '2033-10-20'
+  description: Observation finale (perf >= -18% => capital + 55% ; sinon capital)
+  metadata:
+    initial_observation_date: '2023-10-20'
+    performance_threshold: -0.18
+    gain_per_semester: 0.0275
+    total_semesters: 20
+- type: maturity_payment_expected
+  date: '2033-10-27'
+  description: Échéance (paiement)
+  metadata:
+    final_observation_date: '2033-10-20'
+
+

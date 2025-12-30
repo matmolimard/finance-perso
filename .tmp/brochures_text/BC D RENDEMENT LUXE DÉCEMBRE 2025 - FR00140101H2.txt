@@ -1,0 +1,597 @@
+
+
+--- PAGE 1 ---
+
+Le titre de créance est émis par Natixis Structured Issuance SA (l’« Émetteur »), véhicule d’émission au 
+Luxembourg offrant une garantie de formule donnée par Natixis (le « Garant » ; Standard & Poor’s : A+ / 
+Moody’s : A1 / Fitch : A+(1)). L ’investisseur supporte les risques de défaut, d’ouverture d’une procédure de 
+résolution et de faillite de l’Émetteur et du Garant.
+D Rendement Luxe Décembre 2025 est un titre de créance risqué alternatif à un investissement 
+dynamique de type actions.
+•    Période de commercialisation : du 30 juillet 2025 au 19 décembre 2025. La période de commercialisation peut 
+être close à tout moment.
+•    Durée maximale d’investissement : 10 ans et 14 jours en l’absence de remboursement automatique anticipé. 
+L’investisseur prend un risque de perte en capital non mesurable si le titre de créance est revendu avant la Date 
+d’Échéance(2) ou, selon le cas, de Remboursement Automatique Anticipé(2).
+•    Éligibilité : contrats d’assurance-vie, de capitalisation ou de retraite (PERin), et comptes-titres. La présente 
+brochure décrit les caractéristiques de D Rendement Luxe Décembre 2025 et ne prend pas en compte les 
+spécificités des contrats d'assurance-vie, de retraite (PERin) ou de capitalisation dans le cadre desquels ce titre 
+de créance est proposé. L ’assureur s’engage exclusivement sur le nombre d’unités de compte mais non sur 
+leur valeur, qu’il ne garantit pas. Il est précisé que l’assureur d’une part, l’Émetteur et le Garant d’autre part, 
+sont des entités juridiques distinctes.
+•    Code ISIN : FR00140101H2
+Titre de créance complexe de droit français 
+présentant un risque de perte en capital partielle 
+ou totale en cours de vie et à l’échéance.
+(1) Notations en vigueur au moment de la rédaction de la brochure. Ces notations peuvent être révisées à tout moment par les agences de notation.
+(2) Veuillez vous référer au tableau récapitulant les principales caractéristiques financières en page 7 pour le détail des dates.
+COMMUNICATION À CARACTÈRE PROMOTIONNEL  |   Ce document n’a pas été rédigé par l’assureur.
+VOUS ÊTES SUR LE POINT D’ ACHETER UN PRODUIT QUI N’EST PAS SIMPLE ET QUI PEUT ÊTRE DIFFICILE À COMPRENDRE.
+Nous attirons votre attention sur le fait que le titre de créance est destiné à être offert exclusivement à un cercle restreint d’investisseurs au 
+sens de l’article L411-2 du Code monétaire et financier (moins de 150 investisseurs). La présente brochure commerciale n’a pas fait l’objet d’une 
+communication à l’AMF.
+D Rendement Luxe 
+Décembre 2025
+
+
+--- PAGE 2 ---
+
+En quelques mots
+D Rendement Luxe Décembre 2025 est un titre de créance qui présente un risque de perte en capital 
+partielle ou totale en cours de vie et à l’échéance, et dont les caractéristiques sont les suivantes :
+•   Une exposition à la performance de l’indice iEdge Transatlantic Luxury Goods & Services 10 EW 
+Decrement 50 Points GTR® (nommé ci-après « l’Indice »), calculé dividendes bruts réinvestis et diminué 
+d’un montant fixe de 50 points d'indice par an (prélevés sur une base quotidienne).
+•  À partir du 2e semestre, un remboursement automatique anticipé du Capital Initial majoré d’un gain de 
+4,00 %(1) par semestre écoulé, soit 8,00 % par année écoulée, si à une Date d’Évaluation Semestrielle (2), 
+le niveau de l'Indice est supérieur ou égal à la barrière dégressive de remboursement automatique 
+anticipé.
+•    La barrière dégressive de remboursement automatique anticipé est fixée à 100,00 % du Niveau Initial au 
+2e semestre puis diminue de 2,50 % par semestre pour atteindre 57,50 % au 19e semestre, à la dernière 
+Date d’Évaluation Semestrielle(2). 
+•    À la Date d'Échéance, en l’absence de remboursement automatique anticipé : 
+ •  Un remboursement du Capital Initial majoré d’un gain final de 80,00 %(1), soit 8,00 % par année écoulée, 
+si le niveau de l'Indice est supérieur ou égal à 55,00 % de son Niveau Initial à la Date d’Évaluation 
+Finale(2).
+ •  Un remboursement du Capital Initial(1), si le niveau de l'Indice est strictement inférieur à 55,00 % de son 
+Niveau Initial mais supérieur ou égal à 50,00 % de son Niveau Initial à la Date d’Évaluation Finale(2).
+ •  Une perte en capital partielle ou totale, si le niveau de l'Indice est strictement inférieur à 50,00 % de son 
+Niveau Initial à la Date d’Évaluation Finale(2).
+2
+Les termes « Capital » ou « Capital Initial » utilisés dans cette brochure désignent la Valeur Nominale du titre de créance D Rendement 
+Luxe Décembre 2025, soit 1 000 euros. Le montant remboursé est calculé sur la base de la valeur nominale du titre de créance, hors frais 
+et fiscalité applicable au cadre d’investissement. À toutes les Dates d’Évaluation de l'Indice mentionnées, l'Indice est pris en compte au 
+niveau de clôture. Les gains ou pertes résultant de l’investissement sur ce titre de créance s’entendent hors frais, commissions, et hors 
+fiscalité et prélèvements sociaux applicables, sous réserve de l’absence de défaut, d’ouverture d’une procédure de résolution et de 
+faillite de l’Émetteur et du Garant et de la conservation du titre de créance jusqu’à son remboursement final. Les rendements indiqués 
+dans ce document sont des taux nominaux qui ne tiennent pas compte du niveau de l’inflation. Le rendement réel du produit peut être 
+significativement inférieur dans un contexte de forte inflation. Les Taux de Rendement Annuel nets sont nets de frais de gestion dans 
+le cas d’un contrat d’assurance-vie, de capitalisation ou de retraite ou nets de droits de garde dans le cas d’un investissement en 
+comptes-titres (en prenant comme hypothèse un taux de frais de gestion ou de droit de garde de 1,00 % par an) et sont calculés hors 
+prélèvements fiscaux et sociaux. Pour en savoir plus, nous vous invitons à vous rapprocher de votre conseiller. L’investisseur peut subir 
+une perte en capital partielle ou totale. Dans cette brochure, les calculs de TRA sont effectués pour un investissement de 1 000 euros le  
+19 décembre 2025 jusqu’à la Date d’Échéance (le 2 janvier 2036) ou, selon le cas, de Remboursement Automatique Anticipé. En 
+cas d’achat après le 19 décembre 2025 et/ou de vente du titre de créance avant son échéance effective (et/ou en cas d’arbitrage 
+ou de rachat pour les contrats d’assurance-vie/capitalisation/retraite), le Taux de Rendement Annuel effectif peut être supérieur ou 
+inférieur au Taux de Rendement Annuel indiqué dans la présente brochure.
+La présente brochure décrit les caractéristiques du titre de créance D Rendement Luxe Décembre 2025, ne prend pas en compte 
+les spécificités des contrats d'assurance-vie, de retraite ou de capitalisation dans le cadre desquels ce titre de créance est proposé. 
+L ’assureur s’engage exclusivement sur le nombre d’unités de compte mais non sur leur valeur, qu’il ne garantit pas. Il est précisé que 
+l’assureur d’une part, et l’Émetteur et le Garant d’autre part, sont des entités juridiques distinctes. Ce document n’a pas été rédigé 
+par l’assureur.
+(1)  Hors frais, commissions, et hors fiscalité et prélèvements sociaux applicables, sous réserve de l’absence de défaut, d’ouverture d’une procédure de 
+résolution et de faillite de l’Émetteur et du Garant et de la conservation du titre de créance jusqu’à son remboursement final. En cas de sortie en 
+cours de vie alors que les conditions du remboursement automatique ne sont pas réunies, le montant remboursé dépendra des paramètres de 
+marché en vigueur et engendrera un gain ou une perte non mesurable a priori. La perte en capital, notamment, pourra être partielle ou totale.
+(2) Veuillez vous référer au tableau récapitulant les principales caractéristiques financières en page 7 pour le détail des dates.
+
+
+--- PAGE 3 ---
+
++
+Avantages / Inconvénients
+ Avantages
+•  De la fin du 2 e semestre à la fin du 19 e semestre, si 
+à une Date d’Évaluation Semestrielle (1), le niveau de 
+l'Indice est supérieur ou égal à la barrière dégressive 
+de remboursement automatique anticipé(2), l’investisseur 
+bénéficie d’un mécanisme de remboursement automatique 
+anticipé, et récupère à la Date de Remboursement 
+Automatique Anticipé correspondante son Capital Initial 
+majoré d’un gain de 4,00 % (3) par semestre écoulé, soit 
+8,00 % par année écoulée (soit un TRA brut maximum de 
+7,65 %).
+•  À la Date d'Échéance, si D Rendement Luxe Décembre 
+2025 n’a pas été rappelé par anticipation, et si le niveau 
+de l'Indice est supérieur ou égal à 55,00 % de son 
+Niveau Initial à la Date d’Évaluation Finale(1), l’investisseur 
+récupère son Capital Initial augmenté d’un gain final de 
+80,00 %(3), soit 8,00 % par année écoulée.
+•  À la Date d'Échéance, si D Rendement Luxe Décembre 
+2025 n’a pas été rappelé par anticipation, l’investisseur 
+bénéficie d’un remboursement de son Capital Initial (3), si 
+le niveau de l'Indice est strictement inférieur à 55,00 % 
+de son Niveau Initial mais supérieur ou égal à 50,00 % de 
+son Niveau Initial à la Date d’Évaluation Finale(1).
+• Effet dégressif : le niveau de la barrière dégressive de 
+remboursement automatique anticipé (2) diminue au fur 
+et à mesure des Dates d'Évaluation Semestrielle (1). Elle 
+est fixée à 100,00 % du Niveau Initial au 2 e semestre, 
+et diminuera de 2,50 % par semestre pour atteindre 
+57,50 % au 19e semestre, à la dernière Date d’Évaluation 
+Semestrielle(1).
+•  Point d'entrée : l’investisseur bénéficie d’un point 
+d’entrée correspondant au niveau de clôture de l’Indice 
+le plus bas observé aux Dates d’Evaluation Initiale, soit 
+le 16 mai 2025 et le 19 décembre 2025.
+ Inconvénients
+•   D Rendement Luxe Décembre 2025 présente un risque de perte 
+partielle ou totale du capital en cours de vie (en cas de revente 
+du titre de créance à l’initiative de l’investisseur alors que les 
+conditions de remboursement automatique ne sont pas remplies, 
+le prix dépendant alors des paramètres de marché le jour de la 
+revente) et à l’échéance (si, à la Date d’Évaluation  Finale (1), le 
+niveau de l'Indice est strictement inférieur à 50,00  % de son 
+Niveau Initial). La valorisation de D Rendement Luxe Décembre 
+2025 à la Date d’Évaluation Finale est très sensible à une faible  
+variation du niveau de l’Indice autour des seuils de 50,00 % et de  
+55,00 % de son Niveau Initial.
+•  L ’investisseur ne connaît pas à l’avance la durée exacte de son 
+investissement qui peut durer de 1 an et 16 jours à 10 ans et 14 jours.
+•   Le gain maximum de l’investisseur est limité à 4,00 %(3) par semestre 
+écoulé, soit 8,00 % par année écoulée (soit un TRA brut maximum 
+de 7,65 %). L’investisseur ne profite pas pleinement de la hausse du 
+niveau de l'Indice (Effet de Plafonnement du gain).
+•  L ’investisseur est exposé à un éventuel défaut (qui induit un risque 
+de non remboursement) ou à une dégradation de la qualité de crédit 
+(qui induit un risque sur la valeur de marché du titre de créance) de 
+l’Émetteur et à un risque de défaut, d’ouverture d’une procédure de 
+résolution et de faillite du Garant.
+•   L’Indice est un indice avec "décrément" et ne présente pas le 
+rendement total des actifs dans lesquels il est investi. Il est calculé 
+dividendes bruts réinvestis, diminué d’un montant forfaitaire de 
+50 points d’indice par an. Le montant des dividendes réinvestis 
+peut être inférieur ou supérieur à ce montant forfaitaire. Si les 
+dividendes distribués sont inférieurs (respectivement supérieurs) au 
+prélèvement forfaitaire, la performance de l’Indice en sera pénalisée 
+(respectivement améliorée) par rapport à un indice dividendes non 
+réinvestis classique.
+•   Compte tenu de la durée de la période de commercialisation, les 
+conditions de marché à la date d’émission de D Rendement Luxe 
+Décembre 2025 peuvent s’avérer sensiblement différentes des 
+conditions prévalant au moment où un investisseur a choisi de 
+souscrire à l’offre.
+–
+ Facteurs de risques
+Les investisseurs sont invités à lire attentivement la section facteurs de risques du Prospectus de Base (tel que 
+défini dans la section « Informations Importantes » de la présente brochure). Le titre de créance D Rendement 
+Luxe Décembre 2025 est notamment exposé aux risques suivants :
+•  Risque de perte en capital : En cas de cession des titres 
+de créance avant l’échéance, le prix de cession desdits 
+titres pourra être inférieur à son prix de commercialisation. 
+L’investisseur prend donc un risque de perte en capital non 
+mesurable a priori. Dans le pire des scénarios, les investisseurs 
+pourraient perdre tout ou partie de leur investissement.
+•  Risque de perte en capital lié au Sous-Jacent : Le 
+remboursement du capital dépend de la performance 
+du Sous-Jacent. Ces montants seront déterminés par 
+application d’une formule de calcul (voir le mécanisme de 
+remboursement) en relation avec le Sous-Jacent. Dans 
+le cas d’une évolution défavorable de la performance du 
+Sous-Jacent, les investisseurs pourraient subir une baisse 
+substantielle des montants dus lors du remboursement et 
+pourraient perdre tout ou partie de leur investissement.
+•  Risques liés à l’éventuelle ouverture d’une procédure de 
+résolution ou de faillite : En cas d’ouverture d’une procédure 
+de résolution au niveau de l’Emetteur et/ou du Garant et/ou 
+du Groupe BPCE ou en cas de faillite de l’Emetteur et/ou du 
+Garant, les investisseurs pourraient perdre tout ou partie de 
+leur investissement initial et/ou ne pas recevoir la rémunération 
+initialement prévue.
+•   Risque de volatilité, risque de liquidité : Une forte volatilité 
+des cours (amplitude des variations des cours) ou une 
+faible liquidité pourrait avoir un impact négatif sur le prix de 
+cession des titres de créance. En cas de cession des titres 
+de créance avant l’échéance, le prix de cession pourrait être 
+inférieur à ce qu’un investisseur pourrait attendre compte tenu 
+de la valorisation desdits titres de créance. En l’absence de 
+liquidité, les investisseurs pourraient ne pas être en mesure 
+de les céder.
+• Risques liés à la modification, suppression ou perturbation du 
+Sous-Jacent : Scientific Beta (France) SAS, l’administrateur 
+du Sous-Jacent, pourrait modifier de façon significative le 
+Sous-Jacent, l’annuler ou ne pas publier son niveau. Dans 
+ces circonstances exceptionnelles l’Agent de Calcul pourra 
+calculer le niveau du Sous-Jacent conformément à la formule 
+et la méthode de calcul en vigueur avant cet évènement, 
+remplacer le niveau du Sous-Jacent concerné par celui 
+d'un autre Sous-Jacent ou les titres de créances pourraient 
+éventuellement faire l’objet d’un remboursement anticipé à 
+leur juste valeur de marché. Dans ces cas, les montants de 
+remboursement et, le cas échéant, d’intérêts dus pourraient 
+être inférieurs aux montants de remboursement et, le cas 
+échéant, d’intérêts initialement anticipés et les investisseurs 
+pourraient perdre tout ou partie de leur investissement. 
+3
+(1)   Veuillez vous référer au tableau récapitulant les principales caractéristiques financières en page 7 pour le détail des dates.
+(2)  La barrière dégressive de remboursement automatique anticipé est fixée à 100,00 % du Niveau Initial au 2e semestre et diminuera de 2,50 % par semestre 
+pour atteindre 57,50 % au 19e semestre, à la dernière Date d’Évaluation Semestrielle. 
+(3)  Hors frais, commissions, et hors fiscalité et prélèvements sociaux applicables, sous réserve de l’absence de défaut, d’ouverture d’une procédure de 
+résolution et de faillite de l’Émetteur et du Garant et de la conservation du titre de créance jusqu’à son remboursement final. En cas de sortie en cours 
+de vie alors que les conditions du remboursement automatique ne sont pas réunies, le montant remboursé dépendra des paramètres de marché en 
+vigueur et engendrera un gain ou une perte non mesurable a priori. La perte en capital, notamment, pourra être partielle ou totale.
+
+
+--- PAGE 4 ---
+
+ Remboursement à l'échéance des 20 semestres (10 ans)
+À la Date d’Évaluation Finale, le 19  décembre 2035, si le mécanisme de remboursement automatique anticipé n’a pas été 
+précédemment activé, on observe le niveau de clôture de l'Indice par rapport à son Niveau Initial.
+Cas favorable
+Si le niveau de clôture de l'Indice est supérieur ou égal à 55,00 % de son Niveau Initial, l’investisseur reçoit(2) le 2 janvier 2036 :
+Mécanisme de remboursement
+Le Niveau Initial est déterminé par le niveau de clôture de l’Indice le plus bas observé aux Dates d'Evaluation Initiale soit le 16 
+mai 2025 et le 19 décembre 2025.
+ Un remboursement automatique anticipé possible du 2e semestre au 19e semestre
+La barrière dégressive de remboursement automatique anticipé est fixée à 100,00 % du Niveau Initial au 2e semestre et diminuera 
+de 2,50 % par semestre pour atteindre 57,50 % au 19e semestre, à la dernière Date d’Évaluation Semestrielle. 
+De la fin du 2 e semestre à la fin du 19 e semestre, si à une Date d’Évaluation Semestrielle (1), le niveau de l'Indice est supérieur ou 
+égal à la barrière dégressive de remboursement automatique anticipé (2), un mécanisme de remboursement automatique anticipé 
+est activé, et l’investisseur reçoit(2) à la Date de Remboursement Automatique Anticipé correspondante(1) :
+Le Capital Initial
++
+Un gain de 4,00 % par semestre écoulé, soit 8,00 % par année écoulée
+(soit un TRA brut(3) maximum de 7 ,65 %(5))
+(soit un TRA net(4) maximum de 6,57 %(5))
+Cas défavorable
+Si le niveau de clôture de l'Indice est strictement inférieur à 50,00 % de son Niveau Initial, l’investisseur subit une perte en capital 
+et reçoit(2) le 2 janvier 2036 :
+(1)   Veuillez vous référer au tableau récapitulant les principales caractéristiques financières en page 7 pour le détail des dates.
+(2)    Hors frais, commissions, et hors fiscalité et prélèvements sociaux applicables, sous réserve de l’absence de défaut, d’ouverture d’une procédure 
+de résolution et de faillite de l’Émetteur et du Garant et de la conservation du titre de créance jusqu’à son remboursement final.
+(3)  Dans l’ensemble des scénarios présentés ci-dessus, TRA brut désigne le Taux de Rendement Annuel brut hors commission de souscription ou frais 
+d’entrée, de rachat, d’arbitrage et de gestion liés, le cas échéant, au contrat d’assurance-vie, de retraite ou de capitalisation ou au compte-titres, 
+et/ou fiscalité et prélèvements sociaux applicables.
+(4)   Dans l’ensemble des scénarios présentés ci-dessus, TRA net désigne le Taux de Rendement Annuel net (calculé net de frais de gestion dans le 
+cadre d’un contrat d’assurance-vie, de capitalisation ou de retraite, ou net de droit de garde dans le cas d’un investissement en compte-titres ; en 
+prenant comme hypothèse un taux de frais de gestion de 1,00 % par an, et calculé hors prélèvements fiscaux et sociaux).
+(5)   Sur la base d’un scénario correspondant au versement d’un gain de 8,00 % à la 1 re Date de Remboursement Automatique Anticipé (le 4 janvier 
+2027).
+ 
+Dès qu’un remboursement automatique anticipé est activé D Rendement Luxe Décembre 2025 s’arrête ; sinon le titre de créance 
+continue.
+Le Capital Initial diminué de la performance négative de l'Indice
+Dans ce scénario, l’investisseur subit une perte en capital à hauteur de l’intégralité de la baisse du niveau de l'Indice. 
+Cette perte en capital peut être partielle ou totale.
+(soit un TRA brut(3) strictement inférieur à -6,67 %)
+(soit un TRA net(4) strictement inférieur à -7 ,60 %)
+Cas médian
+Si le niveau de clôture de l'Indice est supérieur ou égal à 50,00 % de son Niveau Initial mais strictement inférieur à 55,00 % son Niveau 
+Initial, l’investisseur reçoit(2) le 2 janvier 2036 :
+Le Capital Initial
+(soit un TRA brut(3) de 0,00 %)
+(soit un TRA net(4) de -1,00 %)
+Le Capital Initial
++
+Un gain final de 80,00 %, soit 8,00 % par année écoulée
+(soit un TRA brut(3) de 6,03 %)
+(soit un TRA net(4) de 4,97 %)
+
+
+--- PAGE 5 ---
+
+Information importante : la valorisation de D Rendement Luxe Décembre 2025 en cours de vie peut évoluer indépendamment du niveau de l'Indice et 
+connaître de fortes fluctuations en particulier aux Dates d'Évaluation de Remboursement Automatique Anticipé(1), si le niveau de l'Indice est proche 
+de la barrière dégressive de remboursement automatique anticipé(2), et à la Date d’Évaluation Finale(1), s’il est proche de 50,00 % ou de 55,00 % de 
+son Niveau Initial. Elle dépend de l’évolution des paramètres de marché, en particulier du niveau et de la volatilité de l'Indice, des taux d’intérêt et des 
+conditions de refinancement de l’Émetteur et du Garant.
+(1) Veuillez vous référer au tableau récapitulant les principales caractéristiques financières en page 7 pour le détail des dates.
+(2) La barrière dégressive de remboursement automatique anticipé est fixée à 100,00 % du Niveau Initial au 2e semestre et diminuera de 2,50 % par 
+semestre pour atteindre 57,50 % au 19e semestre, à la dernière Date d’Évaluation Semestrielle. 
+(3)  Dans l’ensemble des scénarios présentés ci-dessus, TRA brut désigne le Taux de Rendement Annuel brut hors commission de souscription ou frais 
+d’entrée, de rachat, d’arbitrage et de gestion liés, le cas échéant, au contrat d’assurance-vie, de retraite ou de capitalisation ou au compte-titres, et/
+ou fiscalité et prélèvements sociaux applicables.
+(4)   Dans l’ensemble des scénarios présentés ci-dessus, TRA net désigne le Taux de Rendement Annuel net (calculé net de frais de gestion dans le 
+cadre d’un contrat d’assurance-vie, de capitalisation ou de retraite, ou net de droit de garde dans le cas d’un investissement en compte-titres ; en 
+prenant comme hypothèse un taux de frais de gestion de 1,00 % par an, et calculé hors prélèvements fiscaux et sociaux).
+Évolution de l'Indice
+Performance finale de l'Indice
+Gain
+Plafonnement du gainBarrière dégressive de remboursement automatique 
+anticipé(2) 
+5
+Scénarios de marché
+Les données chiffrées utilisées dans ces exemples n’ont qu’une valeur indicative et informative, l’objectif étant de décrire le 
+mécanisme du titre de créance. Elles ne préjugent en rien de résultats futurs. L’ensemble des données est présenté hors fiscalité 
+et/ou frais liés au cadre d’investissement.
+Niveau de remboursement du titre de créance
+Seuil de perte du capital à l’échéance (50,00 %)
+ Scénario défavorable : Forte baisse de l'Indice à la Date d'Évaluation Finale (supérieure à 50,00 %)
+•    À chaque Date d’Évaluation Semestrielle(1), le niveau de l'Indice est 
+strictement inférieur à la barrière dégressive de remboursement 
+automatique anticipé (2). Le mécanisme de remboursement 
+automatique anticipé n’est pas activé.
+•  À la Date d’Évaluation Finale (1), le niveau de l'Indice est égal 
+à 45,00 % de son Niveau Initial (soit une baisse de 55,00 %) : 
+l’investisseur reçoit, à la Date d'échéance, 45,00 % de son 
+Capital Initial et subit dans ce scénario une perte en capital 
+équivalente à la performance négative de l'Indice, soit une perte 
+de 55,00 %.
+ Remboursement final : 45,00 % du Capital Initial
+ TRA brut(3) : -7 ,64 % (identique à celui de l'Indice)
+ TRA net(4) : -8,57 %
+ Scénario médian : Baisse modérée de l'Indice à la Date d'Évaluation Finale (inférieure à 50,00 %)
+•    À chaque Date d’Évaluation Semestrielle(1), le niveau de l'Indice est 
+strictement inférieur à la barrière dégressive de remboursement 
+automatique anticipé (2). Le mécanisme de remboursement 
+automatique anticipé n’est pas activé.
+•  À la Date d’Évaluation Finale (1), le niveau de l'Indice est égal 
+à 52,50 % de son Niveau Initial (soit une baisse de 47,50 %) : 
+l’investisseur récupère, à la Date d'échéance, son Capital 
+Initial. Dans ce scénario, l’investisseur n’est pas impacté par la 
+performance négative de l'Indice à l'échéance.
+ Remboursement final : 100,00 % du Capital Initial
+ TRA brut(3) : 0,00 % (contre -6,21 % pour l'Indice)
+    TRA net(4) : -1,00 %
+ Scénario favorable : Forte hausse de l'Indice dès la fin du 2e semestre (Plafonnement du gain)
+•  À la 1 re Date d’Évaluation Semestrielle (1), le niveau de l'Indice 
+est égal à 125,00 % de son Niveau Initial, le mécanisme de 
+remboursement automatique anticipé est activé et l’investisseur 
+reçoit, à la Date de Remboursement Automatique Anticipé 
+correspondante, son Capital Initial augmenté d’un gain de 
+8,00 %, soit 4,00% au titre des deux semestres écoulés. Dans 
+ce scénario, l’investisseur ne bénéficie que partiellement de la 
+performance de l'Indice (Effet de Plafonnement du gain).
+ Remboursement final : 108,00 % du Capital Initial
+ TRA brut(3) : 7 ,65 % (contre 23,83 % pour l'Indice)
+ TRA net(4) : 6,57 %
+Niveau de l'Indice
+110 %
+100 %
+90 %
+80 %
+70 %
+60 %
+50 %
+40 % 45,00 %
+-55,00 %
+2 4 6 8 10 Semestres1412 201816
+100,00 %
+-47 ,50 %
+120 %
+110 %
+100 %
+90 %
+80 %
+70 %
+60 %
+50 %
+2 4 6 8 10 Semestres1412 201816
++25,00 %
+108,00 %
+140 %
+130 % 
+120 %
+110 %
+100 %
+90 %
+80 %
+70 %
+60 %
+Effet de Plafonnement du gain
+Semestres2 4 6 8 10 1412 201816
+Seuil de versement du gain à l'échéance (55,00 %)
+Niveau de l'Indice
+Niveau de l'Indice
+
+
+--- PAGE 6 ---
+
+0
+200
+400
+600
+800
+1000
+1200
+mai-15 mai-16 mai-17 mai-18 mai-19 mai-20 mai-21 mai-22 mai-23 mai-24 mai-25
+Source : Bloomberg, du 19 mai 2015 au 19 mai 2025
+6
+L’indice iEdge Transatlantic Luxury Goods & Services 10 EW 
+Decrement 50 Points GTR®
+L ’indice iEdge Transatlantic Luxury Goods & Services 10 EW Decrement 50 Points GTR® est un indice administré par Scientific Beta 
+(France) SAS et calculé et publié par la société SGX®. Il est composé d’une sélection fixe de 10 entreprises internationales opérant 
+dans le secteur du luxe. Il a été lancé le 22 décembre 2022 à un niveau de 395,215 points. 
+La sélection de l’Indice est équipondérée, ce qui signifie que chaque action représente 10,00 % de son poids global à chaque date de
+rebalancement trimestriel.
+L ’Indice est calculé de la façon suivante : en ajoutant tous les dividendes bruts (versés par les actions composant l’Indice au 
+fil de l’eau tout le long de la vie du produit) puis en soustrayant 50 points d’indice par an (prélevés sur une base quotidienne). 
+Le montant de 50 points d’indice est fixe. Si les dividendes distribués sont inférieurs (respectivement supérieurs) au niveau de 
+prélèvement forfaitaire, la performance de l’Indice en sera pénalisée (respectivement améliorée) par rapport à un indice dividendes 
+non réinvestis classique. Par ailleurs, cette performance sera d’autant plus pénalisée en cas de baisse de l’Indice. En effet, la 
+baisse de l’Indice sera accélérée et amplifiée, car ce prélèvement forfaitaire de niveau fixe pèsera plus fortement, relativement au 
+niveau de l’Indice.
+À titre d’information, le niveau moyen des dividendes bruts versés par l’Indice sur les 10 dernières années est de 34,85 points (source 
+: Bloomberg). Les montants des dividendes passés ne préjugent pas des montants des dividendes futurs.
+La consultation de l’indice iEdge Transatlantic Luxury Goods & Services 10 EW Decrement 50 points GTR ® est accessible sur le 
+site de l’administrateur (https://www.sgx.com/indices/products/luxgstdg) ou sur la page en français dédiée à l’indice sur le site de 
+Natixis (https://equityderivatives.natixis.com/fr/indice/luxgstdg/) ainsi que différents sites d’informations financières (ticker Bloom-
+berg : LUXGSTDG Index).
+Évolution historique et simulée de l’indice iEdge Transatlantic Luxury Goods & Services 10 EW  
+Decrement 50 Points GTR®
+Toutes les données précédant la date de lancement de l’Indice (22 décembre 2022) sont le résultat de simulations historiques 
+systématiques visant à reproduire le comportement qu’aurait eu l’Indice s’il avait été lancé dans le passé.
+Les éléments du présent document relatifs aux données de marché sont fournis sur la base de données constatées à un 
+moment précis et qui sont susceptibles de varier. 
+Les données relatives aux performances passées et/ou simulations de performances passées ont trait ou se réfèrent à des 
+périodes passées et ne sont pas un indicateur fiable des résultats futurs. Ceci est valable également pour les données 
+historiques de marché.
+Performances cumulées au 19 mai 2025 1 an 5 ans  10 ans
+Indice iEdge Transatlantic Luxury Goods & Services 10 EW 
+Decrement 50 Points GTR® -17,16 % 46,33 % 52,57 %
+Source : Bloomberg, du 19 mai 2015 au 19 mai 2025
+Niveau
+Année
+valeurs 
+historiques
+valeurs 
+simulées
+Lancement de l'indice
+
+
+--- PAGE 7 ---
+
+Caractéristiques principales
+7
+Forme juridique
+Titre de créance complexe de droit français présentant un risque de perte en capital en cours de 
+vie et à l’échéance, émis sous le Prospectus de Base (tel que défini dans la section « Informations 
+Importantes » de la présente brochure).
+Émetteur Natixis Structured Issuance SA (bien que bénéficiant de la garantie inconditionnelle et irrévocable de 
+Natixis, les titres de créance de l’Émetteur présentent un risque de perte en capital).
+Garant
+Natixis (Standard & Poor’s : A+ / Moody’s : A1 / Fitch : A+). Notations en vigueur au moment de la 
+rédaction de la brochure. Ces notations peuvent être révisées à tout moment par les agences de 
+notation.
+Garantie en capital Pas de garantie en capital, ni en cours de vie ni à l’échéance.
+Période de commercialisation Du 30 juillet 2025 (9h00 CET) au 19 décembre 2025 (17h00 CET) inclus. La période de commercialisation 
+peut être close à tout moment.
+Devise Euro (€)
+Code ISIN FR00140101H2
+Sous-jacent
+L’indice iEdge Transatlantic Luxury Goods & Services 10 EW Decrement 50 Points GTR ® (code 
+Bloomberg : LUXGSTDG index), calculé en ajoutant les dividendes bruts réinvestis, diminué d’un 
+montant fixe de 50 points par an.
+Prix d’Émission 100,00 % de la Valeur Nominale
+Valeur Nominale 1 000 €
+Montant total d’Émission 30 000 000 €
+Durée maximale d'investissement 10 ans et 14 jours
+Date d’Émission 30 juillet 2025
+Niveau Initial Le Niveau Initial est déterminé par le niveau de clôture de l’Indice le plus bas observé aux Dates 
+d'Evaluation Initiale.
+Dates d’Évaluation Initiale Le 16 mai 2025 et le 19 décembre 2025
+Dates d'Évaluation Semestrielle
+Le 19 du mois de chaque semestre, ou le Jour de Bourse suivant si le 19 n’est pas un Jour de Bourse, à 
+partir du 21 décembre 2026 et jusqu’au 19 juin 2035. Un Jour de Bourse est défini comme un jour où le 
+niveau de clôture du Panier équipondéré est publié. Toutes les dates peuvent faire l’objet d’ajustements 
+en cas de Jours de Bourse fermés.
+Dates de Remboursement 
+Automatique Anticipé
+Le 10e jour ouvré suivant la Date d’Évaluation Semestrielle, à partir du 4 janvier 2027 et jusqu’au 3 juillet 
+2035. Toutes les dates peuvent faire l’objet d’ajustements en cas de jours non ouvrés.
+Date d’Évaluation Finale 19 décembre 2035
+Date d'Échéance 2 janvier 2036
+Barrière Dégressive de 
+remboursement automatique 
+anticipé
+La barrière dégressive de remboursement automatique anticipé est fixée à 100,00 % du Niveau Initial à 
+la fin du 2e semestre et diminuera de 2,50 % par semestre pour atteindre 57,50 % au 19e semestre, à la 
+dernière Date d’Évaluation Semestrielle.
+Seuil de perte en capital à 
+l’échéance 50,00 % du Niveau Initial
+Publication de la valorisation La valorisation est tenue et publiée tous les jours, et se trouve à la disposition du public en permanence 
+sur les pages d’information financière de Bloomberg, Reuters et Six Telekurs.
+Périodicité de valorisation Quotidienne, et si ce jour n’est pas un Jour de Bourse, le Jour de Bourse Prévu suivant. Un Jour de 
+Bourse est défini comme un jour où le niveau de clôture de l'Indice est publié.
+Double valorisation Une double valorisation est établie par Refinitiv sur fréquence bimensuelle. Cette société est un 
+organisme indépendant distinct et non lié financièrement à une entité de Natixis.
+Marché secondaire Natixis pourra fournir un prix indicatif des titres de créance aux porteurs qui le demanderaient. La 
+différence entre le prix d’achat et le prix de vente ne pourra pas excéder 1,00 %.
+Commission de distribution
+La commission de distribution ponctuelle pourra atteindre un montant maximum annuel de 1,00 % du 
+montant nominal des Titres de créance placés, calculée sur la durée de vie maximale des titres. De 
+plus, la commission de distribution récurrente pourra atteindre un montant maximum annuel de 0,60 % 
+du montant des Titres de créance détenus et sur la durée de détention des titres par les porteurs. Le 
+paiement de ces commissions pourra se faire par règlement et/ou par réduction du prix de souscription. La 
+commission perçue dans la durée doit s’accompagner d’une amélioration du service sur la même durée. 
+Le distributeur est responsable auprès des investisseurs du respect des dispositions réglementaires qui 
+lui sont applicables concernant la transparence et la justification desdites commissions. De plus amples 
+informations sont disponibles auprès du distributeur sur demande.
+Agent de Calcul Natixis, ce qui peut être source de conflits d’intérêt.
+Règlement/Livraison Euroclear France
+Place de cotation des Titres de 
+créance Bourse de Luxembourg
+Éligibilité Contrats d’assurance-vie, de capitalisation ou de retraite (PERin), et compte-titres.
+Nous attirons votre attention sur le fait que le titre de créance est destiné à être offert exclusivement à un cercle restreint d’investisseurs au sens de 
+l’article L411-2 du Code monétaire et financier (moins de 150 investisseurs). La présente brochure commerciale n’a pas fait l’objet d’une communication 
+à l’AMF.
+
+
+--- PAGE 8 ---
+
+©Stock.adobe.com
+Natixis
+Société Anonyme  au capital de 5 894 485 553,60 euros
+Siège social : 7 promenade Germaine Sablon - 75013 Paris
+Adresse postale : BP 4 - 75060 Paris Cedex 02 France 
+RCS Paris n°542 044 524
+Date de rédaction de la brochure : 20 mai 2025
+AVERTISSEMENT
+Ce document à caractère promotionnel est rédigé par l’Émetteur en accord avec le ou les distributeurs qui commercialisent le titre 
+de créance D Rendement Luxe Décembre 2025. Il est relatif à un titre de créance destiné à être offert exclusivement à un cercle 
+restreint d’investisseurs au sens de l’article L411-2 du Code monétaire et financier (offre à moins de 150 investisseurs en comptes-
+titres). La présente brochure commerciale n’a pas fait l’objet d’une communication à l’AMF.
+Les indications qui figurent dans le présent document, y compris la description des avantages et des inconvénients, ne préjugent 
+pas du cadre d’investissement choisi et notamment de l’impact que les frais liés à ce cadre d’investissement peuvent avoir sur 
+l’économie générale de l’opération pour l’investisseur. L’ensemble des données est présenté hors frais, commissions, et hors fiscalité 
+et prélèvements sociaux applicables, sous réserve de l’absence de défaut, d’ouverture d’une procédure de résolution et de faillite 
+de l’Émetteur et du Garant et de la conservation du titre de créance jusqu’à son remboursement final. Une information complète sur 
+le titre de créance, notamment ses facteurs de risques, ne peut être obtenue qu’en lisant le Prospectus de Base (tel que défini ci-
+après) et les Conditions Définitives (telles que définies ci-après) préparées exclusivement pour les besoins de l’admission des titres 
+de créance sur le marché réglementé du Luxembourg. Ce document est destiné à être distribué dans le cadre des articles L411-2 du 
+Code monétaire et financier et 211-2 paragraphe 4 du Règlement Général de l’AMF. Ce document ne constitue pas une proposition 
+de souscription ni une offre, une sollicitation, un conseil en vue de l’achat ou de la vente du titre de créance décrit. L’investisseur est 
+invité, s’il le juge nécessaire, à consulter ses propres conseils juridiques, fiscaux, financiers, comptables et tous autres professionnels 
+compétents, afin de s’assurer que ce titre de créance est conforme à ses besoins au regard de sa situation, notamment financière, 
+juridique, fiscale ou comptable. L’attention de l’investisseur est attirée sur le fait que la souscription à ce titre de créance peut faire 
+l’objet de restrictions à l’égard de certaines personnes ou de certains pays en vertu des réglementations nationales applicables à 
+ces personnes. IL VOUS APPARTIENT DONC DE VOUS ASSURER QUE VOUS ÊTES AUTORISÉS À SOUSCRIRE À CE TITRE DE 
+CRÉANCE. En cas d’incohérence entre les informations relatives aux caractéristiques des Instruments Financiers figurant dans 
+cette brochure et les Conditions Définitives relatives exclusivement à l’admission des titres de créance sur le marché réglementé, 
+ces dernières prévaudront. Les informations figurant dans ce document n’ont pas vocation à faire l’objet d’une mise à jour après la 
+date apposée en première page. Par ailleurs, la remise de ce document n’entraîne en aucune manière une obligation implicite de 
+quiconque de mise à jour des informations qui y figurent. Sous réserve du respect des obligations que la loi met à sa charge, Natixis 
+ne pourra être tenue responsable des conséquences financières ou de quelque nature que ce soit résultant de l’investissement dans 
+ce titre de créance. Ce document ne constitue pas une recommandation personnalisée d’investissement. Il est destiné à être diffusé 
+indifféremment à chaque destinataire et les titres de créance visés ne prennent en compte aucun objectif d’investissement, situation 
+financière ou besoin spécifique à un destinataire en particulier. Les affirmations, hypothèses contenues dans ce document peuvent 
+contenir des prédictions et ainsi contenir des risques et des incertitudes. Les résultats constatés et les développements peuvent 
+différer substantiellement de ceux exprimés ou qui sont implicites dans les affirmations, hypothèses et opinions en fonction d’une 
+variété de facteurs. Il ne peut y avoir de garantie que les résultats projetés, les projections ou les développements seront atteints. 
+Aucune déclaration ou garantie explicite ou implicite n’est donnée par Natixis quant à l’accomplissement ou le bien-fondé, de toute 
+projection, tout objectif, estimation, prévision, affirmation, hypothèse et opinion contenu dans ce document et nul ne doit s’y fier. Rien 
+dans ce document est ou doit être considéré comme une promesse ou une garantie quant au futur. D’autre part, il est à noter que, 
+dans le cadre de ses activités, Natixis peut être amenée à avoir des positions sur les Instruments Financiers et sur l’Émetteur au titre 
+desquelles des recommandations ou opinions peuvent être données dans le document et les pièces jointes communiquées.
+Natixis ou ses filiales et participations, collaborateurs ou clients peuvent avoir un intérêt ou détenir ou acquérir des informations sur 
+tout produit, titre de créance, indice ou marché mentionné dans ce document qui pourrait engendrer un conflit d’intérêt potentiel 
+ou avéré. Cela peut impliquer des activités telles que la négociation, la détention ou l’activité de market making, ou la prestation de 
+services financiers ou de conseil sur tout produit, titre de créance, indice ou marché mentionné dans ce document. Ce document à 
+caractère promotionnel ne constitue pas un document d’analyse financière. Il est rappelé que les performances passées ne sont pas 
+un indicateur fiable des performances futures et ne sont pas constantes dans le temps.
+INFORMATIONS IMPORTANTES
+Les titres de créance décrits dans la présente communication à caractère promotionnel font l’objet d’une documentation juridique 
+composée du prospectus de base relatif au programme d’émission des Instruments Financiers, tel que modifié par ses suppléments 
+successifs, approuvé au plus tard le 6 juin 2025 par l’AMF (le « Prospectus de Base »), et des conditions définitives en date du 28 juillet 
+2025 (les « Conditions Définitives ») préparées exclusivement pour les besoins de l’admission des titres sur le marché réglementé du 
+Luxembourg. Le Prospectus de Base est disponible sur les sites internet de l’AMF (www.amf-france.org) et des copies peuvent être 
+obtenus auprès de Natixis 7, promenade Germaine Sablon, 75013 Paris. Les Conditions Définitives sont disponibles sur le site de la 
+bourse du Luxembourg (www.bourse.lu) et de Natixis (https://cib.natixis.com/devinet.pims.compliancetool.web/api/ProspectusPublicNg/
+Download/FR00140101H2/FT/DS). L’approbation du Prospectus de Base par l’AMF ne doit pas être considérée comme un avis 
+favorable sur les titres de créances offerts ou admis à la négociation sur un marché réglementé. Les informations figurant dans ce 
+document n’ont pas vocation à faire l’objet d’une mise à jour après la date d’ouverture de la période de commercialisation. Par ailleurs, 
+la remise de ce document n’entraîne en aucune manière une obligation implicite de quiconque de mise à jour des informations qui 
+y figurent. Ce document ne peut être distribué directement ou indirectement à des citoyens ou résidents des États-Unis. Natixis est 
+agréée par l’Autorité de Contrôle Prudentiel et de Résolution (« ACPR ») en France en qualité de Banque – prestataire de services 
+d’investissements. Natixis est réglementée par l’AMF pour l’exercice des services d’investissements pour lesquels elle est agréée. 
+Natixis est supervisée par la Banque Centrale Européenne (« BCE »).
+Avertissement SGX®
+Singapore Exchange Limited et/ou ses sociétés affiliées (désignées ci-après collectivement, « SGX ») ne donne aucune garantie 
+ou représentation, expresse ou implicite, quant aux résultats à obtenir de l’utilisation de iEdge Transatlantic Luxury Goods & 
+Services 10 EW Decrement 50 Points GTR ®  (« l’Indice ») et/ou du niveau auquel l’Indice se situe à un moment donné, un jour 
+donné ou autre. L’Indice est administré par Scientific Beta (France) SAS et calculé et publié par SGX. Scientific Beta et SGX ne 
+seront pas responsables (que ce soit par négligence ou autrement) et ne seront pas tenus d’informer d’une quelconque erreur 
+dans le présent document. L’Indice est une marque commerciale de SGX et est utilisée par Natixis sous licence. Tous les droits de 
+propriété intellectuelle dans l’Indice sont dévolus à SGX.
+BROCHURE
+Entité du Groupe BPCE, titulaire de l’identifiant unique REP Papiers n° FR232581_01QHNQ délivré par l’ADEME

@@ -1,0 +1,184 @@
+# Événements pour le produit structuré
+# "D RENDEMENT CA DIVIDENDE FORFAITAIRE 0,90 EUR FÉVRIER 2025" (FRIP00000YI4)
+#
+# events: événements réellement constatés (paiements)
+# expected_events: calendrier/conditions attendues (issu de la brochure)
+
+events: []
+expected_events:
+- type: autocall_observation
+  date: '2026-02-09'
+  description: Observation remboursement anticipé (semestre 2) si Indice >= niveau initial
+  metadata:
+    semester: 2
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2026-08-07'
+  description: Observation remboursement anticipé (semestre 3) si Indice >= niveau initial
+  metadata:
+    semester: 3
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2027-02-08'
+  description: Observation remboursement anticipé (semestre 4) si Indice >= niveau initial
+  metadata:
+    semester: 4
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2027-08-09'
+  description: Observation remboursement anticipé (semestre 5) si Indice >= niveau initial
+  metadata:
+    semester: 5
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2028-02-07'
+  description: Observation remboursement anticipé (semestre 6) si Indice >= niveau initial
+  metadata:
+    semester: 6
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2028-08-07'
+  description: Observation remboursement anticipé (semestre 7) si Indice >= niveau initial
+  metadata:
+    semester: 7
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2029-02-07'
+  description: Observation remboursement anticipé (semestre 8) si Indice >= niveau initial
+  metadata:
+    semester: 8
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2029-08-07'
+  description: Observation remboursement anticipé (semestre 9) si Indice >= niveau initial
+  metadata:
+    semester: 9
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2030-02-07'
+  description: Observation remboursement anticipé (semestre 10) si Indice >= niveau initial
+  metadata:
+    semester: 10
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2030-08-07'
+  description: Observation remboursement anticipé (semestre 11) si Indice >= niveau initial
+  metadata:
+    semester: 11
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2031-02-07'
+  description: Observation remboursement anticipé (semestre 12) si Indice >= niveau initial
+  metadata:
+    semester: 12
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2031-08-07'
+  description: Observation remboursement anticipé (semestre 13) si Indice >= niveau initial
+  metadata:
+    semester: 13
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2032-02-09'
+  description: Observation remboursement anticipé (semestre 14) si Indice >= niveau initial
+  metadata:
+    semester: 14
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2032-08-09'
+  description: Observation remboursement anticipé (semestre 15) si Indice >= niveau initial
+  metadata:
+    semester: 15
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2033-02-07'
+  description: Observation remboursement anticipé (semestre 16) si Indice >= niveau initial
+  metadata:
+    semester: 16
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2033-08-08'
+  description: Observation remboursement anticipé (semestre 17) si Indice >= niveau initial
+  metadata:
+    semester: 17
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2034-02-07'
+  description: Observation remboursement anticipé (semestre 18) si Indice >= niveau initial
+  metadata:
+    semester: 18
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: autocall_observation
+  date: '2034-08-07'
+  description: Observation remboursement anticipé (semestre 19) si Indice >= niveau initial
+  metadata:
+    semester: 19
+    underlying: MerQube_CA_SA_0.9_Point_Decrement_EUR
+    payment_delay_business_days: 5
+    autocall_condition: Index >= Initial (stable ou hausse)
+    gain_per_semester: 0.08
+- type: maturity_observation
+  date: '2035-02-07'
+  description: Observation finale (>=0% perf => gain; perf >= -50% => capital; sinon perte)
+  metadata:
+    initial_observation_date: '2025-02-07'
+    gain_per_semester: 0.08
+    capital_protection_threshold_perf: -0.5
+- type: maturity_payment_expected
+  date: '2035-02-14'
+  description: Échéance (paiement)
+  metadata:
+    final_observation_date: '2035-02-07'
+
+

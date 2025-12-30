@@ -1,0 +1,187 @@
+# Événements pour le produit structuré
+# "D Rendement Engie Dividende Fixe 0.95€ Mars 2025" (FR001400UQP1)
+#
+# events: événements réellement constatés (paiements)
+# expected_events: calendrier/conditions attendues (issu de la brochure)
+
+events: []
+expected_events:
+- type: autocall_observation
+  date: '2026-03-18'
+  description: Observation semestrielle (semestre 2) - seuil autocall dégressif
+  metadata:
+    semester: 2
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 100.0
+    payment_date: '2026-04-01'
+- type: autocall_observation
+  date: '2026-09-18'
+  description: Observation semestrielle (semestre 3) - seuil autocall dégressif
+  metadata:
+    semester: 3
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 97.35
+    payment_date: '2026-10-02'
+- type: autocall_observation
+  date: '2027-03-18'
+  description: Observation semestrielle (semestre 4) - seuil autocall dégressif
+  metadata:
+    semester: 4
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 94.7
+    payment_date: '2027-04-01'
+- type: autocall_observation
+  date: '2027-09-20'
+  description: Observation semestrielle (semestre 5) - seuil autocall dégressif
+  metadata:
+    semester: 5
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 92.05
+    payment_date: '2027-10-04'
+- type: autocall_observation
+  date: '2028-03-20'
+  description: Observation semestrielle (semestre 6) - seuil autocall dégressif
+  metadata:
+    semester: 6
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 89.4
+    payment_date: '2028-04-03'
+- type: autocall_observation
+  date: '2028-09-18'
+  description: Observation semestrielle (semestre 7) - seuil autocall dégressif
+  metadata:
+    semester: 7
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 86.75
+    payment_date: '2028-10-02'
+- type: autocall_observation
+  date: '2029-03-19'
+  description: Observation semestrielle (semestre 8) - seuil autocall dégressif
+  metadata:
+    semester: 8
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 84.1
+    payment_date: '2029-04-03'
+- type: autocall_observation
+  date: '2029-09-18'
+  description: Observation semestrielle (semestre 9) - seuil autocall dégressif
+  metadata:
+    semester: 9
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 81.45
+    payment_date: '2029-10-02'
+- type: autocall_observation
+  date: '2030-03-18'
+  description: Observation semestrielle (semestre 10) - seuil autocall dégressif
+  metadata:
+    semester: 10
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 78.8
+    payment_date: '2030-04-01'
+- type: autocall_observation
+  date: '2030-09-18'
+  description: Observation semestrielle (semestre 11) - seuil autocall dégressif
+  metadata:
+    semester: 11
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 76.15
+    payment_date: '2030-10-02'
+- type: autocall_observation
+  date: '2031-03-18'
+  description: Observation semestrielle (semestre 12) - seuil autocall dégressif
+  metadata:
+    semester: 12
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 73.5
+    payment_date: '2031-04-01'
+- type: autocall_observation
+  date: '2031-09-18'
+  description: Observation semestrielle (semestre 13) - seuil autocall dégressif
+  metadata:
+    semester: 13
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 70.85
+    payment_date: '2031-10-02'
+- type: autocall_observation
+  date: '2032-03-18'
+  description: Observation semestrielle (semestre 14) - seuil autocall dégressif
+  metadata:
+    semester: 14
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 68.2
+    payment_date: '2032-04-01'
+- type: autocall_observation
+  date: '2032-09-20'
+  description: Observation semestrielle (semestre 15) - seuil autocall dégressif
+  metadata:
+    semester: 15
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 65.55
+    payment_date: '2032-10-04'
+- type: autocall_observation
+  date: '2033-03-18'
+  description: Observation semestrielle (semestre 16) - seuil autocall dégressif
+  metadata:
+    semester: 16
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 62.9
+    payment_date: '2033-04-01'
+- type: autocall_observation
+  date: '2033-09-19'
+  description: Observation semestrielle (semestre 17) - seuil autocall dégressif
+  metadata:
+    semester: 17
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 60.25
+    payment_date: '2033-10-03'
+- type: autocall_observation
+  date: '2034-03-20'
+  description: Observation semestrielle (semestre 18) - seuil autocall dégressif
+  metadata:
+    semester: 18
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 57.6
+    payment_date: '2034-04-03'
+- type: autocall_observation
+  date: '2034-09-18'
+  description: Observation semestrielle (semestre 19) - seuil autocall dégressif
+  metadata:
+    semester: 19
+    underlying: Solactive_ENGIE_AR_0.95
+    gain_per_semester: 0.0325
+    autocall_threshold_pct_of_initial: 54.95
+    payment_date: '2034-10-02'
+- type: maturity_observation
+  date: '2035-03-19'
+  description: 'Observation finale (seuils: -47,70% / -70% ; perte max 75%)'
+  metadata:
+    capital_plus_gain_if_perf_ge: -0.477
+    capital_only_if_perf_between:
+    - -0.7
+    - -0.477
+    loss_if_perf_lt: -0.7
+    min_redemption_pct_of_capital: 25.0
+- type: maturity_payment_expected
+  date: '2035-04-02'
+  description: Échéance (paiement)
+  metadata:
+    final_observation_date: '2035-03-19'
+
+

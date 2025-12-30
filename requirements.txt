@@ -1,0 +1,24 @@
+# Python ≥ 3.11 required
+
+# Data handling
+pyyaml>=6.0
+pandas>=2.0.0
+certifi>=2023.7.22
+pydantic>=2.0.0
+
+# Date/time utilities
+python-dateutil>=2.8.2
+
+# HTTP client for OpenRouter API
+httpx>=0.24.0
+
+# Environment variables from .env file
+python-dotenv>=1.0.0
+
+# Optional: email notifications
+# smtplib is built-in
+
+# Development
+pytest>=7.4.0
+pytest-cov>=4.1.0
+

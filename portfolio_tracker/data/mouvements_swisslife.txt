@@ -1,0 +1,1706 @@
+Mouvements sur le compte
+
+12 décembre 2025
+
+
+Arbitrage volontaire - 12/12/2025
+262 451,53 €
+Frais
+554,90 €
+Montant net
+261 896,63 €
+
+FR0011347236
+Stratégie & Conviction
+36 665,53 €
+Quantité
+237,763634
+Cours
+154,21 €
+Montant net
+36 665,53 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-88 120,60 €
+Quantité
+-829,019275
+Cours
+106,295 €
+Montant net
+-87 934,29 €
+
+FR00140039O0
+Dynastrat C
+47 141,39 €
+Quantité
+431,8559
+Cours
+109,16 €
+Montant net
+47 141,39 €
+
+FR001400OJI4
+DNCA Flexibonds C EUR
+49 760,36 €
+Quantité
+470,369222
+Cours
+105,79 €
+Montant net
+49 760,36 €
+
+FR00140101H2
+D Rendement Luxe Décembre 2025
+86 425,87 €
+Quantité
+86,42589
+Cours
+999,99977 €
+Montant net
+86 425,87 €
+
+LU1112771503
+Helium Selection B-EUR
+10 475,87 €
+Quantité
+5,904513
+Cours
+1 774,214 €
+Montant net
+10 475,87 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+10 475,87 €
+Quantité
+82,047854
+Cours
+127,68 €
+Montant net
+10 475,87 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+10 475,87 €
+Quantité
+77,627788
+Cours
+134,95 €
+Montant net
+10 475,87 €
+
+LU2061939729
+IVO Fixed Income Short Duration SRI EUR R Cap
+10 475,87 €
+Quantité
+82,286309
+Cours
+127,31 €
+Montant net
+10 475,87 €
+
+SW0000000000
+Fonds Euros Swisslife
+-174 330,93 €
+Quantité
+-174 330,93
+Cours
+1,00 €
+Montant net
+-173 962,34 €
+
+Frais de gestion - 12/12/2025
+-70,84 €
+Frais
+70,84 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-70,84 €
+Quantité
+-0,66649
+Cours
+106,28812 €
+Montant net
+-70,84 €
+14 novembre 2025
+
+
+Ost sans impact fiscal - 14/11/2025
+85 357,11 €
+Montant net
+85 357,11 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+-85 357,11 €
+Quantité
+-80,147524
+Cours
+1 064,99996 €
+Montant net
+-85 357,11 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+85 357,11 €
+Quantité
+804,04968
+Cours
+106,159 €
+Montant net
+85 357,11 €
+
+Frais de gestion - 14/11/2025
+-720,38 €
+Frais
+720,38 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+-720,38 €
+Quantité
+-0,676418
+Cours
+1 064,99314 €
+Montant net
+-720,38 €
+30 septembre 2025
+
+
+Frais de gestion - 30/09/2025
+-1 631,29 €
+Frais
+1 631,29 €
+
+LU2061939729
+IVO Fixed Income Short Duration SRI EUR R Cap
+-158,04 €
+Quantité
+-1,247051
+Cours
+126,73096 €
+Montant net
+-158,04 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-155,94 €
+Quantité
+-1,172326
+Cours
+133,01761 €
+Montant net
+-155,94 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+-157,35 €
+Quantité
+-1,238553
+Cours
+127,04339 €
+Montant net
+-157,35 €
+
+FR001400UQP1
+D Rendement Engie Dividende Fixe 0.95€ Mars 2025
+-266,84 €
+Quantité
+-0,263803
+Cours
+1 011,51276 €
+Montant net
+-266,84 €
+
+FR0011347236
+Stratégie & Conviction
+-99,46 €
+Quantité
+-0,658483
+Cours
+151,04407 €
+Montant net
+-99,46 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-2,37 €
+Quantité
+-0,022349
+Cours
+106,04739 €
+Montant net
+-2,37 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+-194,80 €
+Quantité
+-0,182756
+Cours
+1 065,90499 €
+Montant net
+-194,80 €
+
+LU1112771503
+Helium Selection B-EUR
+-160,29 €
+Quantité
+-0,091969
+Cours
+1 742,86799 €
+Montant net
+-160,29 €
+
+FR001400TBR1
+D Rendement Distribution Fevrier 2025
+-232,30 €
+Quantité
+-0,263803
+Cours
+880,58168 €
+Montant net
+-232,30 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+-203,90 €
+Quantité
+-0,195341
+Cours
+1 043,81462 €
+Montant net
+-203,90 €
+
+Hors nomenclature - 30/09/2025
+203,90 €
+Montant net
+203,90 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+203,90 €
+Quantité
+0,195341
+Cours
+1 043,81462 €
+Montant net
+203,90 €
+
+Hors nomenclature - 30/09/2025
+2,37 €
+Montant net
+2,37 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+2,37 €
+Quantité
+0,022349
+Cours
+106,04739 €
+Montant net
+2,37 €
+28 août 2025
+
+
+Distribution de revenus - 28/08/2025
+2 711,58 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+2 711,58 €
+Quantité
+25,636085
+Cours
+105,772 €
+Montant net
+2 711,58 €
+30 juin 2025
+
+
+Frais de gestion - 30/06/2025
+-1 600,74 €
+Frais
+1 600,74 €
+
+LU2061939729
+IVO Fixed Income Short Duration SRI EUR R Cap
+-153,04 €
+Quantité
+-1,236483
+Cours
+123,77042 €
+Montant net
+-153,04 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-151,81 €
+Quantité
+-1,162391
+Cours
+130,6015 €
+Montant net
+-151,81 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+-154,75 €
+Quantité
+-1,228057
+Cours
+126,0121 €
+Montant net
+-154,75 €
+
+LU1112771503
+Helium Selection B-EUR
+-156,49 €
+Quantité
+-0,09119
+Cours
+1 716,09294 €
+Montant net
+-156,49 €
+
+FR001400TBR1
+D Rendement Distribution Fevrier 2025
+-243,21 €
+Quantité
+-0,261567
+Cours
+929,81842 €
+Montant net
+-243,21 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+-200,95 €
+Quantité
+-0,193686
+Cours
+1 037,50507 €
+Montant net
+-200,95 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+-178,31 €
+Quantité
+-0,181207
+Cours
+984,01493 €
+Montant net
+-178,31 €
+
+FR001400UQP1
+D Rendement Engie Dividende Fixe 0.95€ Mars 2025
+-265,73 €
+Quantité
+-0,261567
+Cours
+1 015,91484 €
+Montant net
+-265,73 €
+
+FR0011347236
+Stratégie & Conviction
+-96,45 €
+Quantité
+-0,652903
+Cours
+147,7249 €
+Montant net
+-96,45 €
+
+Hors nomenclature - 30/06/2025
+200,95 €
+Montant net
+200,95 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+200,95 €
+Quantité
+0,193686
+Cours
+1 037,50507 €
+Montant net
+200,95 €
+31 mars 2025
+
+
+Frais de gestion - 31/03/2025
+-1 385,44 €
+Frais
+1 385,44 €
+
+FR001400UQP1
+D Rendement Engie Dividende Fixe 0.95€ Mars 2025
+-164,18 €
+Quantité
+-0,158395
+Cours
+1 036,52065 €
+Montant net
+-164,18 €
+
+LU2061939729
+IVO Fixed Income Short Duration SRI EUR R Cap
+-149,75 €
+Quantité
+-1,225823
+Cours
+122,16278 €
+Montant net
+-149,75 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-147,32 €
+Quantité
+-1,15237
+Cours
+127,84086 €
+Montant net
+-147,32 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+-151,10 €
+Quantité
+-1,21747
+Cours
+124,10983 €
+Montant net
+-151,10 €
+
+LU1112771503
+Helium Selection B-EUR
+-151,60 €
+Quantité
+-0,090404
+Cours
+1 676,92623 €
+Montant net
+-151,60 €
+
+FR001400TBR1
+D Rendement Distribution Fevrier 2025
+-147,85 €
+Quantité
+-0,158395
+Cours
+933,42416 €
+Montant net
+-147,85 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+-197,76 €
+Quantité
+-0,192016
+Cours
+1 029,91417 €
+Montant net
+-197,76 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+-180,08 €
+Quantité
+-0,179645
+Cours
+1 002,42423 €
+Montant net
+-180,08 €
+
+FR0011347236
+Stratégie & Conviction
+-95,80 €
+Quantité
+-0,647274
+Cours
+148,00524 €
+Montant net
+-95,80 €
+4 février 2025
+
+
+Arbitrage volontaire - 04/02/2025
+218 099,11 €
+Montant net
+218 099,11 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-218 099,11 €
+Quantité
+-2 084,997788
+Cours
+104,604 €
+Montant net
+-218 099,11 €
+
+FR001400TBR1
+D Rendement Distribution Fevrier 2025
+109 049,55 €
+Quantité
+109,04956
+Cours
+999,99991 €
+Montant net
+109 049,55 €
+
+FR001400UQP1
+D Rendement Engie Dividende Fixe 0.95€ Mars 2025
+109 049,56 €
+Quantité
+109,04956
+Cours
+1 000,00 €
+Montant net
+109 049,56 €
+
+Frais de gestion - 04/02/2025
+-184,53 €
+Frais
+184,53 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-184,53 €
+Quantité
+-1,764049
+Cours
+104,60595 €
+Montant net
+-184,53 €
+3 janvier 2025
+
+
+Frais de gestion - 03/01/2025
+-17,27 €
+Frais
+17,27 €
+
+FR001400KWV8
+Callable Note Taux Fixe Décembre 2023
+-17,27 €
+Quantité
+-0,016447
+Cours
+1 050,03952 €
+Montant net
+-17,27 €
+
+Ost sans impact fiscal - 03/01/2025
+217 803,68 €
+Montant net
+217 803,68 €
+
+FR001400KWV8
+Callable Note Taux Fixe Décembre 2023
+-217 803,68 €
+Quantité
+-207,432076
+Cours
+1 050,00 €
+Montant net
+-217 803,68 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+217 803,68 €
+Quantité
+2 086,761837
+Cours
+104,374 €
+Montant net
+217 803,68 €
+31 décembre 2025
+
+
+Frais de gestion - 31/12/2024
+-4 074,18 €
+Frais
+4 074,18 €
+
+FR0011347236
+Stratégie & Conviction
+-99,90 €
+Quantité
+-0,661437
+Cours
+151,03477 €
+Montant net
+-99,90 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+-172,73 €
+Quantité
+-0,183575
+Cours
+940,92179 €
+Montant net
+-172,73 €
+
+FR001400KWV8
+Callable Note Taux Fixe Décembre 2023
+-517,93 €
+Quantité
+-0,503626
+Cours
+1 028,40244 €
+Montant net
+-517,93 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+-153,00 €
+Quantité
+-0,162059
+Cours
+944,10352 €
+Montant net
+-153,00 €
+
+LU1112771503
+Helium Selection B-EUR
+-152,66 €
+Quantité
+-0,092382
+Cours
+1 652,49178 €
+Montant net
+-152,66 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+-151,93 €
+Quantité
+-1,244109
+Cours
+122,11953 €
+Montant net
+-151,93 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-153,12 €
+Quantité
+-1,177585
+Cours
+130,02886 €
+Montant net
+-153,12 €
+
+LU2061939729
+IVO Fixed Income Short Duration SRI EUR R Cap
+-151,04 €
+Quantité
+-1,252645
+Cours
+120,57686 €
+Montant net
+-151,04 €
+
+SW0000000000
+Fonds Euros Swisslife
+-2 521,87 €
+Quantité
+-2 521,87
+Cours
+1,00 €
+Montant net
+-2 521,87 €
+
+Participation aux bénéfices - 31/12/2024
+14 671,02 €
+Montant net
+14 671,02 €
+
+SW0000000000
+Fonds Euros Swisslife
+14 671,02 €
+Quantité
+14 671,02
+Cours
+1,00 €
+Montant net
+14 671,02 €
+16 octobre 2024
+
+
+Arbitrage volontaire - 16/10/2024
+81 016,00 €
+Frais
+30,00 €
+Montant net
+80 986,00 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-81 016,00 €
+Quantité
+-781,148
+Cours
+103,71402 €
+Montant net
+-80 986,00 €
+
+FR001400RBK0
+D Rendement Bouygues Dividende Fixe 1.70€ Oct 24
+80 986,00 €
+Quantité
+80,986
+Cours
+1 000,00 €
+Montant net
+80 986,00 €
+
+Frais de gestion - 16/10/2024
+-389,68 €
+Frais
+389,68 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-389,68 €
+Quantité
+-3,757
+Cours
+103,72105 €
+Montant net
+-389,68 €
+11 juillet 2024
+
+
+Arbitrage volontaire - 11/07/2024
+120 979,42 €
+Montant net
+120 979,42 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+-120 979,42 €
+Quantité
+-1 177,358
+Cours
+102,755 €
+Montant net
+-120 979,42 €
+
+LU1112771503
+Helium Selection B-EUR
+18 751,81 €
+Quantité
+11,482
+Cours
+1 633,14841 €
+Montant net
+18 751,81 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+22 986,09 €
+Quantité
+189,233
+Cours
+121,46978 €
+Montant net
+22 986,09 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+18 751,81 €
+Quantité
+146,521
+Cours
+127,98036 €
+Montant net
+18 751,81 €
+
+LU2061939729
+IVO Fixed Income Short Duration SRI EUR R Cap
+60 489,71 €
+Quantité
+518,335
+Cours
+116,70003 €
+Montant net
+60 489,71 €
+7 juin 2024
+
+
+Ost sans impact fiscal - 07/06/2024
+201 018,18 €
+Montant net
+201 018,18 €
+
+FR001400FTG5
+D Coupon KG Crédit Agricole Décrément Mai 2023
+-201 018,18 €
+Quantité
+-190,539
+Cours
+1 054,99756 €
+Montant net
+-201 018,18 €
+
+FR0013301629
+Swiss Life Funds (F) Short Term Euro P1
+201 018,18 €
+Quantité
+1 962,263
+Cours
+102,44202 €
+Montant net
+201 018,18 €
+
+Frais de gestion - 07/06/2024
+-844,16 €
+Frais
+844,16 €
+
+FR001400FTG5
+D Coupon KG Crédit Agricole Décrément Mai 2023
+-844,16 €
+Quantité
+-0,8
+Cours
+1 055,20 €
+Montant net
+-844,16 €
+31 mars 2024
+
+
+Frais de gestion - 31/03/2024
+-1 073,32 €
+Frais
+1 073,32 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+-176,13 €
+Quantité
+-0,183
+Cours
+962,45902 €
+Montant net
+-176,13 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-103,54 €
+Quantité
+-0,82
+Cours
+126,26829 €
+Montant net
+-103,54 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+-93,99 €
+Quantité
+-0,784
+Cours
+119,8852 €
+Montant net
+-93,99 €
+
+LU1112771503
+Helium Selection B-EUR
+-103,05 €
+Quantité
+-0,064
+Cours
+1 610,15625 €
+Montant net
+-103,05 €
+
+FR001400KWV8
+Callable Note Taux Fixe Décembre 2023
+-499,41 €
+Quantité
+-0,502
+Cours
+994,84064 €
+Montant net
+-499,41 €
+
+FR0011347236
+Stratégie & Conviction
+-97,20 €
+Quantité
+-0,659
+Cours
+147,49621 €
+Montant net
+-97,20 €
+31 décembre 2023
+
+
+Frais de gestion - 31/12/2023
+-3 631,87 €
+Frais
+3 631,87 €
+
+FR001400FTG5
+D Coupon KG Crédit Agricole Décrément Mai 2023
+-474,17 €
+Quantité
+-0,466
+Cours
+1 017,53219 €
+Montant net
+-474,17 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+-181,16 €
+Quantité
+-0,186
+Cours
+973,97849 €
+Montant net
+-181,16 €
+
+FR001400KWV8
+Callable Note Taux Fixe Décembre 2023
+-138,44 €
+Quantité
+-0,138
+Cours
+1 003,18841 €
+Montant net
+-138,44 €
+
+LU1112771503
+Helium Selection B-EUR
+-104,12 €
+Quantité
+-0,065
+Cours
+1 601,84615 €
+Montant net
+-104,12 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+-93,87 €
+Quantité
+-0,797
+Cours
+117,77917 €
+Montant net
+-93,87 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-100,89 €
+Quantité
+-0,834
+Cours
+120,97122 €
+Montant net
+-100,89 €
+
+SW0000000000
+Fonds Euros Swisslife
+-2 442,38 €
+Quantité
+-2 442,38
+Cours
+1,00 €
+Montant net
+-2 442,38 €
+
+FR0011347236
+Stratégie & Conviction
+-96,84 €
+Quantité
+-0,67
+Cours
+144,53731 €
+Montant net
+-96,84 €
+6 décembre 2023
+
+
+Arbitrage volontaire - 06/12/2023
+209 597,77 €
+Montant net
+209 597,77 €
+
+FR001400KWV8
+Callable Note Taux Fixe Décembre 2023
+209 597,77 €
+Quantité
+209,598
+Cours
+999,9989 €
+Montant net
+209 597,77 €
+
+LU1585265066
+Tikehau Short Duration R EUR Acc
+-209 597,77 €
+Quantité
+-1 713,52
+Cours
+122,32 €
+Montant net
+-209 597,77 €
+
+Frais de gestion - 06/12/2023
+-83,11 €
+Frais
+83,11 €
+
+LU1585265066
+Tikehau Short Duration R EUR Acc
+-83,11 €
+Quantité
+-0,679
+Cours
+122,40059 €
+Montant net
+-83,11 €
+21 novembre 2023
+
+
+Arbitrage volontaire - 21/11/2023
+208 446,65 €
+Montant net
+208 446,65 €
+
+FR0014009IF7
+SCI Cap Santé (by Capimmo)
+-208 446,65 €
+Quantité
+-1 839,939
+Cours
+113,28998 €
+Montant net
+-208 446,65 €
+
+LU1585265066
+Tikehau Short Duration R EUR Acc
+208 446,65 €
+Quantité
+1 714,199
+Cours
+121,60003 €
+Montant net
+208 446,65 €
+
+Frais de gestion - 21/11/2023
+-1 592,62 €
+Frais
+1 592,62 €
+
+FR0014009IF7
+SCI Cap Santé (by Capimmo)
+-1 592,62 €
+Quantité
+-14,058
+Cours
+113,28923 €
+Montant net
+-1 592,62 €
+30 septembre 2023
+
+
+Frais de gestion - 30/09/2023
+-729,98 €
+Frais
+729,98 €
+
+FR0011347236
+Stratégie & Conviction
+-16,99 €
+Quantité
+-0,124
+Cours
+137,01613 €
+Montant net
+-16,99 €
+
+FR001400FTG5
+D Coupon KG Crédit Agricole Décrément Mai 2023
+-460,85 €
+Quantité
+-0,467
+Cours
+986,83084 €
+Montant net
+-460,85 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+-34,39 €
+Quantité
+-0,034
+Cours
+1 011,47059 €
+Montant net
+-34,39 €
+
+LU1112771503
+Helium Selection B-EUR
+-101,67 €
+Quantité
+-0,066
+Cours
+1 540,45455 €
+Montant net
+-101,67 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+-17,12 €
+Quantité
+-0,147
+Cours
+116,46259 €
+Montant net
+-17,12 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-98,96 €
+Quantité
+-0,836
+Cours
+118,37321 €
+Montant net
+-98,96 €
+13 septembre 2023
+
+
+Arbitrage volontaire - 13/09/2023
+153 476,33 €
+Frais
+336,95 €
+Montant net
+153 139,38 €
+
+LU2252564898
+Ruffer SICAV Total Return International OI - EUR Capitalisation
+-36 193,64 €
+Quantité
+-24 588,07
+Cours
+1,472 €
+Montant net
+-36 114,18 €
+
+FR0011347236
+Stratégie & Conviction
+38 284,85 €
+Quantité
+275,887
+Cours
+138,77004 €
+Montant net
+38 284,85 €
+
+FR0012355139
+Lazard Patrimoine SRI RC EUR
+-37 576,76 €
+Quantité
+-308,234
+Cours
+121,90985 €
+Montant net
+-37 494,26 €
+
+FR0013433505
+Echiquier Allocation Flexible B
+-38 926,49 €
+Quantité
+-362,613
+Cours
+107,34996 €
+Montant net
+-38 841,03 €
+
+FR001400HJD9
+D Coupon Kg Eni 0.91 Octobre 2023
+76 569,68 €
+Quantité
+76,57
+Cours
+999,99582 €
+Montant net
+76 569,68 €
+
+LU1433232854
+Pictet TR-Atlas P EUR Acc
+-40 779,44 €
+Quantité
+-343,956
+Cours
+118,56005 €
+Montant net
+-40 689,91 €
+
+LU1694789535
+DNCA Invest Alpha Bonds B EUR
+38 284,85 €
+Quantité
+328,175
+Cours
+116,65986 €
+Montant net
+38 284,85 €
+
+Frais de gestion - 13/09/2023
+-1 041,89 €
+Frais
+1 041,89 €
+
+LU2252564898
+Ruffer SICAV Total Return International OI - EUR Capitalisation
+-245,70 €
+Quantité
+-166,919
+Cours
+1,47197 €
+Montant net
+-245,70 €
+
+FR0012355139
+Lazard Patrimoine SRI RC EUR
+-255,09 €
+Quantité
+-2,092
+Cours
+121,93595 €
+Montant net
+-255,09 €
+
+LU1433232854
+Pictet TR-Atlas P EUR Acc
+-276,84 €
+Quantité
+-2,335
+Cours
+118,56103 €
+Montant net
+-276,84 €
+
+FR0013433505
+Echiquier Allocation Flexible B
+-264,26 €
+Quantité
+-2,462
+Cours
+107,3355 €
+Montant net
+-264,26 €
+30 juin 2023
+
+
+Frais de gestion - 30/06/2023
+-558,20 €
+Frais
+558,20 €
+
+LU1112771503
+Helium Selection B-EUR
+-99,24 €
+Quantité
+-0,065
+Cours
+1 526,76923 €
+Montant net
+-99,24 €
+
+FR001400FTG5
+D Coupon KG Crédit Agricole Décrément Mai 2023
+-359,41 €
+Quantité
+-0,356
+Cours
+1 009,57865 €
+Montant net
+-359,41 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-99,55 €
+Quantité
+-0,829
+Cours
+120,08444 €
+Montant net
+-99,55 €
+21 avril 2023
+
+
+Arbitrage volontaire - 21/04/2023
+193 043,55 €
+Frais
+416,09 €
+Montant net
+192 627,46 €
+
+FR001400FTG5
+D Coupon KG Crédit Agricole Décrément Mai 2023
+192 627,46 €
+Quantité
+192,627
+Cours
+1 000,00239 €
+Montant net
+192 627,46 €
+
+GF0000000534
+SCI Primonial Capimmo
+-193 043,55 €
+Quantité
+-668,456
+Cours
+288,79021 €
+Montant net
+-192 627,46 €
+
+Frais de gestion - 21/04/2023
+-567,14 €
+
+GF0000000534
+SCI Primonial Capimmo
+-567,14 €
+Quantité
+-1,964
+Cours
+288,76782 €
+Montant net
+-567,14 €
+31 mars 2023
+
+
+Frais de gestion - 31/03/2023
+-474,00 €
+Frais
+474,00 €
+
+FR0014009IF7
+SCI Cap Santé (by Capimmo)
+-278,69 €
+Quantité
+-2,595
+Cours
+107,39499 €
+Montant net
+-278,69 €
+
+LU1112771503
+Helium Selection B-EUR
+-97,60 €
+Quantité
+-0,064
+Cours
+1 525,00 €
+Montant net
+-97,60 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-97,71 €
+Quantité
+-0,822
+Cours
+118,86861 €
+Montant net
+-97,71 €
+6 février 2023
+
+
+Arbitrage volontaire - 06/02/2023
+198 155,15 €
+Montant net
+198 155,15 €
+
+FR0014000F47
+SC Pythagore
+-198 155,15 €
+Quantité
+-1 885,396
+Cours
+105,10002 €
+Montant net
+-198 155,15 €
+
+FR0014009IF7
+SCI Cap Santé (by Capimmo)
+198 155,15 €
+Quantité
+1 853,997
+Cours
+106,87997 €
+Montant net
+198 155,15 €
+
+Frais de gestion - 06/02/2023
+-193,86 €
+Frais
+193,86 €
+
+FR0014000F47
+SC Pythagore
+-193,86 €
+Quantité
+-1,845
+Cours
+105,07317 €
+Montant net
+-193,86 €
+31 décembre 2022
+
+
+Frais de gestion - 31/12/2022
+-958,63 €
+Frais
+958,63 €
+
+FR0013433505
+Echiquier Allocation Flexible B
+-38,83 €
+Quantité
+-0,357
+Cours
+108,76751 €
+Montant net
+-38,83 €
+
+FR0014000F47
+SC Pythagore
+-195,60 €
+Quantité
+-1,846
+Cours
+105,95883 €
+Montant net
+-195,60 €
+
+LU1112771503
+Helium Selection B-EUR
+-39,57 €
+Quantité
+-0,027
+Cours
+1 465,55556 €
+Montant net
+-39,57 €
+
+LU1433232854
+Pictet TR-Atlas P EUR Acc
+-39,24 €
+Quantité
+-0,339
+Cours
+115,75221 €
+Montant net
+-39,24 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+-39,16 €
+Quantité
+-0,338
+Cours
+115,85799 €
+Montant net
+-39,16 €
+
+LU2252564898
+Ruffer SICAV Total Return International OI - EUR Capitalisation
+-39,26 €
+Quantité
+-24,219
+Cours
+1,62104 €
+Montant net
+-39,26 €
+
+GF0000000534
+SCI Primonial Capimmo
+-192,48 €
+Quantité
+-0,656
+Cours
+293,41463 €
+Montant net
+-192,48 €
+
+SW0000000000
+Fonds Euros Swisslife
+-336,05 €
+Quantité
+-336,05
+Cours
+1,00 €
+Montant net
+-336,05 €
+
+FR0012355139
+Lazard Patrimoine SRI RC EUR
+-38,44 €
+Quantité
+-0,304
+Cours
+126,44737 €
+Montant net
+-38,44 €
+24 novembre 2022
+
+
+Arbitrage automatique - 24/11/2022
+640 294,75 €
+Montant net
+640 294,75 €
+
+FR0010540385
+Swiss Life Funds (F) Money Market Euro P
+-640 294,75 €
+Quantité
+-5 960,999
+Cours
+107,414 €
+Montant net
+-640 294,75 €
+
+FR0012355139
+Lazard Patrimoine SRI RC EUR
+40 018,42 €
+Quantité
+310,63
+Cours
+128,82986 €
+Montant net
+40 018,42 €
+
+FR0013433505
+Echiquier Allocation Flexible B
+40 018,42 €
+Quantité
+365,432
+Cours
+109,5099 €
+Montant net
+40 018,42 €
+
+FR0014000F47
+SC Pythagore
+200 092,11 €
+Quantité
+1 889,087
+Cours
+105,92001 €
+Montant net
+200 092,11 €
+
+LU1112771503
+Helium Selection B-EUR
+40 018,42 €
+Quantité
+27,168
+Cours
+1 472,99838 €
+Montant net
+40 018,42 €
+
+LU1433232854
+Pictet TR-Atlas P EUR Acc
+40 018,42 €
+Quantité
+346,63
+Cours
+115,44996 €
+Montant net
+40 018,42 €
+
+LU1920211973
+Eleva Absolute Return Europe Fund A2 EUR Acc
+40 018,42 €
+Quantité
+346,15
+Cours
+115,61005 €
+Montant net
+40 018,42 €
+
+LU2252564898
+Ruffer SICAV Total Return International OI - EUR Capitalisation
+40 018,42 €
+Quantité
+24 779,207
+Cours
+1,615 €
+Montant net
+40 018,42 €
+
+GF0000000534
+SCI Primonial Capimmo
+200 092,12 €
+Quantité
+671,076
+Cours
+298,16611 €
+Montant net
+200 092,12 €
+
+Frais de gestion - 24/11/2022
+-253,88 €
+Frais
+253,88 €
+
+FR0010540385
+Swiss Life Funds (F) Money Market Euro P
+-253,88 €
+Quantité
+-2,364
+Cours
+107,39425 €
+Montant net
+-253,88 €
+9 novembre 2022
+
+
+Versement initial - 09/11/2022
+1 000 000,00 €
+Montant net
+1 000 000,00 €
+
+FR0010540385
+Swiss Life Funds (F) Money Market Euro P
+640 000,00 €
+Quantité
+5 963,363
+Cours
+107,32199 €
+Montant net
+640 000,00 €
+
+SW0000000000
+Fonds Euros Swisslife
+360 000,00 €
+Quantité
+360 000
+Cours
+1,00 €
+Montant net
+360 000,00 €
+
+
+
+
+

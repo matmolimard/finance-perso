@@ -1,0 +1,24 @@
+# Profils de risque par contrat/enveloppe
+# Définit les objectifs et contraintes pour chaque profil d'investissement
+
+profiles:
+  - name: "HIMALIA"
+    contract_name: "HIMALIA"
+    insurer: "Generali"
+    risk_tolerance: "moderate"
+    performance_priority: true
+    max_volatility: null
+    preferred_asset_classes: ["structured_product", "uc_fund"]
+    excluded_asset_classes: []
+    description: "Investissement personnel - Accepte un risque modéré mais recherche de la performance"
+    
+  - name: "SwissLife"
+    contract_name: "SwissLife Capi Stratégic Premium"
+    insurer: "Swiss Life"
+    risk_tolerance: "conservative"
+    performance_priority: false
+    max_volatility: null
+    preferred_asset_classes: ["fonds_euro", "uc_fund"]
+    excluded_asset_classes: []
+    description: "Argent de la holding - Préfère un rendement inférieur mais avec un risque plus modéré"
+

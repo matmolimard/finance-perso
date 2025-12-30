@@ -1,0 +1,485 @@
+# Événements pour le produit structuré "D RENDEMENT DISTRIBUTION FÉVRIER 2025" (FR001400TBR1)
+#
+# events: événements réellement constatés (paiements)
+# expected_events: calendrier/conditions attendues (issu de la brochure)
+
+events:
+- type: coupon
+  date: '2025-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 1 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 1
+    underlying: CMS_EUR_10Y
+    observation_date: '2025-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+expected_events:
+- type: coupon_expected
+  date: '2025-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 1 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 1
+    underlying: CMS_EUR_10Y
+    observation_date: '2025-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2026-03-02'
+  amount: 0.025
+  description: Coupon conditionnel semestre 2 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 2
+    underlying: CMS_EUR_10Y
+    observation_date: '2026-02-23'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2026-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 3 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 3
+    underlying: CMS_EUR_10Y
+    observation_date: '2026-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2027-03-01'
+  amount: 0.025
+  description: Coupon conditionnel semestre 4 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 4
+    underlying: CMS_EUR_10Y
+    observation_date: '2027-02-22'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2027-08-30'
+  amount: 0.025
+  description: Coupon conditionnel semestre 5 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 5
+    underlying: CMS_EUR_10Y
+    observation_date: '2027-08-23'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2028-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 6 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 6
+    underlying: CMS_EUR_10Y
+    observation_date: '2028-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2028-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 7 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 7
+    underlying: CMS_EUR_10Y
+    observation_date: '2028-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2029-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 8 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 8
+    underlying: CMS_EUR_10Y
+    observation_date: '2029-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2029-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 9 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 9
+    underlying: CMS_EUR_10Y
+    observation_date: '2029-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2030-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 10 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 10
+    underlying: CMS_EUR_10Y
+    observation_date: '2030-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2030-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 11 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 11
+    underlying: CMS_EUR_10Y
+    observation_date: '2030-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2031-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 12 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 12
+    underlying: CMS_EUR_10Y
+    observation_date: '2031-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2031-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 13 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 13
+    underlying: CMS_EUR_10Y
+    observation_date: '2031-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2032-03-01'
+  amount: 0.025
+  description: Coupon conditionnel semestre 14 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 14
+    underlying: CMS_EUR_10Y
+    observation_date: '2032-02-23'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2032-08-30'
+  amount: 0.025
+  description: Coupon conditionnel semestre 15 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 15
+    underlying: CMS_EUR_10Y
+    observation_date: '2032-08-23'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2033-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 16 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 16
+    underlying: CMS_EUR_10Y
+    observation_date: '2033-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2033-08-29'
+  amount: 0.025
+  description: Coupon conditionnel semestre 17 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 17
+    underlying: CMS_EUR_10Y
+    observation_date: '2033-08-22'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2034-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 18 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 18
+    underlying: CMS_EUR_10Y
+    observation_date: '2034-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2034-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 19 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 19
+    underlying: CMS_EUR_10Y
+    observation_date: '2034-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2035-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 20 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 20
+    underlying: CMS_EUR_10Y
+    observation_date: '2035-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2035-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 21 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 21
+    underlying: CMS_EUR_10Y
+    observation_date: '2035-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2036-02-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 22 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 22
+    underlying: CMS_EUR_10Y
+    observation_date: '2036-02-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2036-08-28'
+  amount: 0.025
+  description: Coupon conditionnel semestre 23 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 23
+    underlying: CMS_EUR_10Y
+    observation_date: '2036-08-21'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: coupon_expected
+  date: '2037-03-02'
+  amount: 0.025
+  description: Coupon conditionnel semestre 24 (2,50% si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    semester: 24
+    underlying: CMS_EUR_10Y
+    observation_date: '2037-02-23'
+    coupon_rate: 0.025
+    coupon_condition: CMS_EUR_10Y <= 3.20%
+- type: autocall_possible
+  date: '2026-03-02'
+  description: Remboursement anticipé automatique possible (semestre 2) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 2
+    underlying: CMS_EUR_10Y
+    observation_date: '2026-02-23'
+    payment_date: '2026-03-02'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2026-08-28'
+  description: Remboursement anticipé automatique possible (semestre 3) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 3
+    underlying: CMS_EUR_10Y
+    observation_date: '2026-08-21'
+    payment_date: '2026-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2027-03-01'
+  description: Remboursement anticipé automatique possible (semestre 4) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 4
+    underlying: CMS_EUR_10Y
+    observation_date: '2027-02-22'
+    payment_date: '2027-03-01'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2027-08-30'
+  description: Remboursement anticipé automatique possible (semestre 5) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 5
+    underlying: CMS_EUR_10Y
+    observation_date: '2027-08-23'
+    payment_date: '2027-08-30'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2028-02-28'
+  description: Remboursement anticipé automatique possible (semestre 6) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 6
+    underlying: CMS_EUR_10Y
+    observation_date: '2028-02-21'
+    payment_date: '2028-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2028-08-28'
+  description: Remboursement anticipé automatique possible (semestre 7) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 7
+    underlying: CMS_EUR_10Y
+    observation_date: '2028-08-21'
+    payment_date: '2028-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2029-02-28'
+  description: Remboursement anticipé automatique possible (semestre 8) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 8
+    underlying: CMS_EUR_10Y
+    observation_date: '2029-02-21'
+    payment_date: '2029-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2029-08-28'
+  description: Remboursement anticipé automatique possible (semestre 9) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 9
+    underlying: CMS_EUR_10Y
+    observation_date: '2029-08-21'
+    payment_date: '2029-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2030-02-28'
+  description: Remboursement anticipé automatique possible (semestre 10) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 10
+    underlying: CMS_EUR_10Y
+    observation_date: '2030-02-21'
+    payment_date: '2030-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2030-08-28'
+  description: Remboursement anticipé automatique possible (semestre 11) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 11
+    underlying: CMS_EUR_10Y
+    observation_date: '2030-08-21'
+    payment_date: '2030-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2031-02-28'
+  description: Remboursement anticipé automatique possible (semestre 12) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 12
+    underlying: CMS_EUR_10Y
+    observation_date: '2031-02-21'
+    payment_date: '2031-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2031-08-28'
+  description: Remboursement anticipé automatique possible (semestre 13) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 13
+    underlying: CMS_EUR_10Y
+    observation_date: '2031-08-21'
+    payment_date: '2031-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2032-03-01'
+  description: Remboursement anticipé automatique possible (semestre 14) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 14
+    underlying: CMS_EUR_10Y
+    observation_date: '2032-02-23'
+    payment_date: '2032-03-01'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2032-08-30'
+  description: Remboursement anticipé automatique possible (semestre 15) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 15
+    underlying: CMS_EUR_10Y
+    observation_date: '2032-08-23'
+    payment_date: '2032-08-30'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2033-02-28'
+  description: Remboursement anticipé automatique possible (semestre 16) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 16
+    underlying: CMS_EUR_10Y
+    observation_date: '2033-02-21'
+    payment_date: '2033-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2033-08-29'
+  description: Remboursement anticipé automatique possible (semestre 17) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 17
+    underlying: CMS_EUR_10Y
+    observation_date: '2033-08-22'
+    payment_date: '2033-08-29'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2034-02-28'
+  description: Remboursement anticipé automatique possible (semestre 18) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 18
+    underlying: CMS_EUR_10Y
+    observation_date: '2034-02-21'
+    payment_date: '2034-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2034-08-28'
+  description: Remboursement anticipé automatique possible (semestre 19) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 19
+    underlying: CMS_EUR_10Y
+    observation_date: '2034-08-21'
+    payment_date: '2034-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2035-02-28'
+  description: Remboursement anticipé automatique possible (semestre 20) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 20
+    underlying: CMS_EUR_10Y
+    observation_date: '2035-02-21'
+    payment_date: '2035-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2035-08-28'
+  description: Remboursement anticipé automatique possible (semestre 21) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 21
+    underlying: CMS_EUR_10Y
+    observation_date: '2035-08-21'
+    payment_date: '2035-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2036-02-28'
+  description: Remboursement anticipé automatique possible (semestre 22) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 22
+    underlying: CMS_EUR_10Y
+    observation_date: '2036-02-21'
+    payment_date: '2036-02-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: autocall_possible
+  date: '2036-08-28'
+  description: Remboursement anticipé automatique possible (semestre 23) si CMS EUR 10 ans <= 2,20%
+  metadata:
+    semester: 23
+    underlying: CMS_EUR_10Y
+    observation_date: '2036-08-21'
+    payment_date: '2036-08-28'
+    autocall_condition: CMS_EUR_10Y <= 2.20%
+    includes_coupon_if_triggered: true
+- type: maturity_expected
+  date: '2037-03-02'
+  description: Échéance (capital remboursé; dernier coupon si CMS EUR 10 ans <= 3,20%)
+  metadata:
+    final_observation_date: '2037-02-23'
+    payment_date: '2037-03-02'
+
+
