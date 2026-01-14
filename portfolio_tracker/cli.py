@@ -71,10 +71,6 @@ class ClassifiedLot:
         """
         Retourne le montant pour XIRR, ou None si ne doit pas être inclus.
         Convention: négatif = sortie d'argent, positif = rentrée d'argent
-        
-        Note: Les frais/taxes/capitalisations ne sont PAS des flux XIRR car ils sont
-        déjà inclus dans la current_value (via cashflow_adjustments pour les frais/taxes,
-        et directement dans la valeur pour les capitalisations internes).
         """
         if self.category == LotCategory.EXTERNAL_DEPOSIT:
             return -self.amount  # Sortie d'argent (investissement)
@@ -184,30 +180,14 @@ class LotClassifier:
         Classifie tous les lots d'une position.
         Retourne une liste triée par date.
         """
-        # Trier les lots par date AVANT classification pour que la logique de détection
-        # des bénéfices (qui dépend de l'ordre de traitement) fonctionne correctement
-        def get_lot_date(lot):
-            lot_date_raw = lot.get('date')
-            if not lot_date_raw:
-                return date.min
-            try:
-                if isinstance(lot_date_raw, str):
-                    return datetime.fromisoformat(lot_date_raw).date()
-                return lot_date_raw
-            except:
-                return date.min
-        
-        sorted_lots = sorted(lots, key=get_lot_date)
-        
         classified = []
-        for lot in sorted_lots:
+        for lot in lots:
             classified_lot = self.classify_lot(lot, position_id)
             if classified_lot:
                 classified.append(classified_lot)
         
-        # Trier par date (déjà trié, mais on le fait pour être sûr)
+        # Trier par date
         classified.sort(key=lambda cl: cl.date)
-        
         return classified
 
 
@@ -228,20 +208,6 @@ class PortfolioCLI:
         self.underlyings_provider = UnderlyingProvider(self.market_data_dir)
         self.rates_provider = RatesProvider(self.market_data_dir)
         self.quantalys_provider = QuantalysProvider(self.market_data_dir)
-        # Debug log path - use cwd to find workspace root
-        # Try to find workspace root by going up from data_dir until we find .git or portfolio_tracker
-        workspace_root = Path(data_dir).resolve()
-        while workspace_root != workspace_root.parent:
-            if (workspace_root / "portfolio_tracker").exists() or (workspace_root / ".git").exists():
-                break
-            workspace_root = workspace_root.parent
-        self.debug_log_path = workspace_root / ".cursor" / "debug.log"
-        # Ensure directory exists
-        self.debug_log_path.parent.mkdir(parents=True, exist_ok=True)
-        # Ensure log directory exists
-        try:
-            self.debug_log_path.parent.mkdir(parents=True, exist_ok=True)
-        except: pass
         
         # Engines de valorisation
         self.engines = {
@@ -1588,13 +1554,6 @@ class PortfolioCLI:
             perf_amt = perf_metrics['perf']
             perf_annualized = perf_metrics['perf_annualized']
             
-            # Recalculer la performance annualisée à partir de la performance totale
-            # en utilisant les mois affichés pour être cohérent avec l'affichage
-            if perf_amt is not None and months > 0:
-                years_from_months = months / 12.0
-                if years_from_months > 0:
-                    perf_annualized = ((1.0 + perf_amt / 100.0) ** (1.0 / years_from_months) - 1.0) * 100.0
-            
             # Récupérer le portefeuille
             contract_name = position.wrapper.contract_name or ""
             portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
@@ -2095,62 +2054,6 @@ class PortfolioCLI:
                 invested_amount = invested_real_from_lots
         
         return float(invested_amount) if invested_amount else 0.0
-    
-    def _get_fonds_euro_reference_date(self, lots: list, position_id: str, today: date) -> date:
-        """
-        Détermine la date de référence pour le calcul de performance des fonds euros.
-        
-        Règle générique : tant qu'on n'a pas le mouvement de bénéfice pour une année,
-        on ne prend pas en compte cette année ni l'année N-1 dans le calcul.
-        
-        Args:
-            lots: Liste des lots de la position
-            position_id: ID de la position
-            today: Date actuelle
-            
-        Returns:
-            Date de référence (31/12 de la dernière année avec bénéfices connus)
-        """
-        classifier = LotClassifier()
-        classified_lots = classifier.classify_all_lots(lots, position_id)
-        
-        # Trouver toutes les années pour lesquelles on a une participation aux bénéfices
-        benefit_years = set()
-        for classified_lot in classified_lots:
-            if classified_lot.category == LotCategory.INTERNAL_CAPITALIZATION:
-                benefit_years.add(classified_lot.date.year)
-        
-        if not benefit_years:
-            # Aucun bénéfice connu : utiliser la date de souscription ou aujourd'hui si très récent
-            # Par défaut, on prend N-2 pour être sûr d'avoir des données
-            if today.month <= 2:  # Janvier ou février : les bénéfices de N-1 ne sont probablement pas connus
-                ref_year = today.year - 2
-            else:
-                ref_year = today.year - 1
-            ref_date = date(ref_year, 12, 31)
-            return ref_date
-        
-        # Trouver la dernière année avec bénéfices connus
-        last_benefit_year = max(benefit_years)
-        
-        # Si on est en janvier/février, les bénéfices de l'année précédente ne sont peut-être pas encore connus
-        # Donc on ne prend pas en compte l'année N-1 si on n'a pas son mouvement de bénéfice
-        if today.month <= 2:
-            # On est en janvier/février : les bénéfices de N-1 ne sont probablement pas encore connus
-            # On utilise donc la dernière année pour laquelle on a un mouvement de bénéfice
-            # (qui devrait être N-2)
-            ref_year = last_benefit_year
-        else:
-            # On est après février : les bénéfices de N-1 devraient être connus
-            # Si on a le mouvement de bénéfice pour N-1, on peut l'utiliser
-            if last_benefit_year >= today.year - 1:
-                ref_year = today.year - 1
-            else:
-                # Sinon, on utilise la dernière année connue
-                ref_year = last_benefit_year
-        
-        ref_date = date(ref_year, 12, 31)
-        return ref_date
     
     def _calculate_fonds_euro_performance_values(
         self,
@@ -2822,7 +2725,6 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             value_if_strike_next = None
             gain_if_strike_next = None
             perf_if_strike_next = None
-            perf_if_strike_next_annualized = None
             is_sold = (sell_date is not None) or (autocalled is True) or (current_value is not None and abs(float(current_value or 0)) < 0.01 and invested_amount and float(invested_amount) > 0)
             if not is_sold and next_obs and invested_amount and gps is not None:
                 try:
@@ -2854,13 +2756,6 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                     gain_if_strike_next = value_if_strike_next - float(invested_amount)
                     if float(invested_amount) != 0:
                         perf_if_strike_next = (gain_if_strike_next / float(invested_amount)) * 100.0
-                        
-                        # Annualiser la performance si strike
-                        # Calculer les mois jusqu'à la prochaine constatation
-                        months_until_next_obs = self._months_elapsed(position.investment.subscription_date, next_obs_date)
-                        if months_until_next_obs > 0:
-                            years_until_next = months_until_next_obs / 12.0
-                            perf_if_strike_next_annualized = ((1.0 + perf_if_strike_next / 100.0) ** (1.0 / years_until_next) - 1.0) * 100.0
                 except Exception:
                     pass
 
@@ -3057,7 +2952,6 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 "value_if_strike_next": value_if_strike_next,
                 "gain_if_strike_next": gain_if_strike_next,
                 "perf_if_strike_next": perf_if_strike_next,
-                "perf_if_strike_next_annualized": perf_if_strike_next_annualized,
                 "sell_date": sell_date.isoformat() if sell_date else None,
                 "sell_value_from_lots": sell_value_from_lots,
                 "strike": strike_val,
@@ -3336,11 +3230,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                         perf_annualized = None
             gain_str = f"{gain_amt:,.2f} €" if isinstance(gain_amt, (int, float)) else "N/A"
             perf_str = f"{perf_amt:+.2f}%" if isinstance(perf_amt, (int, float)) else "N/A"
-            # Performance annualisée via XIRR (flux réels)
             perf_annualized_str = f"{perf_annualized:+.2f}%/an" if isinstance(perf_annualized, (int, float)) else "N/A"
-            # Performance annualisée si strike à la prochaine observation
-            perf_if_strike_annualized = r.get("perf_if_strike_next_annualized")
-            perf_if_strike_annualized_str = f"{perf_if_strike_annualized:+.2f}%/an" if isinstance(perf_if_strike_annualized, (int, float)) else "N/A"
 
             # Utiliser display_name qui inclut le portefeuille si nécessaire
             name = r.get("display_name", r["name"])
@@ -3433,6 +3323,29 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             # Formatage du taux de coupon
             coupon_pct_str = f"{r['coupon_pct']:.2f}%" if isinstance(r.get("coupon_pct"), (int, float)) else "N/A"
 
+            # Formatage de la valeur du sous-jacent à date (juste la valeur, sans date/note)
+            underlying_current_str = "N/A"
+            if r.get("underlying_current") is not None:
+                try:
+                    underlying_current_str = f"{float(r['underlying_current']):,.2f}"
+                except (ValueError, TypeError):
+                    underlying_current_str = "N/A"
+            
+            # Formatage de la valeur de l'indice pour que ça strike à la prochaine date
+            strike_threshold_str = "N/A"
+            redemption_threshold = r.get("redemption_threshold_value")
+            if redemption_threshold is not None:
+                try:
+                    strike_threshold_str = f"{float(redemption_threshold):,.2f}"
+                except (ValueError, TypeError):
+                    strike_threshold_str = "N/A"
+            elif r.get("redemption_missing_reason"):
+                strike_threshold_str = f"N/A ({r['redemption_missing_reason']})"
+
+            # Formatage des frais
+            fees_total = r.get("fees_total", 0.0) or 0.0
+            fees_str = f"{fees_total:,.2f} €" if fees_total > 0.01 else "0.00 €"
+
             # Tronquer le nom du portefeuille à 5 caractères
             portfolio_name = r.get("contract_name", "N/A")
             if portfolio_name and portfolio_name != "N/A":
@@ -3456,10 +3369,12 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 "Gain": gain_str,
                 "Perf": perf_str,
                 "Perf/an": perf_annualized_str,
-                "Perf si strike/an": perf_if_strike_annualized_str,
                 "Valeur si strike": value_if_strike_str,
                 "Gain si strike": gain_if_strike_str,
                 "Perf si strike": perf_if_strike_str,
+                "Sous-jacent à date": underlying_current_str,
+                "Valeur strike": strike_threshold_str,
+                "Frais": fees_str,
             })
 
         if wide:
@@ -3481,10 +3396,12 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 "Gain",
                 "Perf",
                 "Perf/an",
-                "Perf si strike/an",
                 "Valeur si strike",
                 "Gain si strike",
                 "Perf si strike",
+                "Sous-jacent à date",
+                "Valeur strike",
+                "Frais",
             ]
             aligns = {
                 "Mois": "r",
@@ -3497,10 +3414,12 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 "Gain": "r",
                 "Perf": "r",
                 "Perf/an": "r",
-                "Perf si strike/an": "r",
                 "Valeur si strike": "r",
                 "Gain si strike": "r",
                 "Perf si strike": "r",
+                "Sous-jacent à date": "r",
+                "Valeur strike": "r",
+                "Frais": "r",
             }
             # Caps par défaut (évite des lignes infinies). Ajustables au besoin.
             max_widths = {
@@ -3510,6 +3429,8 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 "Seuil remb.": 26,
                 "Remb. si ajd ?": 12,
                 "Coupon %": 8,
+                "Sous-jacent à date": 18,
+                "Valeur strike": 18,
             }
             # Si terminal étroit, on serre un peu.
             if term_width and term_width < 120:
@@ -3520,8 +3441,8 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             return
 
         # Vue compacte (par défaut) : moins de colonnes => pas de wrap, + détails en 2e ligne.
-        compact_headers = ["Nom", "Portefeuille", "Mois", "Prochaine", "Remb. si ajd ?", "Coupon %", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Perf si strike/an", "Valeur si strike", "Gain si strike", "Perf si strike"]
-        compact_aligns = {"Mois": "r", "Coupon %": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Perf si strike/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r"}
+        compact_headers = ["Nom", "Portefeuille", "Mois", "Prochaine", "Remb. si ajd ?", "Coupon %", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Valeur si strike", "Gain si strike", "Perf si strike", "Sous-jacent à date", "Valeur strike", "Frais"]
+        compact_aligns = {"Mois": "r", "Coupon %": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r", "Sous-jacent à date": "r", "Valeur strike": "r", "Frais": "r"}
         compact_rows = [{h: r.get(h) for h in compact_headers} for r in table_rows]
 
         # Ajuster largeur du nom selon la place dispo (pour éviter le wrap).
@@ -3536,11 +3457,13 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             "Valeur": 14,
             "Gain": 12,
             "Perf": 8,
-            "Perf/an": 12,
-            "Perf si strike/an": 16,
+            "Perf/an": 10,
             "Valeur si strike": 16,
             "Gain si strike": 14,
             "Perf si strike": 10,
+            "Sous-jacent à date": 18,
+            "Valeur strike": 18,
+            "Frais": 12,
         }
         sep_len = 2 * (len(compact_headers) - 1)
         fixed = sum(other_caps.values()) + sep_len
@@ -3845,9 +3768,8 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         gain = float(current_value) - float(invested_amount)
         result['gain'] = gain
         
-        # Si on a des lots ET des valeurs ajustées (value_for_perf/invested_for_perf),
-        # utiliser XIRR (cas des fonds euros avec calcul jusqu'à N-1)
-        # Pour les autres cas (produits structurés, UC), on utilisera le calcul simple
+        # Si on a des lots, utiliser XIRR (seulement si value_for_perf/invested_for_perf sont fournis, i.e. pour fonds euros)
+        # Pour les autres cas (UC, structurés), on utilise le calcul simple
         if lots and value_for_perf is not None and invested_for_perf is not None:
             # Utiliser les valeurs ajustées (pour fonds euros avec calcul jusqu'à N-1)
             value_for_xirr = float(value_for_perf)
@@ -3944,18 +3866,11 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             contract_name = position.wrapper.contract_name or ""
             portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
             
-            # Collecter les frais depuis cashflow_adjustments
-            fees = 0.0
-            cashflow_adjustments = (result.metadata or {}).get("cashflow_adjustments")
-            if cashflow_adjustments is not None:
-                fees = abs(float(cashflow_adjustments))
-            
             rows.append({
                 "portfolio_name": portfolio_name,
                 "invested_amount": float(invested_amount) if invested_amount else 0.0,
                 "current_value": float(current_value),
                 "gain": float(current_value) - float(invested_amount) if invested_amount else 0.0,
-                "fees": fees,
                 "is_sold": is_sold,
             })
         
@@ -4002,18 +3917,11 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             contract_name = position.wrapper.contract_name or ""
             portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
             
-            # Collecter les frais depuis cashflow_adjustments
-            fees = 0.0
-            cashflow_adjustments = (result.metadata or {}).get("cashflow_adjustments")
-            if cashflow_adjustments is not None:
-                fees = abs(float(cashflow_adjustments))
-            
             rows.append({
                 "portfolio_name": portfolio_name,
                 "invested_amount": float(invested_amount) if invested_amount else 0.0,
                 "current_value": float(current_value),
                 "gain": float(current_value) - float(invested_amount) if invested_amount else 0.0,
-                "fees": fees,
                 "is_sold_or_terminated": is_sold_or_terminated,
             })
         
@@ -4073,15 +3981,15 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         
         # Collecter les données par portefeuille et par type
         recap_by_portfolio = defaultdict(lambda: {
-            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
-            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
-            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
+            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
+            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
+            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
         })
         
         recap_by_type = {
-            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
-            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
-            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
+            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
+            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
+            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
         }
         
         # Agréger les données collectées (déjà filtrées si portfolio_name est spécifié)
@@ -4090,13 +3998,11 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             recap_by_portfolio[row_portfolio_name]['fonds_euro']['invested'] += row['invested_amount']
             recap_by_portfolio[row_portfolio_name]['fonds_euro']['value'] += row['current_value']
             recap_by_portfolio[row_portfolio_name]['fonds_euro']['gain'] += row['gain']
-            recap_by_portfolio[row_portfolio_name]['fonds_euro']['fees'] += row.get('fees', 0.0)
             recap_by_portfolio[row_portfolio_name]['fonds_euro']['count'] += 1
             
             recap_by_type['fonds_euro']['invested'] += row['invested_amount']
             recap_by_type['fonds_euro']['value'] += row['current_value']
             recap_by_type['fonds_euro']['gain'] += row['gain']
-            recap_by_type['fonds_euro']['fees'] += row.get('fees', 0.0)
             recap_by_type['fonds_euro']['count'] += 1
         
         for row in uc_rows:
@@ -4104,13 +4010,11 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             recap_by_portfolio[row_portfolio_name]['uc']['invested'] += row['invested_amount']
             recap_by_portfolio[row_portfolio_name]['uc']['value'] += row['current_value']
             recap_by_portfolio[row_portfolio_name]['uc']['gain'] += row['gain']
-            recap_by_portfolio[row_portfolio_name]['uc']['fees'] += row.get('fees', 0.0)
             recap_by_portfolio[row_portfolio_name]['uc']['count'] += 1
             
             recap_by_type['uc']['invested'] += row['invested_amount']
             recap_by_type['uc']['value'] += row['current_value']
             recap_by_type['uc']['gain'] += row['gain']
-            recap_by_type['uc']['fees'] += row.get('fees', 0.0)
             recap_by_type['uc']['count'] += 1
         
         for row in structured_rows:
@@ -4118,13 +4022,11 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             recap_by_portfolio[row_portfolio_name]['structured']['invested'] += row['invested_amount']
             recap_by_portfolio[row_portfolio_name]['structured']['value'] += row['current_value']
             recap_by_portfolio[row_portfolio_name]['structured']['gain'] += row['gain']
-            recap_by_portfolio[row_portfolio_name]['structured']['fees'] += row.get('fees', 0.0)
             recap_by_portfolio[row_portfolio_name]['structured']['count'] += 1
             
             recap_by_type['structured']['invested'] += row['invested_amount']
             recap_by_type['structured']['value'] += row['current_value']
             recap_by_type['structured']['gain'] += row['gain']
-            recap_by_type['structured']['fees'] += row.get('fees', 0.0)
             recap_by_type['structured']['count'] += 1
         
         # Afficher le récap par portefeuille
@@ -4188,7 +4090,6 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         total_invested = sum(d['invested'] for d in recap_by_type.values())
         total_value = sum(d['value'] for d in recap_by_type.values())
         total_gain = sum(d['gain'] for d in recap_by_type.values())
-        total_fees = sum(d['fees'] for d in recap_by_type.values())
         total_count = sum(d['count'] for d in recap_by_type.values())
         
         if total_invested > 0:
@@ -4197,11 +4098,6 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             print(f"{'TOTAL GÉNÉRAL':<20} {total_count:<5} "
                   f"{total_invested:>15,.2f} € {total_value:>15,.2f} € "
                   f"{total_gain:>+15,.2f} € {total_perf:>+9.2f}%")
-        
-        # Afficher le montant total des frais
-        if total_fees > 0.01:
-            print(f"{'FRAIS TOTAUX':<20} {'':<5} {'':<15} {'':<15} "
-                  f"{-total_fees:>+15,.2f} € {'':<10}")
         
         # Ligne avec capital investi initial
         initial_capital = 1_190_000.00
@@ -4244,19 +4140,12 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                     continue
             
             subscription_date = position.investment.subscription_date
-            
-            # Déterminer automatiquement la date de référence en fonction des mouvements de bénéfices disponibles
-            ref_date_end = self._get_fonds_euro_reference_date(lots, position.position_id, today)
-            
-            # Calculer les mois de détention jusqu'à ref_date_end pour être cohérent avec la performance
-            # Si la position est vendue avant ref_date_end, utiliser la date de vente
-            sell_date = self._extract_sell_date_from_lots(lots) if is_sold else None
-            if sell_date and sell_date < ref_date_end:
-                valuation_date_for_months = sell_date
-            else:
-                valuation_date_for_months = ref_date_end
+            valuation_date_for_months = self._get_valuation_date_for_months(position, lots, today)
             months = self._months_elapsed(subscription_date, valuation_date_for_months)
             
+            # Calculer les valeurs pour la performance (N-1)
+            ref_year = today.year - 1
+            ref_date_end = date(ref_year, 12, 31)
             value_for_perf, invested_for_perf = self._calculate_fonds_euro_performance_values(
                 current_value, lots, position.position_id, ref_date_end
             )
@@ -4275,18 +4164,11 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             contract_name = position.wrapper.contract_name or ""
             portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
             
-            # Collecter les frais depuis cashflow_adjustments
-            fees = 0.0
-            cashflow_adjustments = (result.metadata or {}).get("cashflow_adjustments")
-            if cashflow_adjustments is not None:
-                fees = abs(float(cashflow_adjustments))
-            
             rows.append({
                 "portfolio_name": portfolio_name,
                 "invested_amount": float(invested_amount) if invested_amount else 0.0,
                 "current_value": float(current_value),
                 "gain": perf_metrics['gain'],
-                "fees": fees,
                 "is_sold": is_sold,
             })
         
@@ -4352,25 +4234,22 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 # Position rachetée sans valeur, on peut la sauter ou l'afficher comme "terminé"
                 pass
             
+            # Calculer les mois de détention (utilise helper centralisé)
+            subscription_date = position.investment.subscription_date
+            valuation_date_for_months = self._get_valuation_date_for_months(position, lots, today)
+            months = self._months_elapsed(subscription_date, valuation_date_for_months)
+            sell_date = self._extract_sell_date_from_lots(lots) if is_sold else None
+            
             # Calculer gain et performance avec XIRR (méthode centralisée)
-            # Règle générique : tant qu'on n'a pas le mouvement de bénéfice pour une année,
-            # on ne prend pas en compte cette année ni l'année N-1 dans le calcul.
+            # Règle : pour calculer le taux sur les années <= N-1, on utilise :
+            # - Capital investi au 31/12/(N-1) = somme des dépôts externes - retraits jusqu'au 31/12/(N-1)
+            # - Valeur au 31/12/(N-1) = units_held - mouvements de l'année N
+            # - XIRR pour le taux annualisé
             # UTILISE _calculate_performance_metrics() (source de vérité unique)
             
-            # Déterminer automatiquement la date de référence en fonction des mouvements de bénéfices disponibles
-            ref_date_end = self._get_fonds_euro_reference_date(lots, position.position_id, today)
-            
-            # Calculer les mois de détention jusqu'à ref_date_end pour être cohérent avec la performance
-            # (qui est calculée jusqu'à N-1, pas jusqu'à aujourd'hui)
-            subscription_date = position.investment.subscription_date
-            # Si la position est vendue avant ref_date_end, utiliser la date de vente
-            sell_date = self._extract_sell_date_from_lots(lots) if is_sold else None
-            if sell_date and sell_date < ref_date_end:
-                valuation_date_for_months = sell_date
-            else:
-                valuation_date_for_months = ref_date_end
-            
-            months = self._months_elapsed(subscription_date, valuation_date_for_months)
+            # Année de référence : N-1 (année précédente)
+            ref_year = today.year - 1
+            ref_date_end = date(ref_year, 12, 31)
             
             # Utiliser helper centralisé pour calculer les valeurs de performance
             value_for_perf, invested_for_perf = self._calculate_fonds_euro_performance_values(
@@ -4392,15 +4271,6 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             gain_amt = perf_metrics['gain']
             perf_amt = perf_metrics['perf']
             perf_annualized = perf_metrics['perf_annualized']
-            
-            # Pour les fonds euros, recalculer la performance annualisée à partir de la performance totale
-            # en utilisant les mois affichés (calculés jusqu'à ref_date_end) pour être cohérent
-            # La date de référence (ref_date_end) est déterminée automatiquement en fonction des
-            # mouvements de bénéfices disponibles (dernière année avec bénéfices connus)
-            if perf_amt is not None and months > 0:
-                years_from_months = months / 12.0
-                if years_from_months > 0:
-                    perf_annualized = ((1.0 + perf_amt / 100.0) ** (1.0 / years_from_months) - 1.0) * 100.0
             
             # Récupérer l'assureur et le contrat
             insurer = (asset.metadata or {}).get("insurer", "")
