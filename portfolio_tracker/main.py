@@ -29,9 +29,6 @@ def main():
         print(f"Date: {datetime.now().strftime('%Y-%m-%d %H:%M:%S')}")
         print()
         
-        # État global
-        cli.status()
-        
         # Alertes
         print("\nVérification des alertes...")
         cli.alerts()

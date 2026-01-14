@@ -16,11 +16,15 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
-    python_requires=">=3.11",
+    python_requires=">=3.9",
     install_requires=[
         "pyyaml>=6.0",
         "pandas>=2.0.0",
+        "certifi>=2023.7.22",
+        "pydantic>=2.0.0",
         "python-dateutil>=2.8.2",
+        "httpx>=0.24.0",
+        "python-dotenv>=1.0.0",
     ],
     extras_require={
         "dev": [
@@ -37,6 +41,8 @@ setup(
         "Development Status :: 3 - Alpha",
         "Intended Audience :: End Users/Desktop",
         "Programming Language :: Python :: 3",
+        "Programming Language :: Python :: 3.9",
+        "Programming Language :: Python :: 3.10",
         "Programming Language :: Python :: 3.11",
         "Programming Language :: Python :: 3.12",
     ],

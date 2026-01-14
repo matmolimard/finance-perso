@@ -136,4 +136,69 @@ class OpenRouterClient:
         except Exception as e:
             logger.error(f"Erreur inattendue OpenRouter: {e}")
             raise
+    
+    def chat(
+        self,
+        messages: list,
+        temperature: float = 0.7,
+        max_tokens: int = 2000,
+        force_json: bool = False
+    ) -> str:
+        """
+        Mode conversationnel - envoie un message et retourne la réponse textuelle
+        
+        Args:
+            messages: Liste de messages avec format [{"role": "user|assistant|system", "content": "..."}]
+            temperature: Température pour la génération (0.0-1.0)
+            max_tokens: Nombre maximum de tokens
+            force_json: Si True, force le format JSON (pour les recommandations initiales)
+            
+        Returns:
+            Réponse textuelle de l'IA
+            
+        Raises:
+            httpx.HTTPError: En cas d'erreur HTTP
+            ValueError: Si la réponse n'est pas valide
+        """
+        headers = {
+            "Authorization": f"Bearer {self.api_key}",
+            "Content-Type": "application/json",
+            "HTTP-Referer": "https://github.com/portfolio-tracker",
+        }
+        
+        payload = {
+            "model": self.model,
+            "messages": messages,
+            "temperature": temperature,
+            "max_tokens": max_tokens,
+        }
+        
+        if force_json:
+            payload["response_format"] = {"type": "json_object"}
+        
+        logger.info(f"Envoi message conversationnel à OpenRouter avec modèle {self.model}")
+        
+        try:
+            with httpx.Client(timeout=60.0) as client:
+                response = client.post(
+                    self.base_url,
+                    headers=headers,
+                    json=payload
+                )
+                response.raise_for_status()
+                
+                data = response.json()
+                
+                # Extraire le contenu de la réponse
+                if "choices" not in data or len(data["choices"]) == 0:
+                    raise ValueError("Réponse OpenRouter invalide: pas de choix")
+                
+                return data["choices"][0]["message"]["content"]
+                    
+        except httpx.HTTPError as e:
+            logger.error(f"Erreur HTTP OpenRouter: {e}")
+            raise
+        except Exception as e:
+            logger.error(f"Erreur inattendue OpenRouter: {e}")
+            raise
 

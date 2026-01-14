@@ -107,7 +107,37 @@ class PortfolioAnalyzer:
         
         for position in matching_positions:
             metrics = self._analyze_position(position, valuation_date)
-            if metrics and metrics.current_value > 0.01:  # Filtrer positions vendues
+            if not metrics:
+                continue
+            
+            # Récupérer l'asset une seule fois
+            asset = self.portfolio.get_asset(position.asset_id)
+            if not asset:
+                continue
+            
+            # Filtrer les positions terminées/vendues :
+            # 1. Capital investi réel = 0 (position vendue/terminée)
+            # 2. Valeur actuelle = 0 ou très faible
+            # 3. Units held = 0 (position vendue)
+            # 4. Produit structuré autocalled (vérifié via metadata du result)
+            is_terminated = (
+                metrics.invested_amount <= 0.01 or  # Capital investi réel = 0
+                metrics.current_value <= 0.01 or    # Valeur actuelle = 0
+                (position.investment.units_held is not None and 
+                 abs(float(position.investment.units_held)) < 0.01)  # Units held = 0
+            )
+            
+            # Vérifier aussi si c'est un produit structuré autocalled
+            if asset.asset_type.value == "structured_product":
+                engine = self.engines.get(asset.valuation_engine)
+                if engine:
+                    result = engine.valuate(asset, position, valuation_date)
+                    if result and result.metadata:
+                        autocalled = result.metadata.get("autocalled")
+                        if autocalled is True:
+                            is_terminated = True
+            
+            if not is_terminated:
                 position_metrics.append(metrics)
                 total_value += metrics.current_value
                 
@@ -136,12 +166,10 @@ class PortfolioAnalyzer:
                 
                 # Fallback sur invested_amount du YAML
                 if invested_external == 0.0:
-                    asset = self.portfolio.get_asset(position.asset_id)
-                    if asset:
-                        engine = self.engines.get(asset.valuation_engine)
-                        if engine:
-                            result = engine.valuate(asset, position, valuation_date)
-                            invested_external = result.invested_amount or 0.0
+                    engine = self.engines.get(asset.valuation_engine)
+                    if engine:
+                        result = engine.valuate(asset, position, valuation_date)
+                        invested_external = result.invested_amount or 0.0
                 
                 # Ajouter au total externe (comme dans le CLI ligne 186)
                 total_invested_external += invested_external

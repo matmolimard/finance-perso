@@ -11,7 +11,8 @@ from pathlib import Path
 
 def build_advisory_prompt(
     summary: PortfolioSummary,
-    market_context: Optional[Dict[str, Any]] = None
+    market_context: Optional[Dict[str, Any]] = None,
+    global_view_output: Optional[str] = None
 ) -> str:
     """
     Construit le prompt complet pour l'IA
@@ -19,6 +20,7 @@ def build_advisory_prompt(
     Args:
         summary: Résumé du portefeuille
         market_context: Contexte de marché additionnel (taux, etc.)
+        global_view_output: Sortie de la commande `make global` pour ce portefeuille
         
     Returns:
         Prompt formaté pour l'IA
@@ -36,12 +38,31 @@ def build_advisory_prompt(
 **Description:** {profile.description or "Non spécifiée"}
 """
     
-    # Section 2: État actuel du portefeuille
-    portfolio_section = f"""
-## ÉTAT ACTUEL DU PORTEFEUILLE
+    # Section 2: Vue globale du portefeuille (sortie de make global)
+    if global_view_output:
+        global_section = f"""
+## VUE GLOBALE DU PORTEFEUILLE (sortie de `make global`)
 
-**IMPORTANT: Ces données sont calculées avec la MÊME logique que la commande CLI (make swisslife).**
-**Les chiffres sont EXACTS et correspondent à l'affichage du portefeuille.**
+Cette section contient la sortie complète de la commande `make global PORTFOLIO=...` qui affiche
+toutes les positions ACTIVES (fonds euros, UC, produits structurés) avec leurs détails et récapitulatifs.
+
+**⚠️ IMPORTANT:** Cette vue globale ne contient QUE les positions ACTIVES (non terminées, non vendues).
+Les produits terminés ou vendus sont EXCLUS de cette analyse.
+
+```
+{global_view_output}
+```
+
+**IMPORTANT:** Cette vue globale contient les données EXACTES calculées avec la même logique que la commande CLI.
+Utilise ces données pour avoir une vision complète du portefeuille ACTIF avant de faire tes recommandations.
+
+"""
+    else:
+        global_section = ""
+    
+    # Section 3: État actuel du portefeuille (résumé analytique)
+    portfolio_section = f"""
+## RÉSUMÉ ANALYTIQUE DU PORTEFEUILLE
 
 **Valeur totale:** {summary.total_value:,.2f} €
 **Capital investi (externe):** {summary.total_invested:,.2f} € (somme des apports externes uniquement, lots marqués external=true)
@@ -75,7 +96,7 @@ Le P&L individuel de chaque position est calculé sur son capital investi réel 
         if pos.isin:
             portfolio_section += f"- **ISIN:** {pos.isin}\n"
     
-    # Section 3: Conjoncture de marché
+    # Section 4: Conjoncture de marché
     market_section = "\n## CONJONCTURE DE MARCHÉ\n\n"
     
     if market_context:
@@ -121,12 +142,13 @@ Analyse ce portefeuille et fournis des recommandations d'actions concrètes.
 - ⚠️ Le P&L total est calculé sur le capital externe (apports externes uniquement)
 - ⚠️ Le P&L individuel de chaque position est calculé sur son capital investi réel (achats - rachats - frais)
 - ⚠️ NE PAS inventer ou interpréter différemment les chiffres fournis - ils sont déjà calculés correctement
+- ⚠️ **NE PAS mentionner ou analyser des produits terminés, vendus ou non actifs** - seules les positions ACTIVES sont incluses dans cette analyse
 - Respecter le profil de risque ({"modéré/performance" if profile.performance_priority else "conservateur"})
 - Analyser la performance relative de chaque position par rapport à son type d'actif
 - Considérer la durée de détention (positions longues vs courtes)
 - Évaluer la diversification et l'allocation par type d'actif
 - Identifier les positions sous-performantes ou sur-performantes de manière factuelle
-- Proposer des actions concrètes (renforcer, réduire, maintenir, sortir) basées UNIQUEMENT sur les données fournies
+- Proposer des actions concrètes (renforcer, réduire, maintenir, sortir) basées UNIQUEMENT sur les données fournies et UNIQUEMENT pour les positions ACTIVES
 
 **Actions possibles:**
 - **reinforce**: Augmenter la position (si performance bonne et alignée avec le profil)
@@ -137,7 +159,7 @@ Analyse ce portefeuille et fournis des recommandations d'actions concrètes.
 Réponds UNIQUEMENT en JSON valide, sans texte avant ou après.
 """
     
-    return context_section + portfolio_section + market_section + instructions_section
+    return context_section + global_section + portfolio_section + market_section + instructions_section
 
 
 def get_market_context(data_dir: Path, valuation_date: Optional[date] = None) -> Dict[str, Any]:

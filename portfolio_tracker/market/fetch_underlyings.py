@@ -567,4 +567,3 @@ def fetch_investing_rate(url: str, identifier: str, *, headless: bool = False) -
         },
     )
 
-

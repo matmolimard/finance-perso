@@ -5,33 +5,29 @@ PYTHON := $(shell if [ -f .venv/bin/python ]; then echo .venv/bin/python; else e
 DATA_DIR := portfolio_tracker/data
 MODULE := portfolio_tracker.cli
 
-.PHONY: help install install-dev setup status wrapper swisslife himalia alerts uc structured fonds-euro global demo update-navs update-underlyings advice advice-himalia advice-swisslife advice-dry-run test tests test-cov lint clean
+.PHONY: help install install-dev setup alerts uc structured fonds-euro global demo update-navs update-underlyings advice advice-dry-run test tests test-cov lint clean
 
 # Commande par défaut
 help:
 	@echo "Portfolio Tracker - Commandes disponibles:"
 	@echo ""
 	@echo "📦 Installation:"
-	@echo "  make install          - Installe les dépendances depuis requirements.txt"
-	@echo "  make install-dev      - Installe le package en mode développement"
-	@echo "  make setup            - Installation complète (dépendances + package)"
+	@echo "  make install          - Installe le package en mode développement (recommandé)"
+	@echo "  make setup            - Alias pour make install"
 	@echo ""
 	@echo "📊 Consultation:"
-	@echo "  make status           - Affiche l'état global du portefeuille"
-	@echo "  make wrapper          - Vue par enveloppe"
-	@echo "  make swisslife        - État du contrat Swiss Life (+ notes Quantalys)"
-	@echo "  make himalia          - État du contrat HIMALIA (+ notes Quantalys)"
 	@echo "  make alerts           - Affiche les alertes"
 	@echo "  make uc               - Vue performance des unités de compte"
 	@echo "  make structured       - Vue des produits structurés"
 	@echo "  make fonds-euro       - Vue des fonds euros"
 	@echo "  make global           - Vue globale (fonds euros + UC + structurés + récapitulatif)"
+	@echo "  make global PORTFOLIO=HIMAL - Vue globale filtrée par portefeuille (ex: HIMAL, Swiss)"
 	@echo "  make demo             - Lance la démonstration complète"
 	@echo ""
 	@echo "🤖 Conseils IA:"
 	@echo "  make advice           - Analyse tous les profils et génère des recommandations IA"
-	@echo "  make advice-himalia   - Recommandations pour le profil HIMALIA (modéré/performance)"
-	@echo "  make advice-swisslife - Recommandations pour le profil SwissLife (conservateur)"
+	@echo "  make advice PROFILE=HIMALIA   - Recommandations pour un profil spécifique"
+	@echo "  make advice PROFILE=HIMALIA INTERACTIVE=1   - Mode conversationnel après les recommandations"
 	@echo "  make advice-dry-run   - Teste le prompt sans appeler l'API (ex: make advice-dry-run PROFILE=HIMALIA)"
 	@echo ""
 	@echo "🔄 Mise à jour des données:"
@@ -49,27 +45,16 @@ help:
 
 # Installation
 install:
-	$(PYTHON) -m pip install -r requirements.txt
-
-install-dev:
 	$(PYTHON) -m pip install -e ".[dev]"
-
-setup: install install-dev
 	@echo "✓ Installation complète terminée"
 
+# Alias pour compatibilité
+install-dev: install
+	@echo "✓ Installation complète terminée"
+
+setup: install
+
 # Consultation
-status:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) status
-
-wrapper:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) wrapper
-
-swisslife:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) wrapper --insurer "Swiss Life"
-
-himalia:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) wrapper --contract "HIMALIA"
-
 alerts:
 	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) alerts
 
@@ -83,20 +68,22 @@ fonds-euro:
 	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) fonds-euro
 
 global:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) global
+	@if [ -z "$(PORTFOLIO)" ]; then \
+		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) global; \
+	else \
+		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) global --portfolio $(PORTFOLIO); \
+	fi
 
 demo:
 	@bash run_example.sh
 
 # Conseils IA
 advice:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --all
-
-advice-himalia:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --profile HIMALIA
-
-advice-swisslife:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --profile SwissLife
+	@if [ -z "$(PROFILE)" ]; then \
+		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --all $(if $(INTERACTIVE),--interactive,); \
+	else \
+		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --profile $(PROFILE) $(if $(INTERACTIVE),--interactive,); \
+	fi
 
 advice-dry-run:
 	@if [ -z "$(PROFILE)" ]; then \

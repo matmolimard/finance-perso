@@ -11,3 +11,11 @@ nav_history:
   value: 136.21
   currency: EUR
   source: html_regex
+- date: '2025-12-30'
+  value: 136.42
+  currency: EUR
+  source: html_regex
+- date: '2026-01-09'
+  value: 138.74
+  currency: EUR
+  source: html_regex

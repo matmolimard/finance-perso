@@ -71,6 +71,10 @@ class ClassifiedLot:
         """
         Retourne le montant pour XIRR, ou None si ne doit pas être inclus.
         Convention: négatif = sortie d'argent, positif = rentrée d'argent
+        
+        Note: Les frais/taxes/capitalisations ne sont PAS des flux XIRR car ils sont
+        déjà inclus dans la current_value (via cashflow_adjustments pour les frais/taxes,
+        et directement dans la valeur pour les capitalisations internes).
         """
         if self.category == LotCategory.EXTERNAL_DEPOSIT:
             return -self.amount  # Sortie d'argent (investissement)
@@ -180,14 +184,30 @@ class LotClassifier:
         Classifie tous les lots d'une position.
         Retourne une liste triée par date.
         """
+        # Trier les lots par date AVANT classification pour que la logique de détection
+        # des bénéfices (qui dépend de l'ordre de traitement) fonctionne correctement
+        def get_lot_date(lot):
+            lot_date_raw = lot.get('date')
+            if not lot_date_raw:
+                return date.min
+            try:
+                if isinstance(lot_date_raw, str):
+                    return datetime.fromisoformat(lot_date_raw).date()
+                return lot_date_raw
+            except:
+                return date.min
+        
+        sorted_lots = sorted(lots, key=get_lot_date)
+        
         classified = []
-        for lot in lots:
+        for lot in sorted_lots:
             classified_lot = self.classify_lot(lot, position_id)
             if classified_lot:
                 classified.append(classified_lot)
         
-        # Trier par date
+        # Trier par date (déjà trié, mais on le fait pour être sûr)
         classified.sort(key=lambda cl: cl.date)
+        
         return classified
 
 
@@ -208,6 +228,20 @@ class PortfolioCLI:
         self.underlyings_provider = UnderlyingProvider(self.market_data_dir)
         self.rates_provider = RatesProvider(self.market_data_dir)
         self.quantalys_provider = QuantalysProvider(self.market_data_dir)
+        # Debug log path - use cwd to find workspace root
+        # Try to find workspace root by going up from data_dir until we find .git or portfolio_tracker
+        workspace_root = Path(data_dir).resolve()
+        while workspace_root != workspace_root.parent:
+            if (workspace_root / "portfolio_tracker").exists() or (workspace_root / ".git").exists():
+                break
+            workspace_root = workspace_root.parent
+        self.debug_log_path = workspace_root / ".cursor" / "debug.log"
+        # Ensure directory exists
+        self.debug_log_path.parent.mkdir(parents=True, exist_ok=True)
+        # Ensure log directory exists
+        try:
+            self.debug_log_path.parent.mkdir(parents=True, exist_ok=True)
+        except: pass
         
         # Engines de valorisation
         self.engines = {
@@ -216,217 +250,6 @@ class PortfolioCLI:
             ValuationEngine.MARK_TO_MARKET: MarkToMarketEngine(self.data_dir),
             ValuationEngine.HYBRID: HybridEngine(self.data_dir),
         }
-    
-    def status(self):
-        """Affiche l'état global du portefeuille"""
-        print("\n" + "="*70)
-        print("PORTFOLIO TRACKER - État Global")
-        print("="*70 + "\n")
-        
-        print(f"📊 {len(self.portfolio.assets)} actifs, {len(self.portfolio.positions)} positions")
-        print()
-        
-        # Valorisation totale
-        total_value = 0.0
-        total_invested = 0.0
-        positions_valued = 0
-        positions_error = 0
-        
-        for position in self.portfolio.list_all_positions():
-            asset = self.portfolio.get_asset(position.asset_id)
-            if not asset:
-                positions_error += 1
-                continue
-            
-            engine = self.engines.get(asset.valuation_engine)
-            if not engine:
-                positions_error += 1
-                continue
-            
-            result = engine.valuate(asset, position)
-            
-            if result.current_value is not None:
-                total_value += result.current_value
-                positions_valued += 1
-            else:
-                positions_error += 1
-            
-            if result.invested_amount is not None:
-                total_invested += result.invested_amount
-        
-        print(f"💰 Valeur totale: {total_value:,.2f} €")
-        print(f"📈 Capital investi: {total_invested:,.2f} €")
-        
-        if total_invested > 0:
-            pnl = total_value - total_invested
-            pnl_pct = (pnl / total_invested) * 100
-            symbol = "📈" if pnl >= 0 else "📉"
-            print(f"{symbol} P&L: {pnl:,.2f} € ({pnl_pct:+.2f}%)")
-        
-        print()
-        print(f"✓ {positions_valued} positions valorisées")
-        if positions_error > 0:
-            print(f"✗ {positions_error} positions en erreur")
-        
-        print()
-    
-    def status_by_wrapper(self, wrapper_type: Optional[str] = None, insurer: Optional[str] = None, contract: Optional[str] = None):
-        """Affiche l'état par enveloppe"""
-        # Grouper par enveloppe
-        by_wrapper = {}
-        
-        for position in self.portfolio.list_all_positions():
-            wrapper_key = (
-                position.wrapper.wrapper_type.value,
-                position.wrapper.insurer,
-                position.wrapper.contract_name
-            )
-            
-            if wrapper_key not in by_wrapper:
-                by_wrapper[wrapper_key] = []
-            
-            by_wrapper[wrapper_key].append(position)
-        
-        # Afficher chaque enveloppe
-        for (wrap_type, insurer_name, contract_name), positions in by_wrapper.items():
-            if wrapper_type and wrap_type != wrapper_type:
-                continue
-            if insurer and insurer.lower() not in (insurer_name or "").lower():
-                continue
-            if contract and contract.lower() not in (contract_name or "").lower():
-                continue
-            
-            print(f"📁 {wrap_type.upper()}: {insurer} - {contract_name}")
-            print("-" * 70)
-            
-            wrapper_value = 0.0
-            wrapper_invested = 0.0
-            wrapper_invested_real = 0.0  # Capital investi réel (somme des invested_real)
-            wrapper_pnl_total = 0.0  # Somme des P&L individuels
-            earliest_subscription_date = None  # Date de souscription la plus ancienne (ouverture du compte)
-            
-            for position in positions:
-                asset = self.portfolio.get_asset(position.asset_id)
-                if not asset:
-                    continue
-                
-                engine = self.engines.get(asset.valuation_engine)
-                if not engine:
-                    continue
-                
-                result = engine.valuate(asset, position)
-                
-                value = result.current_value or 0.0
-                
-                # Calculer le capital investi externe depuis les lots
-                # UTILISE LotClassifier (source de vérité unique)
-                # IMPORTANT: calculer AVANT de filtrer les positions vendues
-                invested_external = 0.0
-                lots = position.investment.lots or []
-                if lots:
-                    invested_amounts = self._calculate_invested_amounts(lots, position.position_id)
-                    invested_external = invested_amounts['invested_external']
-                
-                # Fallback sur invested_amount du YAML si aucun lot trouvé
-                if invested_external == 0.0:
-                    invested_external = position.investment.invested_amount or 0.0
-                
-                # Ajouter au total des investissements externes AVANT de filtrer
-                wrapper_invested += invested_external
-                
-                # Filtrer les positions avec valeur nulle (plus dans le portefeuille)
-                # MAIS seulement pour l'affichage, pas pour le calcul du total investi externe
-                if abs(value) < 0.01:
-                    continue
-                
-                # Vérifier si la position est vendue (units_held ≈ 0)
-                units_held = position.investment.units_held
-                is_sold = False
-                if units_held is not None:
-                    try:
-                        if abs(float(units_held)) < 0.01:
-                            is_sold = True
-                    except:
-                        pass
-                
-                # Exclure les positions vendues du total de valeur (elles ne sont plus dans le portefeuille)
-                if is_sold:
-                    # Ne pas ajouter la valeur au total, mais continuer pour l'investissement externe
-                    pass
-                else:
-                    # Calculer le capital investi réel (achats - rachats - frais) pour le P&L
-                    # UTILISE LotClassifier (source de vérité unique)
-                    invested_real = invested_external
-                    lots = position.investment.lots or []
-                    if lots:
-                        invested_amounts = self._calculate_invested_amounts(lots, position.position_id)
-                        invested_real = invested_amounts['invested_total']
-                    
-                    wrapper_value += value
-                # wrapper_invested déjà mis à jour avant le filtre des positions vendues
-                wrapper_invested_real += invested_real  # Capital investi réel pour le P&L total
-                
-                # P&L basé sur le capital investi réel (achats - rachats)
-                pnl = value - invested_real if invested_real > 0 else 0
-                pnl_pct = (pnl / invested_real * 100) if invested_real > 0 else 0
-                wrapper_pnl_total += pnl  # Accumuler le P&L individuel
-                
-                status_symbol = "✓" if result.status == "ok" else "⚠" if result.status == "warning" else "✗"
-                
-                # Calculer le nombre de mois écoulés depuis la souscription
-                subscription_date = position.investment.subscription_date
-                today = datetime.now().date()
-                months_elapsed = self._months_elapsed(subscription_date, today)
-                
-                # Garder la date de souscription la plus ancienne (ouverture du compte)
-                if earliest_subscription_date is None or subscription_date < earliest_subscription_date:
-                    earliest_subscription_date = subscription_date
-                
-                # Récupérer la note Quantalys si disponible
-                quantalys_display = ""
-                if hasattr(asset, 'isin') and asset.isin:
-                    rating_display = self.quantalys_provider.get_rating_display(asset.isin)
-                    if rating_display and rating_display != "N/A":
-                        quantalys_display = f" | Quantalys: {rating_display}"
-                
-                print(f"  {status_symbol} {asset.name}{quantalys_display}")
-                # Afficher le capital investi réel (pour le P&L) si différent du capital externe
-                if abs(invested_real - invested_external) > 0.01:
-                    print(f"     Valeur: {value:,.2f} € | Investi: {invested_real:,.2f} € (externe: {invested_external:,.2f} €) | P&L: {pnl:+,.2f} € ({pnl_pct:+.2f}%) | {months_elapsed} mois")
-                else:
-                    print(f"     Valeur: {value:,.2f} € | Investi: {invested_real:,.2f} € | P&L: {pnl:+,.2f} € ({pnl_pct:+.2f}%) | {months_elapsed} mois")
-                
-                # Pour les produits structurés, afficher les informations détaillées (strike, sous-jacent, etc.)
-                if asset.asset_type == AssetType.STRUCTURED_PRODUCT:
-                    self._print_structured_product_details(asset, position, result)
-                else:
-                    # Prochain événement attendu (si disponible dans le moteur event_based)
-                    next_ev = (result.metadata or {}).get("next_expected_event")
-                    if isinstance(next_ev, dict):
-                        next_date = next_ev.get("date")
-                        next_type = next_ev.get("type")
-                        if next_date and next_type:
-                            print(f"     Prochain: {next_date} ({next_type})")
-                    
-                    # Frais payés (pour les produits non structurés aussi)
-                    cashflow_adjustments = (result.metadata or {}).get("cashflow_adjustments")
-                    if cashflow_adjustments is not None and abs(float(cashflow_adjustments)) > 0.01:
-                        fees_total = abs(float(cashflow_adjustments))
-                        print(f"     Frais payés: {fees_total:,.2f} €")
-            
-            # Le P&L total est calculé par rapport au capital externe uniquement
-            pnl_total = wrapper_value - wrapper_invested
-            pnl_pct_total = (pnl_total / wrapper_invested * 100) if wrapper_invested > 0 else 0
-            
-            # Calculer le nombre de mois total depuis l'ouverture du compte
-            today = datetime.now().date()
-            total_months = 0
-            if earliest_subscription_date:
-                total_months = self._months_elapsed(earliest_subscription_date, today)
-            
-            print()
-            print(f"  💰 Total: {wrapper_value:,.2f} € | Investi (externe): {wrapper_invested:,.2f} € | P&L: {pnl_total:+,.2f} € ({pnl_pct_total:+.2f}%) | {total_months} mois")
-            print()
     
     def _print_structured_product_details(self, asset: Asset, position: Position, result):
         """Affiche les détails d'un produit structuré (strike, sous-jacent, autocall, etc.)"""
@@ -1688,7 +1511,7 @@ class PortfolioCLI:
         print(f"\n✓ positions.yaml mis à jour: {path}")
         print(f"✓ positions supprimées: {[p.position_id for p in others]}")
 
-    def uc_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False):
+    def uc_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False, portfolio_name: Optional[str] = None):
         """
         Vue UC: tableau avec portefeuille, mois, achat, valeur, gain, perf, perf/an.
         (Basé sur le moteur mark-to-market + investment.purchase_nav)
@@ -1697,6 +1520,7 @@ class PortfolioCLI:
             wide: Affiche toutes les colonnes
             details: Affiche les détails pour chaque UC
             include_terminated: Inclut les produits terminés (vendus) dans l'affichage
+            portfolio_name: Filtre par nom de portefeuille (ex: "HIMAL", "Swiss"). Si None, affiche tous les portefeuilles.
         """
         from datetime import datetime, date
         import shutil
@@ -1704,11 +1528,19 @@ class PortfolioCLI:
         today = datetime.now().date()
 
         print("\n" + "=" * 100)
-        print("UNITÉS DE COMPTE - Synthèse")
+        if portfolio_name:
+            print(f"UNITÉS DE COMPTE - Synthèse (Portefeuille: {portfolio_name})")
+        else:
+            print("UNITÉS DE COMPTE - Synthèse")
         print("=" * 100 + "\n")
 
+        # Filtrer les positions par portefeuille si spécifié
+        all_positions = self.portfolio.list_all_positions()
+        if portfolio_name:
+            all_positions = self._filter_positions_by_portfolio(all_positions, portfolio_name)
+
         rows = []
-        for position in self.portfolio.list_all_positions():
+        for position in all_positions:
             asset = self.portfolio.get_asset(position.asset_id)
             if not asset:
                 continue
@@ -1755,6 +1587,13 @@ class PortfolioCLI:
             gain_amt = perf_metrics['gain']
             perf_amt = perf_metrics['perf']
             perf_annualized = perf_metrics['perf_annualized']
+            
+            # Recalculer la performance annualisée à partir de la performance totale
+            # en utilisant les mois affichés pour être cohérent avec l'affichage
+            if perf_amt is not None and months > 0:
+                years_from_months = months / 12.0
+                if years_from_months > 0:
+                    perf_annualized = ((1.0 + perf_amt / 100.0) ** (1.0 / years_from_months) - 1.0) * 100.0
             
             # Récupérer le portefeuille
             contract_name = position.wrapper.contract_name or ""
@@ -2257,6 +2096,62 @@ class PortfolioCLI:
         
         return float(invested_amount) if invested_amount else 0.0
     
+    def _get_fonds_euro_reference_date(self, lots: list, position_id: str, today: date) -> date:
+        """
+        Détermine la date de référence pour le calcul de performance des fonds euros.
+        
+        Règle générique : tant qu'on n'a pas le mouvement de bénéfice pour une année,
+        on ne prend pas en compte cette année ni l'année N-1 dans le calcul.
+        
+        Args:
+            lots: Liste des lots de la position
+            position_id: ID de la position
+            today: Date actuelle
+            
+        Returns:
+            Date de référence (31/12 de la dernière année avec bénéfices connus)
+        """
+        classifier = LotClassifier()
+        classified_lots = classifier.classify_all_lots(lots, position_id)
+        
+        # Trouver toutes les années pour lesquelles on a une participation aux bénéfices
+        benefit_years = set()
+        for classified_lot in classified_lots:
+            if classified_lot.category == LotCategory.INTERNAL_CAPITALIZATION:
+                benefit_years.add(classified_lot.date.year)
+        
+        if not benefit_years:
+            # Aucun bénéfice connu : utiliser la date de souscription ou aujourd'hui si très récent
+            # Par défaut, on prend N-2 pour être sûr d'avoir des données
+            if today.month <= 2:  # Janvier ou février : les bénéfices de N-1 ne sont probablement pas connus
+                ref_year = today.year - 2
+            else:
+                ref_year = today.year - 1
+            ref_date = date(ref_year, 12, 31)
+            return ref_date
+        
+        # Trouver la dernière année avec bénéfices connus
+        last_benefit_year = max(benefit_years)
+        
+        # Si on est en janvier/février, les bénéfices de l'année précédente ne sont peut-être pas encore connus
+        # Donc on ne prend pas en compte l'année N-1 si on n'a pas son mouvement de bénéfice
+        if today.month <= 2:
+            # On est en janvier/février : les bénéfices de N-1 ne sont probablement pas encore connus
+            # On utilise donc la dernière année pour laquelle on a un mouvement de bénéfice
+            # (qui devrait être N-2)
+            ref_year = last_benefit_year
+        else:
+            # On est après février : les bénéfices de N-1 devraient être connus
+            # Si on a le mouvement de bénéfice pour N-1, on peut l'utiliser
+            if last_benefit_year >= today.year - 1:
+                ref_year = today.year - 1
+            else:
+                # Sinon, on utilise la dernière année connue
+                ref_year = last_benefit_year
+        
+        ref_date = date(ref_year, 12, 31)
+        return ref_date
+    
     def _calculate_fonds_euro_performance_values(
         self,
         current_value: float,
@@ -2334,6 +2229,26 @@ class PortfolioCLI:
         sell_date = self._extract_sell_date_from_lots(lots)
         return sell_date if sell_date else default_date
     
+    def _filter_positions_by_portfolio(self, positions, portfolio_name: str):
+        """
+        Filtre les positions par nom de portefeuille.
+        
+        Args:
+            positions: Liste de positions à filtrer
+            portfolio_name: Nom du portefeuille (ex: "HIMAL", "Swiss")
+        
+        Returns:
+            Liste de positions filtrées
+        """
+        portfolio_filter = portfolio_name[:5] if len(portfolio_name) > 5 else portfolio_name
+        filtered = []
+        for position in positions:
+            contract_name = position.wrapper.contract_name or ""
+            pos_portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
+            if pos_portfolio_name[:5] == portfolio_filter[:5]:
+                filtered.append(position)
+        return filtered
+    
     @staticmethod
     def _months_elapsed(start_date, end_date) -> int:
         """Nombre de mois entiers écoulés entre deux dates."""
@@ -2346,7 +2261,8 @@ class PortfolioCLI:
         self,
         profile_name: Optional[str] = None,
         all_profiles: bool = False,
-        dry_run: bool = False
+        dry_run: bool = False,
+        interactive: bool = False
     ):
         """
         Génère des recommandations IA pour le portefeuille
@@ -2355,6 +2271,7 @@ class PortfolioCLI:
             profile_name: Nom du profil à analyser (ex: "HIMALIA", "SwissLife")
             all_profiles: Si True, analyse tous les profils disponibles
             dry_run: Si True, affiche le prompt sans appeler l'API
+            interactive: Si True, active le mode conversationnel après les recommandations
         """
         # Lazy import pour éviter d'importer httpx si la commande n'est pas utilisée
         from .advisory import (
@@ -2366,6 +2283,14 @@ class PortfolioCLI:
             RecommendationSet,
         )
         from datetime import date
+        import io
+        from contextlib import redirect_stdout
+        
+        # Mapping entre les profils et les noms de portefeuille pour make global
+        PROFILE_TO_PORTFOLIO = {
+            "HIMALIA": "HIMAL",
+            "SwissLife": "swiss",
+        }
         
         # Charger les profils
         profiles = load_profiles(self.data_dir)
@@ -2423,11 +2348,29 @@ class PortfolioCLI:
                 print("⚠️  Aucune position trouvée pour ce profil")
                 continue
             
+            # Capturer la sortie de make global pour ce portefeuille
+            global_view_output = None
+            portfolio_name = PROFILE_TO_PORTFOLIO.get(profile.name)
+            if portfolio_name:
+                try:
+                    output_buffer = io.StringIO()
+                    with redirect_stdout(output_buffer):
+                        self.global_view(
+                            wide=False,
+                            details=False,
+                            include_terminated=False,
+                            portfolio_name=portfolio_name
+                        )
+                    global_view_output = output_buffer.getvalue()
+                except Exception as e:
+                    print(f"⚠️  Erreur lors de la capture de la vue globale: {e}")
+                    # Continue sans la vue globale si erreur
+            
             # Collecter le contexte de marché
             market_context = get_market_context(self.market_data_dir)
             
-            # Construire le prompt
-            prompt = build_advisory_prompt(summary, market_context)
+            # Construire le prompt avec la sortie de global_view
+            prompt = build_advisory_prompt(summary, market_context, global_view_output)
             
             if dry_run:
                 print("=" * 70)
@@ -2451,6 +2394,16 @@ class PortfolioCLI:
             try:
                 rec_set = RecommendationSet.from_ai_response(response)
                 print(rec_set.display(use_colors=True))
+                
+                # Mode interactif si demandé
+                if interactive and not dry_run:
+                    self._interactive_chat(
+                        client=client,
+                        initial_prompt=prompt,
+                        initial_response=response,
+                        profile=profile,
+                        summary=summary
+                    )
             except Exception as e:
                 print(f"❌ Erreur lors du parsing des recommandations: {e}")
                 print("Réponse brute:")
@@ -2459,7 +2412,121 @@ class PortfolioCLI:
                 import traceback
                 traceback.print_exc()
     
-    def structured_products_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False):
+    def _interactive_chat(
+        self,
+        client,
+        initial_prompt: str,
+        initial_response: Dict[str, Any],
+        profile,
+        summary
+    ):
+        """
+        Mode conversationnel interactif après les recommandations
+        
+        Args:
+            client: Instance OpenRouterClient
+            initial_prompt: Prompt initial envoyé pour les recommandations
+            initial_response: Réponse initiale de l'IA
+            profile: Profil de risque analysé
+            summary: Résumé du portefeuille
+        """
+        print("\n" + "=" * 70)
+        print("💬 MODE CONVERSATIONNEL")
+        print("=" * 70)
+        print("Vous pouvez maintenant poser des questions sur votre portefeuille.")
+        print("Tapez 'quit' ou 'exit' pour quitter, ou 'help' pour voir les commandes disponibles.\n")
+        
+        # Construire l'historique de conversation
+        # On garde le contexte initial mais on passe en mode conversationnel libre
+        messages = [
+            {
+                "role": "system",
+                "content": f"""Tu es un conseiller financier expert spécialisé dans l'analyse de portefeuilles d'assurance vie et contrats de capitalisation.
+
+Contexte du portefeuille analysé:
+- Profil: {profile.name} ({profile.contract_name})
+- Tolérance au risque: {profile.risk_tolerance}
+- Priorité performance: {"Oui" if profile.performance_priority else "Non"}
+- Valeur totale: {summary.total_value:,.2f} €
+- P&L total: {summary.total_pnl:,.2f} € ({summary.total_pnl_percent:+.2f}%)
+
+Tu as déjà fourni des recommandations initiales. L'utilisateur peut maintenant te poser des questions sur son portefeuille, tes recommandations, ou demander des clarifications. Réponds de manière claire, concise et factuelle en te basant sur les données du portefeuille."""
+            },
+            {
+                "role": "user",
+                "content": initial_prompt
+            },
+            {
+                "role": "assistant",
+                "content": f"""J'ai analysé votre portefeuille {profile.name} et fourni les recommandations suivantes:
+
+{initial_response.get('summary', '')}
+
+Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre portefeuille, ou demander des clarifications."""
+            }
+        ]
+        
+        while True:
+            try:
+                # Lire la question de l'utilisateur
+                user_input = input("\n💬 Vous: ").strip()
+                
+                if not user_input:
+                    continue
+                
+                # Commandes spéciales
+                if user_input.lower() in ('quit', 'exit', 'q'):
+                    print("\n👋 Au revoir !")
+                    break
+                
+                if user_input.lower() in ('help', 'h'):
+                    print("\n📖 Commandes disponibles:")
+                    print("  - 'quit' ou 'exit' : Quitter le mode conversationnel")
+                    print("  - 'help' : Afficher cette aide")
+                    print("  - Posez simplement vos questions sur votre portefeuille")
+                    continue
+                
+                # Ajouter la question de l'utilisateur
+                messages.append({
+                    "role": "user",
+                    "content": user_input
+                })
+                
+                # Afficher que l'IA réfléchit
+                print("🤖 IA réfléchit...", end="", flush=True)
+                
+                # Appeler l'IA
+                try:
+                    response_text = client.chat(
+                        messages=messages,
+                        temperature=0.7,
+                        max_tokens=2000,
+                        force_json=False
+                    )
+                    print("\r" + " " * 50 + "\r", end="")  # Effacer "IA réfléchit..."
+                    
+                    # Afficher la réponse
+                    print(f"🤖 IA: {response_text}\n")
+                    
+                    # Ajouter la réponse à l'historique
+                    messages.append({
+                        "role": "assistant",
+                        "content": response_text
+                    })
+                    
+                except Exception as e:
+                    print(f"\r❌ Erreur lors de l'appel à l'IA: {e}")
+                    # Retirer le dernier message en cas d'erreur
+                    messages.pop()
+                    
+            except KeyboardInterrupt:
+                print("\n\n👋 Interruption - Au revoir !")
+                break
+            except EOFError:
+                print("\n\n👋 Au revoir !")
+                break
+    
+    def structured_products_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False, portfolio_name: Optional[str] = None):
         """
         Vue synthèse des produits structurés:
         - nom du produit
@@ -2472,6 +2539,7 @@ class PortfolioCLI:
             wide: Affiche toutes les colonnes
             details: Affiche les détails pour chaque produit
             include_terminated: Inclut les produits terminés (vendus) dans l'affichage
+            portfolio_name: Filtre par nom de portefeuille (ex: "HIMAL", "Swiss"). Si None, affiche tous les portefeuilles.
         """
         today = datetime.now().date()
         rates_provider = RatesProvider(self.market_data_dir)
@@ -2607,8 +2675,13 @@ class PortfolioCLI:
             except Exception:
                 return op, None
 
+        # Filtrer les positions par portefeuille si spécifié
+        all_positions = self.portfolio.list_all_positions()
+        if portfolio_name:
+            all_positions = self._filter_positions_by_portfolio(all_positions, portfolio_name)
+
         rows = []
-        for position in self.portfolio.list_all_positions():
+        for position in all_positions:
             asset = self.portfolio.get_asset(position.asset_id)
             if not asset or asset.asset_type != AssetType.STRUCTURED_PRODUCT:
                 continue
@@ -2749,6 +2822,7 @@ class PortfolioCLI:
             value_if_strike_next = None
             gain_if_strike_next = None
             perf_if_strike_next = None
+            perf_if_strike_next_annualized = None
             is_sold = (sell_date is not None) or (autocalled is True) or (current_value is not None and abs(float(current_value or 0)) < 0.01 and invested_amount and float(invested_amount) > 0)
             if not is_sold and next_obs and invested_amount and gps is not None:
                 try:
@@ -2780,6 +2854,13 @@ class PortfolioCLI:
                     gain_if_strike_next = value_if_strike_next - float(invested_amount)
                     if float(invested_amount) != 0:
                         perf_if_strike_next = (gain_if_strike_next / float(invested_amount)) * 100.0
+                        
+                        # Annualiser la performance si strike
+                        # Calculer les mois jusqu'à la prochaine constatation
+                        months_until_next_obs = self._months_elapsed(position.investment.subscription_date, next_obs_date)
+                        if months_until_next_obs > 0:
+                            years_until_next = months_until_next_obs / 12.0
+                            perf_if_strike_next_annualized = ((1.0 + perf_if_strike_next / 100.0) ** (1.0 / years_until_next) - 1.0) * 100.0
                 except Exception:
                     pass
 
@@ -2976,6 +3057,7 @@ class PortfolioCLI:
                 "value_if_strike_next": value_if_strike_next,
                 "gain_if_strike_next": gain_if_strike_next,
                 "perf_if_strike_next": perf_if_strike_next,
+                "perf_if_strike_next_annualized": perf_if_strike_next_annualized,
                 "sell_date": sell_date.isoformat() if sell_date else None,
                 "sell_value_from_lots": sell_value_from_lots,
                 "strike": strike_val,
@@ -3096,7 +3178,10 @@ class PortfolioCLI:
 
         term_width = shutil.get_terminal_size(fallback=(120, 20)).columns
         print("\n" + "=" * min(term_width, 120))
-        print("PRODUITS STRUCTURÉS - Synthèse")
+        if portfolio_name:
+            print(f"PRODUITS STRUCTURÉS - Synthèse (Portefeuille: {portfolio_name})")
+        else:
+            print("PRODUITS STRUCTURÉS - Synthèse")
         print("=" * min(term_width, 120))
 
         # Filtrer les produits terminés si include_terminated est False
@@ -3251,30 +3336,11 @@ class PortfolioCLI:
                         perf_annualized = None
             gain_str = f"{gain_amt:,.2f} €" if isinstance(gain_amt, (int, float)) else "N/A"
             perf_str = f"{perf_amt:+.2f}%" if isinstance(perf_amt, (int, float)) else "N/A"
+            # Performance annualisée via XIRR (flux réels)
             perf_annualized_str = f"{perf_annualized:+.2f}%/an" if isinstance(perf_annualized, (int, float)) else "N/A"
-
-            # Calculer la performance annualisée si strike à la prochaine constatation
-            perf_annualized_if_strike = None
-            perf_if_strike = r.get("perf_if_strike_next")
-            next_obs = r.get("next_obs")
-            is_sold_or_terminated_check = r.get("is_sold_or_terminated", False)
-            if not is_sold_or_terminated_check and perf_if_strike is not None and next_obs:
-                try:
-                    next_obs_date = datetime.fromisoformat(str(next_obs)).date() if isinstance(next_obs, str) else next_obs
-                    position = self.portfolio.get_position(r.get("position_id"))
-                    if position:
-                        months_until_next = self._months_elapsed(position.investment.subscription_date, next_obs_date)
-                        if months_until_next > 0:
-                            years_until_next = months_until_next / 12.0
-                            # Annualiser la performance si strike
-                            perf_annualized_if_strike = ((1.0 + perf_if_strike / 100.0) ** (1.0 / years_until_next) - 1.0) * 100.0
-                        else:
-                            # Si moins d'un mois, utiliser la performance brute
-                            perf_annualized_if_strike = perf_if_strike
-                except Exception:
-                    pass
-            
-            perf_annualized_if_strike_str = f"{perf_annualized_if_strike:+.2f}%/an" if isinstance(perf_annualized_if_strike, (int, float)) else ("terminé" if is_sold_or_terminated_check else "N/A")
+            # Performance annualisée si strike à la prochaine observation
+            perf_if_strike_annualized = r.get("perf_if_strike_next_annualized")
+            perf_if_strike_annualized_str = f"{perf_if_strike_annualized:+.2f}%/an" if isinstance(perf_if_strike_annualized, (int, float)) else "N/A"
 
             # Utiliser display_name qui inclut le portefeuille si nécessaire
             name = r.get("display_name", r["name"])
@@ -3363,8 +3429,9 @@ class PortfolioCLI:
                 value_if_strike_str = f"{r['value_if_strike_next']:,.2f} €" if isinstance(r.get("value_if_strike_next"), (int, float)) else "N/A"
                 gain_if_strike_str = f"{r['gain_if_strike_next']:,.2f} €" if isinstance(r.get("gain_if_strike_next"), (int, float)) else "N/A"
                 perf_if_strike_str = f"{r['perf_if_strike_next']:+.2f}%" if isinstance(r.get("perf_if_strike_next"), (int, float)) else "N/A"
-            
-            # perf_annualized_if_strike_str est déjà calculé plus haut
+
+            # Formatage du taux de coupon
+            coupon_pct_str = f"{r['coupon_pct']:.2f}%" if isinstance(r.get("coupon_pct"), (int, float)) else "N/A"
 
             # Tronquer le nom du portefeuille à 5 caractères
             portfolio_name = r.get("contract_name", "N/A")
@@ -3381,6 +3448,7 @@ class PortfolioCLI:
                 "Prochaine": nxt,
                 "Seuil remb.": trig,
                 "Remb. si ajd ?": redeem_today,
+                "Coupon %": coupon_pct_str,
                 "Achat": buy,
                 "Coupons": coupons,
                 "Valeur": v,
@@ -3388,10 +3456,10 @@ class PortfolioCLI:
                 "Gain": gain_str,
                 "Perf": perf_str,
                 "Perf/an": perf_annualized_str,
+                "Perf si strike/an": perf_if_strike_annualized_str,
                 "Valeur si strike": value_if_strike_str,
                 "Gain si strike": gain_if_strike_str,
                 "Perf si strike": perf_if_strike_str,
-                "Perf/an si strike": perf_annualized_if_strike_str,
             })
 
         if wide:
@@ -3405,6 +3473,7 @@ class PortfolioCLI:
                 "Prochaine",
                 "Seuil remb.",
                 "Remb. si ajd ?",
+                "Coupon %",
                 "Achat",
                 "Coupons",
                 "Valeur",
@@ -3412,14 +3481,15 @@ class PortfolioCLI:
                 "Gain",
                 "Perf",
                 "Perf/an",
+                "Perf si strike/an",
                 "Valeur si strike",
                 "Gain si strike",
                 "Perf si strike",
-                "Perf/an si strike",
             ]
             aligns = {
                 "Mois": "r",
                 "Var%": "r",
+                "Coupon %": "r",
                 "Achat": "r",
                 "Coupons": "r",
                 "Valeur": "r",
@@ -3427,10 +3497,10 @@ class PortfolioCLI:
                 "Gain": "r",
                 "Perf": "r",
                 "Perf/an": "r",
+                "Perf si strike/an": "r",
                 "Valeur si strike": "r",
                 "Gain si strike": "r",
                 "Perf si strike": "r",
-                "Perf/an si strike": "r",
             }
             # Caps par défaut (évite des lignes infinies). Ajustables au besoin.
             max_widths = {
@@ -3439,6 +3509,7 @@ class PortfolioCLI:
                 "Initial": 26,
                 "Seuil remb.": 26,
                 "Remb. si ajd ?": 12,
+                "Coupon %": 8,
             }
             # Si terminal étroit, on serre un peu.
             if term_width and term_width < 120:
@@ -3449,8 +3520,8 @@ class PortfolioCLI:
             return
 
         # Vue compacte (par défaut) : moins de colonnes => pas de wrap, + détails en 2e ligne.
-        compact_headers = ["Nom", "Portefeuille", "Mois", "Prochaine", "Remb. si ajd ?", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Valeur si strike", "Gain si strike", "Perf si strike", "Perf/an si strike"]
-        compact_aligns = {"Mois": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r", "Perf/an si strike": "r"}
+        compact_headers = ["Nom", "Portefeuille", "Mois", "Prochaine", "Remb. si ajd ?", "Coupon %", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Perf si strike/an", "Valeur si strike", "Gain si strike", "Perf si strike"]
+        compact_aligns = {"Mois": "r", "Coupon %": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Perf si strike/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r"}
         compact_rows = [{h: r.get(h) for h in compact_headers} for r in table_rows]
 
         # Ajuster largeur du nom selon la place dispo (pour éviter le wrap).
@@ -3460,15 +3531,16 @@ class PortfolioCLI:
             "Mois": 4,
             "Prochaine": 10,
             "Remb. si ajd ?": 12,
+            "Coupon %": 8,
             "Achat": 14,
             "Valeur": 14,
             "Gain": 12,
             "Perf": 8,
-            "Perf/an": 10,
+            "Perf/an": 12,
+            "Perf si strike/an": 16,
             "Valeur si strike": 16,
             "Gain si strike": 14,
             "Perf si strike": 10,
-            "Perf/an si strike": 14,
         }
         sep_len = 2 * (len(compact_headers) - 1)
         fixed = sum(other_caps.values()) + sep_len
@@ -3773,8 +3845,9 @@ class PortfolioCLI:
         gain = float(current_value) - float(invested_amount)
         result['gain'] = gain
         
-        # Si on a des lots, utiliser XIRR (seulement si value_for_perf/invested_for_perf sont fournis, i.e. pour fonds euros)
-        # Pour les autres cas (UC, structurés), on utilise le calcul simple
+        # Si on a des lots ET des valeurs ajustées (value_for_perf/invested_for_perf),
+        # utiliser XIRR (cas des fonds euros avec calcul jusqu'à N-1)
+        # Pour les autres cas (produits structurés, UC), on utilisera le calcul simple
         if lots and value_for_perf is not None and invested_for_perf is not None:
             # Utiliser les valeurs ajustées (pour fonds euros avec calcul jusqu'à N-1)
             value_for_xirr = float(value_for_perf)
@@ -3871,11 +3944,18 @@ class PortfolioCLI:
             contract_name = position.wrapper.contract_name or ""
             portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
             
+            # Collecter les frais depuis cashflow_adjustments
+            fees = 0.0
+            cashflow_adjustments = (result.metadata or {}).get("cashflow_adjustments")
+            if cashflow_adjustments is not None:
+                fees = abs(float(cashflow_adjustments))
+            
             rows.append({
                 "portfolio_name": portfolio_name,
                 "invested_amount": float(invested_amount) if invested_amount else 0.0,
                 "current_value": float(current_value),
                 "gain": float(current_value) - float(invested_amount) if invested_amount else 0.0,
+                "fees": fees,
                 "is_sold": is_sold,
             })
         
@@ -3922,11 +4002,18 @@ class PortfolioCLI:
             contract_name = position.wrapper.contract_name or ""
             portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
             
+            # Collecter les frais depuis cashflow_adjustments
+            fees = 0.0
+            cashflow_adjustments = (result.metadata or {}).get("cashflow_adjustments")
+            if cashflow_adjustments is not None:
+                fees = abs(float(cashflow_adjustments))
+            
             rows.append({
                 "portfolio_name": portfolio_name,
                 "invested_amount": float(invested_amount) if invested_amount else 0.0,
                 "current_value": float(current_value),
                 "gain": float(current_value) - float(invested_amount) if invested_amount else 0.0,
+                "fees": fees,
                 "is_sold_or_terminated": is_sold_or_terminated,
             })
         
@@ -3936,7 +4023,7 @@ class PortfolioCLI:
         
         return rows
     
-    def global_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False):
+    def global_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False, portfolio_name: Optional[str] = None):
         """
         Vue globale : affiche fonds euros, UC, produits structurés, puis un récapitulatif
         par portefeuille et par type de produit.
@@ -3945,6 +4032,7 @@ class PortfolioCLI:
             wide: Affiche toutes les colonnes
             details: Affiche les détails pour chaque produit
             include_terminated: Inclut les produits terminés (vendus) dans l'affichage
+            portfolio_name: Filtre par nom de portefeuille (ex: "HIMAL", "Swiss"). Si None, affiche tous les portefeuilles.
         """
         from collections import defaultdict
         import io
@@ -3953,19 +4041,30 @@ class PortfolioCLI:
         # Collecter les données AVANT d'afficher (pour capturer les valeurs exactes)
         fonds_euro_rows, uc_rows, structured_rows = self._collect_view_data(include_terminated=include_terminated)
         
+        # Filtrer par portefeuille si spécifié
+        if portfolio_name:
+            # Normaliser le nom du portefeuille (prendre les 5 premiers caractères comme dans les méthodes de collecte)
+            portfolio_filter = portfolio_name[:5] if len(portfolio_name) > 5 else portfolio_name
+            fonds_euro_rows = [r for r in fonds_euro_rows if (r.get('portfolio_name') or '')[:5] == portfolio_filter[:5]]
+            uc_rows = [r for r in uc_rows if (r.get('portfolio_name') or '')[:5] == portfolio_filter[:5]]
+            structured_rows = [r for r in structured_rows if (r.get('portfolio_name') or '')[:5] == portfolio_filter[:5]]
+        
         # Afficher les 3 vues
         print("\n" + "=" * 100)
-        print("VUE GLOBALE - FONDS EUROS, UC ET PRODUITS STRUCTURÉS")
+        if portfolio_name:
+            print(f"VUE GLOBALE - FONDS EUROS, UC ET PRODUITS STRUCTURÉS (Portefeuille: {portfolio_name})")
+        else:
+            print("VUE GLOBALE - FONDS EUROS, UC ET PRODUITS STRUCTURÉS")
         print("=" * 100 + "\n")
         
-        # Afficher fonds euros
-        self.fonds_euro_view(wide=wide, details=details, include_terminated=include_terminated)
+        # Afficher fonds euros (filtré si portfolio_name est spécifié)
+        self.fonds_euro_view(wide=wide, details=details, include_terminated=include_terminated, portfolio_name=portfolio_name)
         
-        # Afficher UC
-        self.uc_view(wide=wide, details=details, include_terminated=include_terminated)
+        # Afficher UC (filtré si portfolio_name est spécifié)
+        self.uc_view(wide=wide, details=details, include_terminated=include_terminated, portfolio_name=portfolio_name)
         
-        # Afficher produits structurés
-        self.structured_products_view(wide=wide, details=details, include_terminated=include_terminated)
+        # Afficher produits structurés (filtré si portfolio_name est spécifié)
+        self.structured_products_view(wide=wide, details=details, include_terminated=include_terminated, portfolio_name=portfolio_name)
         
         # Récapitulatif par portefeuille et par type
         print("\n" + "=" * 100)
@@ -3974,52 +4073,58 @@ class PortfolioCLI:
         
         # Collecter les données par portefeuille et par type
         recap_by_portfolio = defaultdict(lambda: {
-            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
-            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
-            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
+            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
+            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
+            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
         })
         
         recap_by_type = {
-            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
-            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
-            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'count': 0},
+            'fonds_euro': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
+            'uc': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
+            'structured': {'invested': 0.0, 'value': 0.0, 'gain': 0.0, 'fees': 0.0, 'count': 0},
         }
         
-        # Agréger les données collectées
+        # Agréger les données collectées (déjà filtrées si portfolio_name est spécifié)
         for row in fonds_euro_rows:
-            portfolio_name = row['portfolio_name'] or "Autre"
-            recap_by_portfolio[portfolio_name]['fonds_euro']['invested'] += row['invested_amount']
-            recap_by_portfolio[portfolio_name]['fonds_euro']['value'] += row['current_value']
-            recap_by_portfolio[portfolio_name]['fonds_euro']['gain'] += row['gain']
-            recap_by_portfolio[portfolio_name]['fonds_euro']['count'] += 1
+            row_portfolio_name = row['portfolio_name'] or "Autre"
+            recap_by_portfolio[row_portfolio_name]['fonds_euro']['invested'] += row['invested_amount']
+            recap_by_portfolio[row_portfolio_name]['fonds_euro']['value'] += row['current_value']
+            recap_by_portfolio[row_portfolio_name]['fonds_euro']['gain'] += row['gain']
+            recap_by_portfolio[row_portfolio_name]['fonds_euro']['fees'] += row.get('fees', 0.0)
+            recap_by_portfolio[row_portfolio_name]['fonds_euro']['count'] += 1
             
             recap_by_type['fonds_euro']['invested'] += row['invested_amount']
             recap_by_type['fonds_euro']['value'] += row['current_value']
             recap_by_type['fonds_euro']['gain'] += row['gain']
+            recap_by_type['fonds_euro']['fees'] += row.get('fees', 0.0)
             recap_by_type['fonds_euro']['count'] += 1
         
         for row in uc_rows:
-            portfolio_name = row['portfolio_name'] or "Autre"
-            recap_by_portfolio[portfolio_name]['uc']['invested'] += row['invested_amount']
-            recap_by_portfolio[portfolio_name]['uc']['value'] += row['current_value']
-            recap_by_portfolio[portfolio_name]['uc']['gain'] += row['gain']
-            recap_by_portfolio[portfolio_name]['uc']['count'] += 1
+            row_portfolio_name = row['portfolio_name'] or "Autre"
+            recap_by_portfolio[row_portfolio_name]['uc']['invested'] += row['invested_amount']
+            recap_by_portfolio[row_portfolio_name]['uc']['value'] += row['current_value']
+            recap_by_portfolio[row_portfolio_name]['uc']['gain'] += row['gain']
+            recap_by_portfolio[row_portfolio_name]['uc']['fees'] += row.get('fees', 0.0)
+            recap_by_portfolio[row_portfolio_name]['uc']['count'] += 1
             
             recap_by_type['uc']['invested'] += row['invested_amount']
             recap_by_type['uc']['value'] += row['current_value']
             recap_by_type['uc']['gain'] += row['gain']
+            recap_by_type['uc']['fees'] += row.get('fees', 0.0)
             recap_by_type['uc']['count'] += 1
         
         for row in structured_rows:
-            portfolio_name = row['portfolio_name'] or "Autre"
-            recap_by_portfolio[portfolio_name]['structured']['invested'] += row['invested_amount']
-            recap_by_portfolio[portfolio_name]['structured']['value'] += row['current_value']
-            recap_by_portfolio[portfolio_name]['structured']['gain'] += row['gain']
-            recap_by_portfolio[portfolio_name]['structured']['count'] += 1
+            row_portfolio_name = row['portfolio_name'] or "Autre"
+            recap_by_portfolio[row_portfolio_name]['structured']['invested'] += row['invested_amount']
+            recap_by_portfolio[row_portfolio_name]['structured']['value'] += row['current_value']
+            recap_by_portfolio[row_portfolio_name]['structured']['gain'] += row['gain']
+            recap_by_portfolio[row_portfolio_name]['structured']['fees'] += row.get('fees', 0.0)
+            recap_by_portfolio[row_portfolio_name]['structured']['count'] += 1
             
             recap_by_type['structured']['invested'] += row['invested_amount']
             recap_by_type['structured']['value'] += row['current_value']
             recap_by_type['structured']['gain'] += row['gain']
+            recap_by_type['structured']['fees'] += row.get('fees', 0.0)
             recap_by_type['structured']['count'] += 1
         
         # Afficher le récap par portefeuille
@@ -4028,8 +4133,17 @@ class PortfolioCLI:
         print(f"{'Portefeuille':<20} {'Type':<15} {'Nb':<5} {'Investi':>15} {'Valeur':>15} {'Gain':>15} {'Perf':>10}")
         print("-" * 100)
         
-        for portfolio_name in sorted(recap_by_portfolio.keys()):
-            portfolio_data = recap_by_portfolio[portfolio_name]
+        # Filtrer les portefeuilles si un filtre est appliqué
+        portfolios_to_show = sorted(recap_by_portfolio.keys())
+        if portfolio_name:
+            portfolio_filter = portfolio_name[:5] if len(portfolio_name) > 5 else portfolio_name
+            portfolios_to_show = [p for p in portfolios_to_show if (p or '')[:5] == portfolio_filter[:5]]
+            if not portfolios_to_show:
+                print(f"⚠️  Aucun portefeuille trouvé correspondant à '{portfolio_name}'")
+                return
+        
+        for portfolio_name_display in portfolios_to_show:
+            portfolio_data = recap_by_portfolio[portfolio_name_display]
             portfolio_total_invested = 0.0
             portfolio_total_value = 0.0
             portfolio_total_gain = 0.0
@@ -4039,7 +4153,7 @@ class PortfolioCLI:
                 if data['count'] > 0:
                     perf = (data['gain'] / data['invested'] * 100.0) if data['invested'] > 0 else 0.0
                     type_label = {'fonds_euro': 'Fonds Euros', 'uc': 'UC', 'structured': 'Structurés'}[asset_type]
-                    print(f"{portfolio_name:<20} {type_label:<15} {data['count']:<5} "
+                    print(f"{portfolio_name_display:<20} {type_label:<15} {data['count']:<5} "
                           f"{data['invested']:>15,.2f} € {data['value']:>15,.2f} € "
                           f"{data['gain']:>+15,.2f} € {perf:>+9.2f}%")
                     
@@ -4074,6 +4188,7 @@ class PortfolioCLI:
         total_invested = sum(d['invested'] for d in recap_by_type.values())
         total_value = sum(d['value'] for d in recap_by_type.values())
         total_gain = sum(d['gain'] for d in recap_by_type.values())
+        total_fees = sum(d['fees'] for d in recap_by_type.values())
         total_count = sum(d['count'] for d in recap_by_type.values())
         
         if total_invested > 0:
@@ -4082,6 +4197,11 @@ class PortfolioCLI:
             print(f"{'TOTAL GÉNÉRAL':<20} {total_count:<5} "
                   f"{total_invested:>15,.2f} € {total_value:>15,.2f} € "
                   f"{total_gain:>+15,.2f} € {total_perf:>+9.2f}%")
+        
+        # Afficher le montant total des frais
+        if total_fees > 0.01:
+            print(f"{'FRAIS TOTAUX':<20} {'':<5} {'':<15} {'':<15} "
+                  f"{-total_fees:>+15,.2f} € {'':<10}")
         
         # Ligne avec capital investi initial
         initial_capital = 1_190_000.00
@@ -4124,12 +4244,19 @@ class PortfolioCLI:
                     continue
             
             subscription_date = position.investment.subscription_date
-            valuation_date_for_months = self._get_valuation_date_for_months(position, lots, today)
+            
+            # Déterminer automatiquement la date de référence en fonction des mouvements de bénéfices disponibles
+            ref_date_end = self._get_fonds_euro_reference_date(lots, position.position_id, today)
+            
+            # Calculer les mois de détention jusqu'à ref_date_end pour être cohérent avec la performance
+            # Si la position est vendue avant ref_date_end, utiliser la date de vente
+            sell_date = self._extract_sell_date_from_lots(lots) if is_sold else None
+            if sell_date and sell_date < ref_date_end:
+                valuation_date_for_months = sell_date
+            else:
+                valuation_date_for_months = ref_date_end
             months = self._months_elapsed(subscription_date, valuation_date_for_months)
             
-            # Calculer les valeurs pour la performance (N-1)
-            ref_year = today.year - 1
-            ref_date_end = date(ref_year, 12, 31)
             value_for_perf, invested_for_perf = self._calculate_fonds_euro_performance_values(
                 current_value, lots, position.position_id, ref_date_end
             )
@@ -4148,11 +4275,18 @@ class PortfolioCLI:
             contract_name = position.wrapper.contract_name or ""
             portfolio_name = contract_name[:5] if len(contract_name) > 5 else contract_name
             
+            # Collecter les frais depuis cashflow_adjustments
+            fees = 0.0
+            cashflow_adjustments = (result.metadata or {}).get("cashflow_adjustments")
+            if cashflow_adjustments is not None:
+                fees = abs(float(cashflow_adjustments))
+            
             rows.append({
                 "portfolio_name": portfolio_name,
                 "invested_amount": float(invested_amount) if invested_amount else 0.0,
                 "current_value": float(current_value),
                 "gain": perf_metrics['gain'],
+                "fees": fees,
                 "is_sold": is_sold,
             })
         
@@ -4162,7 +4296,7 @@ class PortfolioCLI:
         
         return rows
     
-    def fonds_euro_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False):
+    def fonds_euro_view(self, *, wide: bool = False, details: bool = False, include_terminated: bool = False, portfolio_name: Optional[str] = None):
         """
         Vue synthèse des fonds euros:
         - nom du fonds
@@ -4177,15 +4311,24 @@ class PortfolioCLI:
             wide: Affiche toutes les colonnes
             details: Affiche les détails pour chaque fonds euro
             include_terminated: Inclut les fonds euros terminés (rachat total) dans l'affichage
+            portfolio_name: Filtre par nom de portefeuille (ex: "HIMAL", "Swiss"). Si None, affiche tous les portefeuilles.
         """
         today = datetime.now().date()
 
         print("\n" + "=" * 100)
-        print("FONDS EUROS - Synthèse")
+        if portfolio_name:
+            print(f"FONDS EUROS - Synthèse (Portefeuille: {portfolio_name})")
+        else:
+            print("FONDS EUROS - Synthèse")
         print("=" * 100 + "\n")
 
+        # Filtrer les positions par portefeuille si spécifié
+        all_positions = self.portfolio.list_all_positions()
+        if portfolio_name:
+            all_positions = self._filter_positions_by_portfolio(all_positions, portfolio_name)
+
         rows = []
-        for position in self.portfolio.list_all_positions():
+        for position in all_positions:
             asset = self.portfolio.get_asset(position.asset_id)
             if not asset:
                 continue
@@ -4209,22 +4352,25 @@ class PortfolioCLI:
                 # Position rachetée sans valeur, on peut la sauter ou l'afficher comme "terminé"
                 pass
             
-            # Calculer les mois de détention (utilise helper centralisé)
-            subscription_date = position.investment.subscription_date
-            valuation_date_for_months = self._get_valuation_date_for_months(position, lots, today)
-            months = self._months_elapsed(subscription_date, valuation_date_for_months)
-            sell_date = self._extract_sell_date_from_lots(lots) if is_sold else None
-            
             # Calculer gain et performance avec XIRR (méthode centralisée)
-            # Règle : pour calculer le taux sur les années <= N-1, on utilise :
-            # - Capital investi au 31/12/(N-1) = somme des dépôts externes - retraits jusqu'au 31/12/(N-1)
-            # - Valeur au 31/12/(N-1) = units_held - mouvements de l'année N
-            # - XIRR pour le taux annualisé
+            # Règle générique : tant qu'on n'a pas le mouvement de bénéfice pour une année,
+            # on ne prend pas en compte cette année ni l'année N-1 dans le calcul.
             # UTILISE _calculate_performance_metrics() (source de vérité unique)
             
-            # Année de référence : N-1 (année précédente)
-            ref_year = today.year - 1
-            ref_date_end = date(ref_year, 12, 31)
+            # Déterminer automatiquement la date de référence en fonction des mouvements de bénéfices disponibles
+            ref_date_end = self._get_fonds_euro_reference_date(lots, position.position_id, today)
+            
+            # Calculer les mois de détention jusqu'à ref_date_end pour être cohérent avec la performance
+            # (qui est calculée jusqu'à N-1, pas jusqu'à aujourd'hui)
+            subscription_date = position.investment.subscription_date
+            # Si la position est vendue avant ref_date_end, utiliser la date de vente
+            sell_date = self._extract_sell_date_from_lots(lots) if is_sold else None
+            if sell_date and sell_date < ref_date_end:
+                valuation_date_for_months = sell_date
+            else:
+                valuation_date_for_months = ref_date_end
+            
+            months = self._months_elapsed(subscription_date, valuation_date_for_months)
             
             # Utiliser helper centralisé pour calculer les valeurs de performance
             value_for_perf, invested_for_perf = self._calculate_fonds_euro_performance_values(
@@ -4246,6 +4392,15 @@ class PortfolioCLI:
             gain_amt = perf_metrics['gain']
             perf_amt = perf_metrics['perf']
             perf_annualized = perf_metrics['perf_annualized']
+            
+            # Pour les fonds euros, recalculer la performance annualisée à partir de la performance totale
+            # en utilisant les mois affichés (calculés jusqu'à ref_date_end) pour être cohérent
+            # La date de référence (ref_date_end) est déterminée automatiquement en fonction des
+            # mouvements de bénéfices disponibles (dernière année avec bénéfices connus)
+            if perf_amt is not None and months > 0:
+                years_from_months = months / 12.0
+                if years_from_months > 0:
+                    perf_annualized = ((1.0 + perf_amt / 100.0) ** (1.0 / years_from_months) - 1.0) * 100.0
             
             # Récupérer l'assureur et le contrat
             insurer = (asset.metadata or {}).get("insurer", "")
@@ -4508,28 +4663,6 @@ def main():
     # Commande: validate
     subparsers.add_parser('validate', help='Valide l\'intégrité des données (assets.yaml, positions.yaml)')
     
-    # Commande: status
-    subparsers.add_parser('status', help='Affiche l\'état global du portefeuille')
-    
-    # Commande: wrapper
-    wrapper_parser = subparsers.add_parser('wrapper', help='Affiche l\'état par enveloppe')
-    wrapper_parser.add_argument(
-        '--type',
-        type=str,
-        choices=['assurance_vie', 'contrat_de_capitalisation'],
-        help='Filtrer par type d\'enveloppe'
-    )
-    wrapper_parser.add_argument(
-        '--insurer',
-        type=str,
-        help='Filtrer par assureur (ex: Swiss Life, Generali)'
-    )
-    wrapper_parser.add_argument(
-        '--contract',
-        type=str,
-        help='Filtrer par contrat (ex: HIMALIA)'
-    )
-    
     # Commande: type
     type_parser = subparsers.add_parser('type', help='Affiche l\'état par type d\'actif')
     type_parser.add_argument(
@@ -4726,6 +4859,11 @@ def main():
         action='store_true',
         help='Inclut les produits terminés (vendus) dans l\'affichage'
     )
+    global_parser.add_argument(
+        '--portfolio',
+        type=str,
+        help='Filtre par nom de portefeuille (ex: HIMAL, Swiss). Affiche uniquement le récapitulatif pour ce portefeuille.'
+    )
     
     # Commande: advice
     advice_parser = subparsers.add_parser(
@@ -4746,6 +4884,11 @@ def main():
         '--dry-run',
         action='store_true',
         help='Affiche le prompt qui serait envoyé sans appeler l\'API OpenRouter'
+    )
+    advice_parser.add_argument(
+        '--interactive',
+        action='store_true',
+        help='Active le mode conversationnel après les recommandations pour poser des questions'
     )
     
     args = parser.parse_args()
@@ -4770,14 +4913,6 @@ def main():
             # Validation sans charger le portfolio complet
             exit_code = PortfolioCLI.validate_data_dir(Path(args.data_dir))
             return exit_code
-        elif args.command == 'status':
-            cli.status()
-        elif args.command == 'wrapper':
-            cli.status_by_wrapper(
-                wrapper_type=getattr(args, 'type', None),
-                insurer=getattr(args, 'insurer', None),
-                contract=getattr(args, 'contract', None)
-            )
         elif args.command == 'type':
             cli.status_by_asset_type(args.type)
         elif args.command == 'alerts':
@@ -4848,6 +4983,7 @@ def main():
                 wide=bool(getattr(args, "wide", False)),
                 details=bool(getattr(args, "details", False)),
                 include_terminated=getattr(args, 'include_terminated', False),
+                portfolio_name=getattr(args, 'portfolio', None),
             )
         elif args.command == 'update-uc-navs':
             cli.update_uc_navs(
@@ -4860,6 +4996,7 @@ def main():
                 profile_name=getattr(args, "profile", None),
                 all_profiles=bool(getattr(args, "all", False)),
                 dry_run=bool(getattr(args, "dry_run", False)),
+                interactive=bool(getattr(args, "interactive", False)),
             )
     except Exception as e:
         print(f"Erreur lors de l'exécution: {e}")
