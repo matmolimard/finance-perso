@@ -2,28 +2,16 @@ nav_sources:
   # Eleva Absolute Return Europe A1 EUR Acc (LU1331971769)
   # Source: https://www.quantalys.com/Fonds/405242
   uc_eleva_absolute_return_europe:
-    kind: html_regex
-    url: "https://www.quantalys.com/Fonds/405242"
-    # Extrait "Valeur liquidative 153,58 EUR" ou "1 777,236 EUR" (gère les espaces dans les nombres)
-    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
-    # Extrait "22/12/2025"
-    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
-    date_format: "%d/%m/%Y"
+    kind: morningstar
+    morningstar_secid: "F00000ZEXG"
     currency: "EUR"
-    headless: true
-    morningstar_secid: "F00000ZEXG"  # historique via Morningstar (LU1331971769)
 
   # Helium Selection B-EUR (LU1112771503)
   # Source: https://www.quantalys.com/Fonds/408051
   uc_helium_selection_b_eur:
-    kind: html_regex
-    url: "https://www.quantalys.com/Fonds/408051"
-    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
-    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
-    date_format: "%d/%m/%Y"
+    kind: morningstar
+    morningstar_secid: "F00000X1EQ"
     currency: "EUR"
-    headless: true
-    morningstar_secid: "F00000X1EQ"  # historique via Morningstar (LU1112771503)
 
   # BDL Rempart C (FR0010174144)
   # Source: https://www.quantalys.com/Fonds/13406
@@ -111,14 +99,9 @@ nav_sources:
 
   # Generali Trésorerie ISR B (FR0010233726) - historique uniquement
   uc_generali_tresorerie_isr_b:
-    kind: html_regex
-    url: "https://www.quantalys.com/Fonds/13406"  # placeholder - NAV non utilisée (fonds cédé)
-    value_regex: "Valeur\\s+liquidative[\\s\\S]{0,200}?([0-9]+(?:\\s+[0-9]+)*[\\.,][0-9]+)\\s*EUR"
-    date_regex: "Valeur\\s+liquidative[\\s\\S]{0,400}?([0-9]{2}/[0-9]{2}/[0-9]{4})"
-    date_format: "%d/%m/%Y"
+    kind: morningstar
+    morningstar_secid: "F0GBR04G92"
     currency: "EUR"
-    headless: false
-    morningstar_secid: "F0GBR04G92"  # historique via Morningstar (FR0010233726)
 
   # Swiss Life Funds (F) ESG Short Term Euro P1 (FR0013301629) - historique uniquement
   uc_swisslife_short_term_euro_p1:

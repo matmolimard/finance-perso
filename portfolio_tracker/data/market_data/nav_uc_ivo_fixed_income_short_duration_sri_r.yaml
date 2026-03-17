@@ -2986,4 +2986,4 @@ nav_history:
 - date: '2026-03-13'
   value: 128.55
   currency: EUR
-  source: morningstar
+  source: html_regex

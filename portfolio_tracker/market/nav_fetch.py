@@ -39,7 +39,7 @@ import json
 import re
 import ssl
 from dataclasses import dataclass
-from datetime import date, datetime
+from datetime import date, datetime, timedelta
 from pathlib import Path
 from typing import Any, Dict, Optional, Tuple, List
 from urllib.request import Request, urlopen
@@ -151,7 +151,7 @@ def fetch_nav_for_asset_id(
 
     kind = str(cfg.get("kind") or "").strip()
     url = str(cfg.get("url") or "").strip()
-    if not kind or not url:
+    if not kind or (not url and kind != "morningstar"):
         return None
 
     currency = str(cfg.get("currency") or "EUR")
@@ -192,6 +192,24 @@ def fetch_nav_for_asset_id(
             nav_date = target_date
 
         return FetchedNav(value=val, nav_date=nav_date, currency=currency, source=source_label)
+
+    # ---------------------------
+    # morningstar
+    # ---------------------------
+    if kind == "morningstar":
+        sec_id = str(cfg.get("morningstar_secid") or "")
+        if not sec_id:
+            raise ValueError(f"{asset_id}: morningstar_secid manquant pour kind=morningstar")
+        results = _fetch_morningstar_history(
+            sec_id=sec_id,
+            start_date=target_date - timedelta(days=4),
+            end_date=target_date,
+            currency=currency,
+        )
+        if not results:
+            raise ValueError(f"{asset_id}: aucune NAV Morningstar trouvée pour {sec_id}")
+        latest = max(results, key=lambda r: r.nav_date)
+        return FetchedNav(value=latest.value, nav_date=latest.nav_date, currency=currency, source=source_label)
 
     # ---------------------------
     # url_csv

@@ -2448,9 +2448,9 @@ nav_history:
   currency: EUR
   source: morningstar
 - date: '2025-09-04'
-  value: 249.42
+  value: 251.4993228864384
   currency: EUR
-  source: morningstar
+  source: purchase_nav
 - date: '2025-09-05'
   value: 250.24
   currency: EUR
@@ -2978,4 +2978,4 @@ nav_history:
 - date: '2026-03-13'
   value: 262.65
   currency: EUR
-  source: morningstar
+  source: html_regex
