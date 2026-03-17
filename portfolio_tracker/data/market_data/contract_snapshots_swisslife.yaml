@@ -1,0 +1,36 @@
+# Snapshots officiels du contrat SwissLife Capi Stratégic Premium
+# Source : relevés de situation annuels Swiss Life
+# Ces valeurs font foi pour le calcul de performance — ne pas modifier manuellement.
+
+contract_name: "SwissLife Capi Stratégic Premium"
+contract_id: "0010645288001"
+
+# Versements et retraits cumulés depuis l'origine (données officielles du relevé)
+versements_total: 1000000.00   # Versement initial unique (confirmé relevés 2022-2024)
+retraits_total: 0.00
+
+# Flux externes par année (versements/retraits réels hors arbitrages internes)
+flux_externes_par_annee:
+  2022: 1000000.00  # Versement initial 09/11/2022
+  2023: 0.00
+  2024: 0.00
+  2025: 0.00
+
+snapshots:
+  - date: 2022-12-31
+    total_value: 997915.02
+    uc_value: 636372.92
+    euro_fund_value: 361542.10
+    source: "Relevé de situation au 31/12/2022 (reçu le 24/02/2023)"
+
+  - date: 2023-12-31
+    total_value: 1014524.75
+    uc_value: 641216.43
+    euro_fund_value: 373308.32
+    source: "Relevé de situation au 31/12/2023 (reçu le 23/02/2024)"
+
+  - date: 2024-12-31
+    total_value: 1038151.04
+    uc_value: 652693.57
+    euro_fund_value: 385457.47
+    source: "Relevé de situation au 31/12/2024 (reçu le 21/02/2025)"

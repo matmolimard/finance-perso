@@ -1,2965 +1,2985 @@
 nav_history:
-- date: '2022-11-24'
-  value: 1555.2940366972477
-  currency: EUR
-  source: purchase_nav
 - date: '2023-03-17'
-  value: 1507.961
+  value: 3501.23
   currency: EUR
   source: morningstar
 - date: '2023-03-20'
-  value: 1509.579
+  value: 3501.4
   currency: EUR
   source: morningstar
 - date: '2023-03-21'
-  value: 1511.49
+  value: 3501.73
   currency: EUR
   source: morningstar
 - date: '2023-03-22'
-  value: 1511.14
+  value: 3502.38
   currency: EUR
   source: morningstar
 - date: '2023-03-23'
-  value: 1512.408
+  value: 3502.56
   currency: EUR
   source: morningstar
 - date: '2023-03-24'
-  value: 1511.338
+  value: 3502.75
   currency: EUR
   source: morningstar
 - date: '2023-03-27'
-  value: 1511.585
+  value: 3503.27
   currency: EUR
   source: morningstar
 - date: '2023-03-28'
-  value: 1512.629
+  value: 3503.81
   currency: EUR
   source: morningstar
 - date: '2023-03-29'
-  value: 1513.415
+  value: 3504.14
   currency: EUR
   source: morningstar
 - date: '2023-03-30'
-  value: 1515.191
+  value: 3504.54
   currency: EUR
   source: morningstar
 - date: '2023-03-31'
-  value: 1513.661
+  value: 3504.93
   currency: EUR
   source: morningstar
 - date: '2023-04-03'
-  value: 1513.694
+  value: 3505.57
   currency: EUR
   source: morningstar
 - date: '2023-04-04'
-  value: 1514.382
+  value: 3505.97
   currency: EUR
   source: morningstar
 - date: '2023-04-05'
-  value: 1514.184
+  value: 3506.42
   currency: EUR
   source: morningstar
 - date: '2023-04-06'
-  value: 1514.893
+  value: 3506.78
   currency: EUR
   source: morningstar
 - date: '2023-04-11'
-  value: 1515.979
+  value: 3507.9
   currency: EUR
   source: morningstar
 - date: '2023-04-12'
-  value: 1516.413
+  value: 3508.29
   currency: EUR
   source: morningstar
 - date: '2023-04-13'
-  value: 1517.448
+  value: 3508.71
   currency: EUR
   source: morningstar
 - date: '2023-04-14'
-  value: 1517.641
+  value: 3508.95
   currency: EUR
   source: morningstar
 - date: '2023-04-17'
-  value: 1517.652
+  value: 3509.69
   currency: EUR
   source: morningstar
 - date: '2023-04-18'
-  value: 1520.852
+  value: 3510.05
   currency: EUR
   source: morningstar
 - date: '2023-04-19'
-  value: 1519.537
+  value: 3510.35
   currency: EUR
   source: morningstar
 - date: '2023-04-20'
-  value: 1519.577
+  value: 3510.89
   currency: EUR
   source: morningstar
 - date: '2023-04-21'
-  value: 1519.621
+  value: 3511.12
   currency: EUR
   source: morningstar
 - date: '2023-04-24'
-  value: 1519.157
+  value: 3511.76
   currency: EUR
   source: morningstar
 - date: '2023-04-25'
-  value: 1518.698
+  value: 3512.07
   currency: EUR
   source: morningstar
 - date: '2023-04-26'
-  value: 1519.215
+  value: 3512.27
   currency: EUR
   source: morningstar
 - date: '2023-04-27'
-  value: 1519.929
+  value: 3512.81
   currency: EUR
   source: morningstar
 - date: '2023-04-28'
-  value: 1521.652
+  value: 3513.32
   currency: EUR
   source: morningstar
 - date: '2023-05-02'
-  value: 1520.764
+  value: 3514.12
   currency: EUR
   source: morningstar
 - date: '2023-05-03'
-  value: 1520.129
+  value: 3514.39
   currency: EUR
   source: morningstar
 - date: '2023-05-04'
-  value: 1520.928
+  value: 3514.87
   currency: EUR
   source: morningstar
 - date: '2023-05-05'
-  value: 1522.274
+  value: 3515.08
   currency: EUR
   source: morningstar
-- date: '2023-05-08'
-  value: 1522.247
+- date: '2023-05-09'
+  value: 3516.09
   currency: EUR
   source: morningstar
 - date: '2023-05-10'
-  value: 1522.804
+  value: 3516.44
   currency: EUR
   source: morningstar
 - date: '2023-05-11'
-  value: 1522.909
+  value: 3516.85
   currency: EUR
   source: morningstar
 - date: '2023-05-12'
-  value: 1523.116
+  value: 3517.22
   currency: EUR
   source: morningstar
 - date: '2023-05-15'
-  value: 1522.985
+  value: 3517.9
   currency: EUR
   source: morningstar
 - date: '2023-05-16'
-  value: 1514.846
+  value: 3518.35
   currency: EUR
   source: morningstar
 - date: '2023-05-17'
-  value: 1515.877
+  value: 3518.67
   currency: EUR
   source: morningstar
 - date: '2023-05-19'
-  value: 1516.767
+  value: 3519.52
   currency: EUR
   source: morningstar
 - date: '2023-05-22'
-  value: 1516.876
+  value: 3520.06
   currency: EUR
   source: morningstar
 - date: '2023-05-23'
-  value: 1516.065
+  value: 3520.56
   currency: EUR
   source: morningstar
 - date: '2023-05-24'
-  value: 1514.737
+  value: 3520.82
   currency: EUR
   source: morningstar
 - date: '2023-05-25'
-  value: 1515.045
+  value: 3521.36
   currency: EUR
   source: morningstar
 - date: '2023-05-26'
-  value: 1515.369
+  value: 3521.7
   currency: EUR
   source: morningstar
 - date: '2023-05-30'
-  value: 1515.52
+  value: 3522.56
   currency: EUR
   source: morningstar
 - date: '2023-05-31'
-  value: 1516.6
+  value: 3522.92
   currency: EUR
   source: morningstar
 - date: '2023-06-01'
-  value: 1517.165
+  value: 3523.43
   currency: EUR
   source: morningstar
 - date: '2023-06-02'
-  value: 1518.462
+  value: 3524.21
   currency: EUR
   source: morningstar
 - date: '2023-06-05'
-  value: 1518.904
+  value: 3524.43
   currency: EUR
   source: morningstar
 - date: '2023-06-06'
-  value: 1519.333
+  value: 3524.86
   currency: EUR
   source: morningstar
 - date: '2023-06-07'
-  value: 1518.878
+  value: 3525.19
   currency: EUR
   source: morningstar
 - date: '2023-06-08'
-  value: 1519.478
+  value: 3525.68
   currency: EUR
   source: morningstar
 - date: '2023-06-09'
-  value: 1519.534
+  value: 3526.07
   currency: EUR
   source: morningstar
 - date: '2023-06-12'
-  value: 1520.538
+  value: 3526.61
   currency: EUR
   source: morningstar
 - date: '2023-06-13'
-  value: 1521.32
+  value: 3527.0
   currency: EUR
   source: morningstar
 - date: '2023-06-14'
-  value: 1522.617
+  value: 3527.31
   currency: EUR
   source: morningstar
 - date: '2023-06-15'
-  value: 1522.913
+  value: 3527.94
   currency: EUR
   source: morningstar
 - date: '2023-06-16'
-  value: 1524.811
+  value: 3528.4
   currency: EUR
   source: morningstar
 - date: '2023-06-19'
-  value: 1523.899
+  value: 3528.95
   currency: EUR
   source: morningstar
 - date: '2023-06-20'
-  value: 1522.996
+  value: 3529.39
   currency: EUR
   source: morningstar
 - date: '2023-06-21'
-  value: 1522.877
+  value: 3529.69
   currency: EUR
   source: morningstar
 - date: '2023-06-22'
-  value: 1522.225
+  value: 3530.24
+  currency: EUR
+  source: morningstar
+- date: '2023-06-23'
+  value: 3530.63
   currency: EUR
   source: morningstar
 - date: '2023-06-26'
-  value: 1522.486
+  value: 3531.13
   currency: EUR
   source: morningstar
 - date: '2023-06-27'
-  value: 1522.629
+  value: 3531.64
   currency: EUR
   source: morningstar
 - date: '2023-06-28'
-  value: 1522.958
+  value: 3532.03
   currency: EUR
   source: morningstar
 - date: '2023-06-29'
-  value: 1523.872
+  value: 3532.48
   currency: EUR
   source: morningstar
 - date: '2023-06-30'
-  value: 1525.818
+  value: 3533.51
   currency: EUR
   source: morningstar
 - date: '2023-07-03'
-  value: 1526.641
+  value: 3533.53
   currency: EUR
   source: morningstar
 - date: '2023-07-04'
-  value: 1526.019
+  value: 3534.01
   currency: EUR
   source: morningstar
 - date: '2023-07-05'
-  value: 1524.989
+  value: 3534.34
   currency: EUR
   source: morningstar
 - date: '2023-07-06'
-  value: 1523.328
+  value: 3534.91
   currency: EUR
   source: morningstar
 - date: '2023-07-07'
-  value: 1524.954
+  value: 3535.35
   currency: EUR
   source: morningstar
 - date: '2023-07-10'
-  value: 1527.186
+  value: 3535.93
   currency: EUR
   source: morningstar
 - date: '2023-07-11'
-  value: 1528.364
+  value: 3536.34
   currency: EUR
   source: morningstar
 - date: '2023-07-12'
-  value: 1530.012
+  value: 3536.7
   currency: EUR
   source: morningstar
 - date: '2023-07-13'
-  value: 1530.853
-  currency: EUR
-  source: morningstar
-- date: '2023-07-14'
-  value: 1530.616
+  value: 3537.15
   currency: EUR
   source: morningstar
 - date: '2023-07-17'
-  value: 1530.94
+  value: 3538.37
   currency: EUR
   source: morningstar
 - date: '2023-07-18'
-  value: 1530.293
+  value: 3538.75
   currency: EUR
   source: morningstar
 - date: '2023-07-19'
-  value: 1531.662
+  value: 3539.15
   currency: EUR
   source: morningstar
 - date: '2023-07-20'
-  value: 1530.587
+  value: 3539.79
   currency: EUR
   source: morningstar
 - date: '2023-07-21'
-  value: 1530.651
+  value: 3540.17
   currency: EUR
   source: morningstar
 - date: '2023-07-24'
-  value: 1531.25
+  value: 3540.68
   currency: EUR
   source: morningstar
 - date: '2023-07-25'
-  value: 1531.528
+  value: 3541.1
   currency: EUR
   source: morningstar
 - date: '2023-07-26'
-  value: 1529.709
+  value: 3541.49
   currency: EUR
   source: morningstar
 - date: '2023-07-27'
-  value: 1527.848
+  value: 3542.05
   currency: EUR
   source: morningstar
 - date: '2023-07-28'
-  value: 1528.811
+  value: 3542.98
   currency: EUR
   source: morningstar
 - date: '2023-07-31'
-  value: 1529.21
+  value: 3543.1
   currency: EUR
   source: morningstar
 - date: '2023-08-01'
-  value: 1529.255
+  value: 3543.56
   currency: EUR
   source: morningstar
 - date: '2023-08-02'
-  value: 1527.123
+  value: 3543.94
   currency: EUR
   source: morningstar
 - date: '2023-08-03'
-  value: 1528.082
+  value: 3544.34
   currency: EUR
   source: morningstar
 - date: '2023-08-04'
-  value: 1531.227
+  value: 3546.65
   currency: EUR
   source: morningstar
 - date: '2023-08-07'
-  value: 1530.686
+  value: 3547.4
   currency: EUR
   source: morningstar
 - date: '2023-08-08'
-  value: 1530.121
+  value: 3546.16
   currency: EUR
   source: morningstar
 - date: '2023-08-09'
-  value: 1531.745
+  value: 3546.52
   currency: EUR
   source: morningstar
 - date: '2023-08-10'
-  value: 1533.388
+  value: 3547.15
   currency: EUR
   source: morningstar
 - date: '2023-08-11'
-  value: 1534.441
+  value: 3547.59
   currency: EUR
   source: morningstar
 - date: '2023-08-14'
-  value: 1533.593
+  value: 3548.36
   currency: EUR
   source: morningstar
 - date: '2023-08-16'
-  value: 1532.923
+  value: 3549.16
   currency: EUR
   source: morningstar
 - date: '2023-08-17'
-  value: 1531.527
+  value: 3549.81
   currency: EUR
   source: morningstar
 - date: '2023-08-18'
-  value: 1531.192
+  value: 3550.3
   currency: EUR
   source: morningstar
 - date: '2023-08-21'
-  value: 1534.146
+  value: 3550.97
   currency: EUR
   source: morningstar
 - date: '2023-08-22'
-  value: 1537.165
+  value: 3551.44
   currency: EUR
   source: morningstar
 - date: '2023-08-23'
-  value: 1538.289
+  value: 3551.8
   currency: EUR
   source: morningstar
 - date: '2023-08-24'
-  value: 1538.488
+  value: 3552.36
   currency: EUR
   source: morningstar
 - date: '2023-08-25'
-  value: 1539.581
+  value: 3552.81
   currency: EUR
   source: morningstar
 - date: '2023-08-28'
-  value: 1542.87
+  value: 3553.46
   currency: EUR
   source: morningstar
 - date: '2023-08-29'
-  value: 1544.414
+  value: 3553.93
   currency: EUR
   source: morningstar
 - date: '2023-08-30'
-  value: 1544.409
+  value: 3554.3
   currency: EUR
   source: morningstar
 - date: '2023-08-31'
-  value: 1544.361
+  value: 3554.88
   currency: EUR
   source: morningstar
 - date: '2023-09-01'
-  value: 1545.545
+  value: 3555.4
   currency: EUR
   source: morningstar
 - date: '2023-09-04'
-  value: 1546.251
+  value: 3556.21
   currency: EUR
   source: morningstar
 - date: '2023-09-05'
-  value: 1545.84
+  value: 3556.67
   currency: EUR
   source: morningstar
 - date: '2023-09-06'
-  value: 1545.789
+  value: 3557.04
   currency: EUR
   source: morningstar
 - date: '2023-09-07'
-  value: 1544.657
+  value: 3557.54
   currency: EUR
   source: morningstar
 - date: '2023-09-08'
-  value: 1546.276
+  value: 3557.93
   currency: EUR
   source: morningstar
 - date: '2023-09-11'
-  value: 1547.414
+  value: 3558.58
   currency: EUR
   source: morningstar
 - date: '2023-09-12'
-  value: 1547.96
+  value: 3559.2
   currency: EUR
   source: morningstar
 - date: '2023-09-13'
-  value: 1547.188
+  value: 3559.46
   currency: EUR
   source: morningstar
 - date: '2023-09-14'
-  value: 1549.534
+  value: 3559.77
   currency: EUR
   source: morningstar
 - date: '2023-09-15'
-  value: 1549.286
+  value: 3560.43
   currency: EUR
   source: morningstar
 - date: '2023-09-18'
-  value: 1546.672
+  value: 3560.64
   currency: EUR
   source: morningstar
 - date: '2023-09-19'
-  value: 1546.719
+  value: 3560.98
   currency: EUR
   source: morningstar
 - date: '2023-09-20'
-  value: 1548.722
+  value: 3561.15
   currency: EUR
   source: morningstar
 - date: '2023-09-21'
-  value: 1547.104
+  value: 3561.84
   currency: EUR
   source: morningstar
 - date: '2023-09-22'
-  value: 1549.419
+  value: 3562.29
   currency: EUR
   source: morningstar
 - date: '2023-09-25'
-  value: 1548.672
+  value: 3563.19
   currency: EUR
   source: morningstar
 - date: '2023-09-26'
-  value: 1547.763
+  value: 3563.58
   currency: EUR
   source: morningstar
 - date: '2023-09-27'
-  value: 1548.406
+  value: 3564.26
   currency: EUR
   source: morningstar
 - date: '2023-09-28'
-  value: 1549.814
+  value: 3564.87
   currency: EUR
   source: morningstar
 - date: '2023-09-29'
-  value: 1549.892
+  value: 3565.38
   currency: EUR
   source: morningstar
 - date: '2023-10-02'
-  value: 1548.49
+  value: 3566.05
   currency: EUR
   source: morningstar
 - date: '2023-10-03'
-  value: 1547.805
+  value: 3566.59
   currency: EUR
   source: morningstar
 - date: '2023-10-04'
-  value: 1546.856
+  value: 3567.05
   currency: EUR
   source: morningstar
 - date: '2023-10-05'
-  value: 1545.653
+  value: 3567.77
   currency: EUR
   source: morningstar
 - date: '2023-10-06'
-  value: 1545.47
+  value: 3568.29
   currency: EUR
   source: morningstar
 - date: '2023-10-09'
-  value: 1544.272
+  value: 3568.88
   currency: EUR
   source: morningstar
 - date: '2023-10-10'
-  value: 1546.949
+  value: 3569.14
   currency: EUR
   source: morningstar
 - date: '2023-10-11'
-  value: 1549.673
+  value: 3569.87
   currency: EUR
   source: morningstar
 - date: '2023-10-12'
-  value: 1550.083
+  value: 3570.59
   currency: EUR
   source: morningstar
 - date: '2023-10-13'
-  value: 1550.873
+  value: 3571.12
   currency: EUR
   source: morningstar
 - date: '2023-10-16'
-  value: 1549.567
+  value: 3571.7
   currency: EUR
   source: morningstar
 - date: '2023-10-17'
-  value: 1548.871
+  value: 3572.08
   currency: EUR
   source: morningstar
 - date: '2023-10-18'
-  value: 1549.411
+  value: 3572.46
   currency: EUR
   source: morningstar
 - date: '2023-10-19'
-  value: 1546.186
+  value: 3573.13
   currency: EUR
   source: morningstar
 - date: '2023-10-20'
-  value: 1545.258
+  value: 3573.42
   currency: EUR
   source: morningstar
 - date: '2023-10-23'
-  value: 1545.669
+  value: 3574.27
   currency: EUR
   source: morningstar
 - date: '2023-10-24'
-  value: 1547.104
+  value: 3574.78
   currency: EUR
   source: morningstar
 - date: '2023-10-25'
-  value: 1545.049
+  value: 3575.19
   currency: EUR
   source: morningstar
 - date: '2023-10-26'
-  value: 1544.953
+  value: 3576.7
   currency: EUR
   source: morningstar
 - date: '2023-10-27'
-  value: 1546.253
+  value: 3576.67
   currency: EUR
   source: morningstar
 - date: '2023-10-30'
-  value: 1547.785
+  value: 3577.37
   currency: EUR
   source: morningstar
 - date: '2023-10-31'
-  value: 1551.092
+  value: 3578.02
   currency: EUR
   source: morningstar
 - date: '2023-11-02'
-  value: 1557.656
+  value: 3579.01
   currency: EUR
   source: morningstar
 - date: '2023-11-03'
-  value: 1558.993
+  value: 3579.61
   currency: EUR
   source: morningstar
 - date: '2023-11-06'
-  value: 1559.295
+  value: 3580.41
   currency: EUR
   source: morningstar
 - date: '2023-11-07'
-  value: 1560.006
+  value: 3580.77
   currency: EUR
   source: morningstar
 - date: '2023-11-08'
-  value: 1560.875
+  value: 3581.15
   currency: EUR
   source: morningstar
 - date: '2023-11-09'
-  value: 1562.112
+  value: 3581.64
   currency: EUR
   source: morningstar
 - date: '2023-11-10'
-  value: 1561.738
+  value: 3582.31
   currency: EUR
   source: morningstar
 - date: '2023-11-13'
-  value: 1561.923
+  value: 3582.88
   currency: EUR
   source: morningstar
 - date: '2023-11-14'
-  value: 1563.849
+  value: 3583.25
   currency: EUR
   source: morningstar
 - date: '2023-11-15'
-  value: 1563.894
+  value: 3583.9
   currency: EUR
   source: morningstar
 - date: '2023-11-16'
-  value: 1564.394
+  value: 3584.44
   currency: EUR
   source: morningstar
 - date: '2023-11-17'
-  value: 1565.571
+  value: 3585.29
   currency: EUR
   source: morningstar
 - date: '2023-11-20'
-  value: 1566.323
+  value: 3585.84
   currency: EUR
   source: morningstar
 - date: '2023-11-21'
-  value: 1569.661
+  value: 3586.38
   currency: EUR
   source: morningstar
 - date: '2023-11-22'
-  value: 1570.67
+  value: 3586.98
   currency: EUR
   source: morningstar
 - date: '2023-11-23'
-  value: 1570.726
+  value: 3587.26
   currency: EUR
   source: morningstar
 - date: '2023-11-24'
-  value: 1571.609
+  value: 3587.46
   currency: EUR
   source: morningstar
 - date: '2023-11-27'
-  value: 1571.116
+  value: 3588.57
   currency: EUR
   source: morningstar
 - date: '2023-11-28'
-  value: 1571.395
+  value: 3589.05
   currency: EUR
   source: morningstar
 - date: '2023-11-29'
-  value: 1571.625
+  value: 3589.68
   currency: EUR
   source: morningstar
 - date: '2023-11-30'
-  value: 1572.112
+  value: 3590.31
   currency: EUR
   source: morningstar
 - date: '2023-12-01'
-  value: 1572.908
+  value: 3591.0
   currency: EUR
   source: morningstar
 - date: '2023-12-04'
-  value: 1573.081
+  value: 3592.52
   currency: EUR
   source: morningstar
 - date: '2023-12-05'
-  value: 1574.737
+  value: 3592.79
   currency: EUR
   source: morningstar
 - date: '2023-12-06'
-  value: 1574.708
+  value: 3593.59
   currency: EUR
   source: morningstar
 - date: '2023-12-07'
-  value: 1575.198
+  value: 3594.01
   currency: EUR
   source: morningstar
 - date: '2023-12-08'
-  value: 1577.211
+  value: 3594.54
   currency: EUR
   source: morningstar
 - date: '2023-12-11'
-  value: 1577.76
+  value: 3595.33
   currency: EUR
   source: morningstar
 - date: '2023-12-12'
-  value: 1577.432
+  value: 3595.78
   currency: EUR
   source: morningstar
 - date: '2023-12-13'
-  value: 1577.77
+  value: 3596.12
   currency: EUR
   source: morningstar
 - date: '2023-12-14'
-  value: 1582.702
+  value: 3596.79
   currency: EUR
   source: morningstar
 - date: '2023-12-15'
-  value: 1582.606
+  value: 3597.6
   currency: EUR
   source: morningstar
 - date: '2023-12-18'
-  value: 1583.18
+  value: 3598.55
   currency: EUR
   source: morningstar
 - date: '2023-12-19'
-  value: 1585.518
+  value: 3598.94
   currency: EUR
   source: morningstar
 - date: '2023-12-20'
-  value: 1586.262
+  value: 3599.57
   currency: EUR
   source: morningstar
 - date: '2023-12-21'
-  value: 1587.201
+  value: 3600.12
   currency: EUR
   source: morningstar
 - date: '2023-12-22'
-  value: 1587.967
+  value: 3601.09
   currency: EUR
   source: morningstar
 - date: '2023-12-27'
-  value: 1589.462
+  value: 3602.46
   currency: EUR
   source: morningstar
 - date: '2023-12-28'
-  value: 1590.284
+  value: 3603.02
   currency: EUR
   source: morningstar
 - date: '2023-12-29'
-  value: 1591.054
+  value: 3604.28
   currency: EUR
   source: morningstar
 - date: '2024-01-02'
-  value: 1592.303
+  value: 3605.28
   currency: EUR
   source: morningstar
 - date: '2024-01-03'
-  value: 1592.064
+  value: 3605.41
   currency: EUR
   source: morningstar
 - date: '2024-01-04'
-  value: 1594.141
+  value: 3605.87
   currency: EUR
   source: morningstar
 - date: '2024-01-05'
-  value: 1594.836
+  value: 3606.46
   currency: EUR
   source: morningstar
 - date: '2024-01-08'
-  value: 1596.461
+  value: 3606.75
   currency: EUR
   source: morningstar
 - date: '2024-01-09'
-  value: 1596.813
+  value: 3607.15
   currency: EUR
   source: morningstar
 - date: '2024-01-10'
-  value: 1598.727
+  value: 3607.53
   currency: EUR
   source: morningstar
 - date: '2024-01-11'
-  value: 1596.946
+  value: 3608.06
   currency: EUR
   source: morningstar
 - date: '2024-01-12'
-  value: 1595.166
+  value: 3608.61
   currency: EUR
   source: morningstar
 - date: '2024-01-15'
-  value: 1589.578
+  value: 3609.54
   currency: EUR
   source: morningstar
 - date: '2024-01-16'
-  value: 1584.586
+  value: 3610.03
   currency: EUR
   source: morningstar
 - date: '2024-01-17'
-  value: 1579.898
+  value: 3610.35
   currency: EUR
   source: morningstar
 - date: '2024-01-18'
-  value: 1580.89
+  value: 3610.71
   currency: EUR
   source: morningstar
 - date: '2024-01-19'
-  value: 1580.868
+  value: 3611.39
   currency: EUR
   source: morningstar
 - date: '2024-01-22'
-  value: 1584.336
+  value: 3612.06
   currency: EUR
   source: morningstar
 - date: '2024-01-23'
-  value: 1585.445
+  value: 3612.59
   currency: EUR
   source: morningstar
 - date: '2024-01-24'
-  value: 1588.157
+  value: 3613.01
   currency: EUR
   source: morningstar
 - date: '2024-01-25'
-  value: 1589.015
+  value: 3613.58
   currency: EUR
   source: morningstar
 - date: '2024-01-26'
-  value: 1590.371
+  value: 3614.54
   currency: EUR
   source: morningstar
 - date: '2024-01-29'
-  value: 1589.063
+  value: 3615.29
   currency: EUR
   source: morningstar
 - date: '2024-01-30'
-  value: 1588.084
+  value: 3615.92
   currency: EUR
   source: morningstar
 - date: '2024-01-31'
-  value: 1585.743
+  value: 3616.22
   currency: EUR
   source: morningstar
 - date: '2024-02-01'
-  value: 1581.743
+  value: 3617.04
   currency: EUR
   source: morningstar
 - date: '2024-02-02'
-  value: 1583.258
+  value: 3617.56
   currency: EUR
   source: morningstar
 - date: '2024-02-05'
-  value: 1582.585
+  value: 3618.01
   currency: EUR
   source: morningstar
 - date: '2024-02-06'
-  value: 1583.105
+  value: 3618.44
   currency: EUR
   source: morningstar
 - date: '2024-02-07'
-  value: 1582.107
+  value: 3618.8
   currency: EUR
   source: morningstar
 - date: '2024-02-08'
-  value: 1583.026
+  value: 3619.4
   currency: EUR
   source: morningstar
 - date: '2024-02-09'
-  value: 1584.58
+  value: 3619.68
   currency: EUR
   source: morningstar
 - date: '2024-02-12'
-  value: 1585.232
+  value: 3620.6
   currency: EUR
   source: morningstar
 - date: '2024-02-13'
-  value: 1584.333
+  value: 3621.16
   currency: EUR
   source: morningstar
 - date: '2024-02-14'
-  value: 1583.983
+  value: 3621.48
   currency: EUR
   source: morningstar
 - date: '2024-02-15'
-  value: 1584.826
+  value: 3622.01
   currency: EUR
   source: morningstar
 - date: '2024-02-16'
-  value: 1585.998
+  value: 3622.64
   currency: EUR
   source: morningstar
 - date: '2024-02-19'
-  value: 1584.402
+  value: 3623.19
   currency: EUR
   source: morningstar
 - date: '2024-02-20'
-  value: 1585.442
+  value: 3623.73
   currency: EUR
   source: morningstar
 - date: '2024-02-21'
-  value: 1585.771
+  value: 3624.2
   currency: EUR
   source: morningstar
 - date: '2024-02-22'
-  value: 1588.72
+  value: 3624.73
   currency: EUR
   source: morningstar
 - date: '2024-02-23'
-  value: 1588.812
+  value: 3625.27
   currency: EUR
   source: morningstar
 - date: '2024-02-26'
-  value: 1588.323
+  value: 3626.04
   currency: EUR
   source: morningstar
 - date: '2024-02-27'
-  value: 1589.262
+  value: 3626.54
   currency: EUR
   source: morningstar
 - date: '2024-02-28'
-  value: 1589.519
+  value: 3626.98
   currency: EUR
   source: morningstar
 - date: '2024-02-29'
-  value: 1589.912
+  value: 3627.55
   currency: EUR
   source: morningstar
 - date: '2024-03-01'
-  value: 1591.693
+  value: 3628.35
   currency: EUR
   source: morningstar
 - date: '2024-03-04'
-  value: 1593.257
+  value: 3628.89
   currency: EUR
   source: morningstar
 - date: '2024-03-05'
-  value: 1594.181
+  value: 3629.61
   currency: EUR
   source: morningstar
 - date: '2024-03-06'
-  value: 1595.884
+  value: 3629.98
   currency: EUR
   source: morningstar
 - date: '2024-03-07'
-  value: 1597.471
+  value: 3630.62
   currency: EUR
   source: morningstar
 - date: '2024-03-08'
-  value: 1598.159
+  value: 3631.23
   currency: EUR
   source: morningstar
 - date: '2024-03-11'
-  value: 1597.81
+  value: 3632.08
   currency: EUR
   source: morningstar
 - date: '2024-03-12'
-  value: 1598.908
+  value: 3632.51
   currency: EUR
   source: morningstar
 - date: '2024-03-13'
-  value: 1597.93
+  value: 3633.07
   currency: EUR
   source: morningstar
 - date: '2024-03-14'
-  value: 1598.153
+  value: 3633.59
   currency: EUR
   source: morningstar
 - date: '2024-03-15'
-  value: 1598.042
+  value: 3634.27
   currency: EUR
   source: morningstar
 - date: '2024-03-18'
-  value: 1598.858
+  value: 3634.98
   currency: EUR
   source: morningstar
 - date: '2024-03-19'
-  value: 1596.955
+  value: 3635.62
   currency: EUR
   source: morningstar
 - date: '2024-03-20'
-  value: 1597.457
+  value: 3636.17
   currency: EUR
   source: morningstar
 - date: '2024-03-21'
-  value: 1599.289
+  value: 3636.47
   currency: EUR
   source: morningstar
 - date: '2024-03-22'
-  value: 1599.599
+  value: 3637.18
   currency: EUR
   source: morningstar
 - date: '2024-03-25'
-  value: 1600.444
+  value: 3638.57
   currency: EUR
   source: morningstar
 - date: '2024-03-26'
-  value: 1599.024
+  value: 3639.14
   currency: EUR
   source: morningstar
 - date: '2024-03-27'
-  value: 1600.153
+  value: 3639.78
   currency: EUR
   source: morningstar
 - date: '2024-03-28'
-  value: 1600.318
+  value: 3640.49
   currency: EUR
   source: morningstar
 - date: '2024-04-02'
-  value: 1600.212
+  value: 3642.02
   currency: EUR
   source: morningstar
 - date: '2024-04-03'
-  value: 1602.081
+  value: 3642.59
   currency: EUR
   source: morningstar
 - date: '2024-04-04'
-  value: 1603.285
+  value: 3643.18
   currency: EUR
   source: morningstar
 - date: '2024-04-05'
-  value: 1603.175
+  value: 3643.76
   currency: EUR
   source: morningstar
 - date: '2024-04-08'
-  value: 1603.136
+  value: 3644.44
   currency: EUR
   source: morningstar
 - date: '2024-04-09'
-  value: 1607.084
+  value: 3644.98
   currency: EUR
   source: morningstar
 - date: '2024-04-10'
-  value: 1607.188
+  value: 3645.39
   currency: EUR
   source: morningstar
 - date: '2024-04-11'
-  value: 1606.875
+  value: 3645.88
   currency: EUR
   source: morningstar
 - date: '2024-04-12'
-  value: 1605.242
+  value: 3646.45
   currency: EUR
   source: morningstar
 - date: '2024-04-15'
-  value: 1604.235
+  value: 3647.15
   currency: EUR
   source: morningstar
 - date: '2024-04-16'
-  value: 1601.462
+  value: 3647.84
   currency: EUR
   source: morningstar
 - date: '2024-04-17'
-  value: 1603.284
+  value: 3648.22
   currency: EUR
   source: morningstar
 - date: '2024-04-18'
-  value: 1605.145
+  value: 3648.61
   currency: EUR
   source: morningstar
 - date: '2024-04-19'
-  value: 1605.853
+  value: 3649.15
   currency: EUR
   source: morningstar
 - date: '2024-04-22'
-  value: 1607.854
+  value: 3649.77
   currency: EUR
   source: morningstar
 - date: '2024-04-23'
-  value: 1610.255
+  value: 3650.49
   currency: EUR
   source: morningstar
 - date: '2024-04-24'
-  value: 1610.228
+  value: 3650.82
   currency: EUR
   source: morningstar
 - date: '2024-04-25'
-  value: 1609.27
+  value: 3651.49
   currency: EUR
   source: morningstar
 - date: '2024-04-26'
-  value: 1610.19
+  value: 3652.1
   currency: EUR
   source: morningstar
 - date: '2024-04-29'
-  value: 1611.404
+  value: 3653.0
   currency: EUR
   source: morningstar
 - date: '2024-04-30'
-  value: 1610.342
+  value: 3653.66
   currency: EUR
   source: morningstar
 - date: '2024-05-02'
-  value: 1613.485
+  value: 3654.64
   currency: EUR
   source: morningstar
 - date: '2024-05-03'
-  value: 1613.702
+  value: 3655.01
   currency: EUR
   source: morningstar
 - date: '2024-05-06'
-  value: 1615.056
+  value: 3656.2
   currency: EUR
   source: morningstar
 - date: '2024-05-07'
-  value: 1615.501
-  currency: EUR
-  source: morningstar
-- date: '2024-05-08'
-  value: 1616.424
+  value: 3656.82
   currency: EUR
   source: morningstar
 - date: '2024-05-10'
-  value: 1617.062
+  value: 3658.17
   currency: EUR
   source: morningstar
 - date: '2024-05-13'
-  value: 1617.465
+  value: 3659.28
   currency: EUR
   source: morningstar
 - date: '2024-05-14'
-  value: 1618.216
+  value: 3659.86
   currency: EUR
   source: morningstar
 - date: '2024-05-15'
-  value: 1618.486
+  value: 3660.16
   currency: EUR
   source: morningstar
 - date: '2024-05-16'
-  value: 1617.977
+  value: 3660.74
   currency: EUR
   source: morningstar
 - date: '2024-05-17'
-  value: 1618.562
+  value: 3661.25
   currency: EUR
   source: morningstar
 - date: '2024-05-21'
-  value: 1617.617
+  value: 3662.59
   currency: EUR
   source: morningstar
 - date: '2024-05-22'
-  value: 1618.588
+  value: 3663.05
   currency: EUR
   source: morningstar
 - date: '2024-05-23'
-  value: 1618.9
+  value: 3663.61
   currency: EUR
   source: morningstar
 - date: '2024-05-24'
-  value: 1619.372
+  value: 3664.07
   currency: EUR
   source: morningstar
 - date: '2024-05-27'
-  value: 1620.507
+  value: 3664.83
   currency: EUR
   source: morningstar
 - date: '2024-05-28'
-  value: 1619.851
+  value: 3665.44
   currency: EUR
   source: morningstar
 - date: '2024-05-29'
-  value: 1619.2
+  value: 3665.85
   currency: EUR
   source: morningstar
 - date: '2024-05-30'
-  value: 1622.36
+  value: 3666.27
   currency: EUR
   source: morningstar
 - date: '2024-05-31'
-  value: 1623.887
+  value: 3666.82
   currency: EUR
   source: morningstar
 - date: '2024-06-03'
-  value: 1624.704
+  value: 3667.83
   currency: EUR
   source: morningstar
 - date: '2024-06-04'
-  value: 1623.575
+  value: 3668.39
   currency: EUR
   source: morningstar
 - date: '2024-06-05'
-  value: 1623.481
+  value: 3668.91
   currency: EUR
   source: morningstar
 - date: '2024-06-06'
-  value: 1623.734
+  value: 3669.44
   currency: EUR
   source: morningstar
 - date: '2024-06-07'
-  value: 1624.532
+  value: 3669.93
   currency: EUR
   source: morningstar
 - date: '2024-06-10'
-  value: 1622.269
+  value: 3670.72
   currency: EUR
   source: morningstar
 - date: '2024-06-11'
-  value: 1620.168
+  value: 3671.36
   currency: EUR
   source: morningstar
 - date: '2024-06-12'
-  value: 1621.752
+  value: 3671.92
   currency: EUR
   source: morningstar
 - date: '2024-06-13'
-  value: 1618.34
+  value: 3672.32
   currency: EUR
   source: morningstar
 - date: '2024-06-14'
-  value: 1608.887
+  value: 3672.62
   currency: EUR
   source: morningstar
 - date: '2024-06-17'
-  value: 1608.115
+  value: 3673.41
   currency: EUR
   source: morningstar
 - date: '2024-06-18'
-  value: 1612.036
+  value: 3674.08
   currency: EUR
   source: morningstar
 - date: '2024-06-19'
-  value: 1613.534
+  value: 3674.46
   currency: EUR
   source: morningstar
 - date: '2024-06-20'
-  value: 1617.242
+  value: 3675.0
   currency: EUR
   source: morningstar
 - date: '2024-06-21'
-  value: 1616.715
+  value: 3675.42
   currency: EUR
   source: morningstar
 - date: '2024-06-24'
-  value: 1618.113
+  value: 3676.16
   currency: EUR
   source: morningstar
 - date: '2024-06-25'
-  value: 1618.226
+  value: 3676.95
   currency: EUR
   source: morningstar
 - date: '2024-06-26'
-  value: 1617.568
+  value: 3677.37
   currency: EUR
   source: morningstar
 - date: '2024-06-27'
-  value: 1617.311
+  value: 3677.83
   currency: EUR
   source: morningstar
 - date: '2024-06-28'
-  value: 1617.563
+  value: 3678.31
   currency: EUR
   source: morningstar
 - date: '2024-07-01'
-  value: 1621.71
+  value: 3678.97
   currency: EUR
   source: morningstar
 - date: '2024-07-02'
-  value: 1623.251
+  value: 3679.63
   currency: EUR
   source: morningstar
 - date: '2024-07-03'
-  value: 1625.386
+  value: 3680.22
   currency: EUR
   source: morningstar
 - date: '2024-07-04'
-  value: 1625.666
+  value: 3680.74
   currency: EUR
   source: morningstar
 - date: '2024-07-05'
-  value: 1627.623
+  value: 3681.17
   currency: EUR
   source: morningstar
 - date: '2024-07-08'
-  value: 1627.715
+  value: 3682.02
   currency: EUR
   source: morningstar
 - date: '2024-07-09'
-  value: 1626.45
+  value: 3682.57
   currency: EUR
   source: morningstar
 - date: '2024-07-10'
-  value: 1628.979
+  value: 3682.96
   currency: EUR
   source: morningstar
 - date: '2024-07-11'
-  value: 1633.575
+  value: 3683.39
   currency: EUR
   source: morningstar
 - date: '2024-07-12'
-  value: 1633.145
+  value: 3684.06
   currency: EUR
   source: morningstar
 - date: '2024-07-15'
-  value: 1633.458
+  value: 3684.61
   currency: EUR
   source: morningstar
 - date: '2024-07-16'
-  value: 1633.2
+  value: 3685.32
   currency: EUR
   source: morningstar
 - date: '2024-07-17'
-  value: 1634.715
+  value: 3685.85
   currency: EUR
   source: morningstar
 - date: '2024-07-18'
-  value: 1635.444
+  value: 3686.29
   currency: EUR
   source: morningstar
 - date: '2024-07-19'
-  value: 1634.506
+  value: 3686.83
   currency: EUR
   source: morningstar
 - date: '2024-07-22'
-  value: 1635.049
+  value: 3687.57
   currency: EUR
   source: morningstar
 - date: '2024-07-23'
-  value: 1634.707
+  value: 3688.14
   currency: EUR
   source: morningstar
 - date: '2024-07-24'
-  value: 1635.422
+  value: 3688.5
   currency: EUR
   source: morningstar
 - date: '2024-07-25'
-  value: 1634.887
+  value: 3688.96
   currency: EUR
   source: morningstar
 - date: '2024-07-26'
-  value: 1635.021
+  value: 3689.55
   currency: EUR
   source: morningstar
 - date: '2024-07-29'
-  value: 1635.345
+  value: 3690.53
   currency: EUR
   source: morningstar
 - date: '2024-07-30'
-  value: 1635.446
+  value: 3691.1
   currency: EUR
   source: morningstar
 - date: '2024-07-31'
-  value: 1635.446
+  value: 3691.49
   currency: EUR
   source: morningstar
 - date: '2024-08-01'
-  value: 1634.326
+  value: 3691.95
   currency: EUR
   source: morningstar
 - date: '2024-08-02'
-  value: 1630.398
+  value: 3692.46
   currency: EUR
   source: morningstar
 - date: '2024-08-05'
-  value: 1623.793
+  value: 3693.24
   currency: EUR
   source: morningstar
 - date: '2024-08-06'
-  value: 1627.607
+  value: 3694.02
   currency: EUR
   source: morningstar
 - date: '2024-08-07'
-  value: 1633.131
+  value: 3694.31
   currency: EUR
   source: morningstar
 - date: '2024-08-08'
-  value: 1633.044
+  value: 3694.78
   currency: EUR
   source: morningstar
 - date: '2024-08-09'
-  value: 1633.633
+  value: 3695.11
   currency: EUR
   source: morningstar
 - date: '2024-08-12'
-  value: 1634.51
+  value: 3696.06
   currency: EUR
   source: morningstar
 - date: '2024-08-13'
-  value: 1635.75
+  value: 3696.5
   currency: EUR
   source: morningstar
 - date: '2024-08-14'
-  value: 1637.838
+  value: 3696.91
   currency: EUR
   source: morningstar
 - date: '2024-08-16'
-  value: 1638.615
+  value: 3697.77
   currency: EUR
   source: morningstar
 - date: '2024-08-19'
-  value: 1640.458
+  value: 3698.89
   currency: EUR
   source: morningstar
 - date: '2024-08-20'
-  value: 1640.01
+  value: 3699.32
   currency: EUR
   source: morningstar
 - date: '2024-08-21'
-  value: 1640.842
+  value: 3699.84
   currency: EUR
   source: morningstar
 - date: '2024-08-22'
-  value: 1640.181
+  value: 3700.28
   currency: EUR
   source: morningstar
 - date: '2024-08-23'
-  value: 1639.988
+  value: 3700.7
   currency: EUR
   source: morningstar
 - date: '2024-08-26'
-  value: 1641.224
+  value: 3701.58
   currency: EUR
   source: morningstar
 - date: '2024-08-27'
-  value: 1643.601
+  value: 3702.24
   currency: EUR
   source: morningstar
 - date: '2024-08-28'
-  value: 1644.883
+  value: 3702.6
   currency: EUR
   source: morningstar
 - date: '2024-08-29'
-  value: 1644.897
+  value: 3703.06
   currency: EUR
   source: morningstar
 - date: '2024-08-30'
-  value: 1645.704
+  value: 3703.45
   currency: EUR
   source: morningstar
 - date: '2024-09-02'
-  value: 1644.654
+  value: 3704.42
   currency: EUR
   source: morningstar
 - date: '2024-09-03'
-  value: 1643.891
+  value: 3705.04
   currency: EUR
   source: morningstar
 - date: '2024-09-04'
-  value: 1644.813
+  value: 3705.4
   currency: EUR
   source: morningstar
 - date: '2024-09-05'
-  value: 1645.646
+  value: 3705.99
   currency: EUR
   source: morningstar
 - date: '2024-09-06'
-  value: 1642.818
+  value: 3706.39
   currency: EUR
   source: morningstar
 - date: '2024-09-09'
-  value: 1643.321
+  value: 3707.25
   currency: EUR
   source: morningstar
 - date: '2024-09-10'
-  value: 1640.174
+  value: 3707.81
   currency: EUR
   source: morningstar
 - date: '2024-09-11'
-  value: 1639.68
+  value: 3708.0
   currency: EUR
   source: morningstar
 - date: '2024-09-12'
-  value: 1639.522
+  value: 3708.55
   currency: EUR
   source: morningstar
 - date: '2024-09-13'
-  value: 1638.918
+  value: 3709.08
   currency: EUR
   source: morningstar
 - date: '2024-09-16'
-  value: 1638.974
+  value: 3709.95
   currency: EUR
   source: morningstar
 - date: '2024-09-17'
-  value: 1641.479
+  value: 3710.48
   currency: EUR
   source: morningstar
 - date: '2024-09-18'
-  value: 1640.394
+  value: 3710.89
   currency: EUR
   source: morningstar
 - date: '2024-09-19'
-  value: 1645.536
+  value: 3711.55
   currency: EUR
   source: morningstar
 - date: '2024-09-20'
-  value: 1638.454
+  value: 3711.91
   currency: EUR
   source: morningstar
 - date: '2024-09-23'
-  value: 1635.279
+  value: 3712.58
   currency: EUR
   source: morningstar
 - date: '2024-09-24'
-  value: 1639.157
+  value: 3713.16
   currency: EUR
   source: morningstar
 - date: '2024-09-25'
-  value: 1638.738
+  value: 3713.6
   currency: EUR
   source: morningstar
 - date: '2024-09-26'
-  value: 1641.02
+  value: 3714.22
   currency: EUR
   source: morningstar
 - date: '2024-09-27'
-  value: 1643.514
+  value: 3714.53
   currency: EUR
   source: morningstar
 - date: '2024-09-30'
-  value: 1636.613
+  value: 3715.32
   currency: EUR
   source: morningstar
 - date: '2024-10-01'
-  value: 1634.595
+  value: 3715.98
   currency: EUR
   source: morningstar
 - date: '2024-10-02'
-  value: 1635.307
+  value: 3716.31
   currency: EUR
   source: morningstar
 - date: '2024-10-03'
-  value: 1634.369
+  value: 3716.64
   currency: EUR
   source: morningstar
 - date: '2024-10-04'
-  value: 1636.117
+  value: 3717.21
   currency: EUR
   source: morningstar
 - date: '2024-10-07'
-  value: 1635.746
+  value: 3718.18
   currency: EUR
   source: morningstar
 - date: '2024-10-08'
-  value: 1636.037
+  value: 3718.79
   currency: EUR
   source: morningstar
 - date: '2024-10-09'
-  value: 1639.343
+  value: 3719.05
   currency: EUR
   source: morningstar
 - date: '2024-10-10'
-  value: 1640.444
+  value: 3719.57
   currency: EUR
   source: morningstar
 - date: '2024-10-11'
-  value: 1638.705
+  value: 3719.94
   currency: EUR
   source: morningstar
 - date: '2024-10-14'
-  value: 1638.808
+  value: 3720.74
   currency: EUR
   source: morningstar
 - date: '2024-10-15'
-  value: 1638.887
+  value: 3721.56
   currency: EUR
   source: morningstar
 - date: '2024-10-16'
-  value: 1639.016
+  value: 3721.74
   currency: EUR
   source: morningstar
 - date: '2024-10-17'
-  value: 1641.567
+  value: 3722.16
   currency: EUR
   source: morningstar
 - date: '2024-10-18'
-  value: 1642.497
+  value: 3722.59
   currency: EUR
   source: morningstar
 - date: '2024-10-21'
-  value: 1642.569
+  value: 3723.48
   currency: EUR
   source: morningstar
 - date: '2024-10-22'
-  value: 1642.925
+  value: 3723.82
   currency: EUR
   source: morningstar
 - date: '2024-10-23'
-  value: 1642.171
+  value: 3724.3
   currency: EUR
   source: morningstar
 - date: '2024-10-24'
-  value: 1643.295
+  value: 3724.74
   currency: EUR
   source: morningstar
 - date: '2024-10-25'
-  value: 1646.036
+  value: 3725.19
   currency: EUR
   source: morningstar
 - date: '2024-10-28'
-  value: 1645.889
+  value: 3726.07
   currency: EUR
   source: morningstar
 - date: '2024-10-29'
-  value: 1647.04
+  value: 3726.62
   currency: EUR
   source: morningstar
 - date: '2024-10-30'
-  value: 1644.878
+  value: 3727.01
   currency: EUR
   source: morningstar
 - date: '2024-10-31'
-  value: 1644.529
+  value: 3727.34
   currency: EUR
   source: morningstar
 - date: '2024-11-04'
-  value: 1644.927
+  value: 3728.44
   currency: EUR
   source: morningstar
 - date: '2024-11-05'
-  value: 1641.915
+  value: 3728.88
   currency: EUR
   source: morningstar
 - date: '2024-11-06'
-  value: 1641.849
+  value: 3729.22
   currency: EUR
   source: morningstar
 - date: '2024-11-07'
-  value: 1643.184
+  value: 3729.66
   currency: EUR
   source: morningstar
 - date: '2024-11-08'
-  value: 1641.521
-  currency: EUR
-  source: morningstar
-- date: '2024-11-11'
-  value: 1641.935
+  value: 3730.1
   currency: EUR
   source: morningstar
 - date: '2024-11-12'
-  value: 1641.034
+  value: 3731.23
   currency: EUR
   source: morningstar
 - date: '2024-11-13'
-  value: 1639.513
+  value: 3731.65
   currency: EUR
   source: morningstar
 - date: '2024-11-14'
-  value: 1644.666
+  value: 3732.06
   currency: EUR
   source: morningstar
 - date: '2024-11-15'
-  value: 1643.748
+  value: 3732.35
   currency: EUR
   source: morningstar
 - date: '2024-11-18'
-  value: 1643.495
+  value: 3733.06
   currency: EUR
   source: morningstar
 - date: '2024-11-19'
-  value: 1640.5
+  value: 3733.58
   currency: EUR
   source: morningstar
 - date: '2024-11-20'
-  value: 1642.57
+  value: 3733.99
   currency: EUR
   source: morningstar
 - date: '2024-11-21'
-  value: 1643.262
+  value: 3734.52
   currency: EUR
   source: morningstar
 - date: '2024-11-22'
-  value: 1644.954
+  value: 3734.84
   currency: EUR
   source: morningstar
 - date: '2024-11-25'
-  value: 1646.774
+  value: 3735.36
   currency: EUR
   source: morningstar
 - date: '2024-11-26'
-  value: 1647.396
+  value: 3735.67
   currency: EUR
   source: morningstar
 - date: '2024-11-27'
-  value: 1646.777
+  value: 3736.18
   currency: EUR
   source: morningstar
 - date: '2024-11-28'
-  value: 1646.252
+  value: 3736.85
   currency: EUR
   source: morningstar
 - date: '2024-11-29'
-  value: 1646.873
+  value: 3737.23
   currency: EUR
   source: morningstar
 - date: '2024-12-02'
-  value: 1642.738
+  value: 3737.8
   currency: EUR
   source: morningstar
 - date: '2024-12-03'
-  value: 1642.333
+  value: 3738.21
   currency: EUR
   source: morningstar
 - date: '2024-12-04'
-  value: 1642.338
+  value: 3738.73
   currency: EUR
   source: morningstar
 - date: '2024-12-05'
-  value: 1644.944
+  value: 3739.21
   currency: EUR
   source: morningstar
 - date: '2024-12-06'
-  value: 1648.064
+  value: 3739.76
   currency: EUR
   source: morningstar
 - date: '2024-12-09'
-  value: 1649.362
+  value: 3740.48
   currency: EUR
   source: morningstar
 - date: '2024-12-10'
-  value: 1649.717
+  value: 3740.93
   currency: EUR
   source: morningstar
 - date: '2024-12-11'
-  value: 1646.569
+  value: 3741.07
   currency: EUR
   source: morningstar
 - date: '2024-12-12'
-  value: 1646.099
+  value: 3741.44
   currency: EUR
   source: morningstar
 - date: '2024-12-13'
-  value: 1643.567
+  value: 3741.94
   currency: EUR
   source: morningstar
 - date: '2024-12-16'
-  value: 1647.233
+  value: 3742.75
   currency: EUR
   source: morningstar
 - date: '2024-12-17'
-  value: 1641.127
+  value: 3743.32
   currency: EUR
   source: morningstar
 - date: '2024-12-18'
-  value: 1646.307
+  value: 3743.5
   currency: EUR
   source: morningstar
 - date: '2024-12-19'
-  value: 1631.65
+  value: 3743.89
   currency: EUR
   source: morningstar
 - date: '2024-12-20'
-  value: 1638.651
+  value: 3744.33
   currency: EUR
   source: morningstar
 - date: '2024-12-23'
-  value: 1643.793
+  value: 3745.09
+  currency: EUR
+  source: morningstar
+- date: '2024-12-24'
+  value: 3745.67
   currency: EUR
   source: morningstar
 - date: '2024-12-27'
-  value: 1644.385
+  value: 3746.36
   currency: EUR
   source: morningstar
 - date: '2024-12-30'
-  value: 1649.263
+  value: 3747.24
   currency: EUR
   source: morningstar
 - date: '2024-12-31'
-  value: 1652.465
+  value: 3747.79
   currency: EUR
   source: morningstar
 - date: '2025-01-02'
-  value: 1655.246
+  value: 3748.31
   currency: EUR
   source: morningstar
 - date: '2025-01-03'
-  value: 1658.654
+  value: 3748.9
   currency: EUR
   source: morningstar
 - date: '2025-01-06'
-  value: 1661.63
+  value: 3749.58
   currency: EUR
   source: morningstar
 - date: '2025-01-07'
-  value: 1657.084
+  value: 3750.02
   currency: EUR
   source: morningstar
 - date: '2025-01-08'
-  value: 1650.111
+  value: 3750.19
   currency: EUR
   source: morningstar
 - date: '2025-01-09'
-  value: 1651.881
+  value: 3750.65
   currency: EUR
   source: morningstar
 - date: '2025-01-10'
-  value: 1653.651
+  value: 3750.99
   currency: EUR
   source: morningstar
 - date: '2025-01-13'
-  value: 1650.581
+  value: 3751.61
   currency: EUR
   source: morningstar
 - date: '2025-01-14'
-  value: 1652.727
+  value: 3752.23
   currency: EUR
   source: morningstar
 - date: '2025-01-15'
-  value: 1651.343
+  value: 3752.54
   currency: EUR
   source: morningstar
 - date: '2025-01-16'
-  value: 1650.803
+  value: 3752.93
   currency: EUR
   source: morningstar
 - date: '2025-01-17'
-  value: 1652.989
+  value: 3753.47
   currency: EUR
   source: morningstar
 - date: '2025-01-20'
-  value: 1652.465
+  value: 3754.12
   currency: EUR
   source: morningstar
 - date: '2025-01-21'
-  value: 1655.756
+  value: 3754.6
   currency: EUR
   source: morningstar
 - date: '2025-01-22'
-  value: 1656.841
+  value: 3754.99
   currency: EUR
   source: morningstar
 - date: '2025-01-23'
-  value: 1653.055
+  value: 3755.42
   currency: EUR
   source: morningstar
 - date: '2025-01-24'
-  value: 1654.688
+  value: 3755.94
   currency: EUR
   source: morningstar
 - date: '2025-01-27'
-  value: 1654.735
+  value: 3756.72
   currency: EUR
   source: morningstar
 - date: '2025-01-28'
-  value: 1657.105
+  value: 3757.19
   currency: EUR
   source: morningstar
 - date: '2025-01-29'
-  value: 1654.613
+  value: 3757.5
   currency: EUR
   source: morningstar
 - date: '2025-01-30'
-  value: 1654.302
+  value: 3757.97
   currency: EUR
   source: morningstar
 - date: '2025-01-31'
-  value: 1652.967
+  value: 3758.28
   currency: EUR
   source: morningstar
 - date: '2025-02-03'
-  value: 1654.779
+  value: 3759.04
   currency: EUR
   source: morningstar
 - date: '2025-02-04'
-  value: 1654.321
+  value: 3759.28
   currency: EUR
   source: morningstar
 - date: '2025-02-05'
-  value: 1656.989
+  value: 3759.68
   currency: EUR
   source: morningstar
 - date: '2025-02-06'
-  value: 1657.712
+  value: 3760.14
   currency: EUR
   source: morningstar
 - date: '2025-02-07'
-  value: 1658.039
+  value: 3760.53
   currency: EUR
   source: morningstar
 - date: '2025-02-10'
-  value: 1657.748
+  value: 3760.87
   currency: EUR
   source: morningstar
 - date: '2025-02-11'
-  value: 1657.562
+  value: 3761.55
   currency: EUR
   source: morningstar
 - date: '2025-02-12'
-  value: 1658.185
+  value: 3761.83
   currency: EUR
   source: morningstar
 - date: '2025-02-13'
-  value: 1658.498
+  value: 3762.16
   currency: EUR
   source: morningstar
 - date: '2025-02-14'
-  value: 1662.715
+  value: 3762.7
   currency: EUR
   source: morningstar
 - date: '2025-02-17'
-  value: 1662.899
+  value: 3763.22
   currency: EUR
   source: morningstar
 - date: '2025-02-18'
-  value: 1662.221
+  value: 3763.57
   currency: EUR
   source: morningstar
 - date: '2025-02-19'
-  value: 1662.613
+  value: 3763.98
   currency: EUR
   source: morningstar
 - date: '2025-02-20'
-  value: 1661.745
+  value: 3764.31
   currency: EUR
   source: morningstar
 - date: '2025-02-21'
-  value: 1659.961
+  value: 3765.18
   currency: EUR
   source: morningstar
 - date: '2025-02-24'
-  value: 1662.346
+  value: 3765.84
   currency: EUR
   source: morningstar
 - date: '2025-02-25'
-  value: 1661.402
+  value: 3766.24
   currency: EUR
   source: morningstar
 - date: '2025-02-26'
-  value: 1664.134
+  value: 3766.76
   currency: EUR
   source: morningstar
 - date: '2025-02-27'
-  value: 1664.019
+  value: 3766.99
   currency: EUR
   source: morningstar
 - date: '2025-02-28'
-  value: 1664.471
+  value: 3767.39
   currency: EUR
   source: morningstar
 - date: '2025-03-03'
-  value: 1665.282
+  value: 3767.81
   currency: EUR
   source: morningstar
 - date: '2025-03-04'
-  value: 1661.045
+  value: 3768.38
   currency: EUR
   source: morningstar
 - date: '2025-03-05'
-  value: 1661.303
+  value: 3768.81
   currency: EUR
   source: morningstar
 - date: '2025-03-06'
-  value: 1666.419
+  value: 3769.08
   currency: EUR
   source: morningstar
 - date: '2025-03-07'
-  value: 1667.207
+  value: 3769.56
   currency: EUR
   source: morningstar
 - date: '2025-03-10'
-  value: 1663.028
+  value: 3770.04
   currency: EUR
   source: morningstar
 - date: '2025-03-11'
-  value: 1664.453
+  value: 3770.43
   currency: EUR
   source: morningstar
 - date: '2025-03-12'
-  value: 1668.516
+  value: 3771.07
   currency: EUR
   source: morningstar
 - date: '2025-03-13'
-  value: 1667.089
+  value: 3771.13
   currency: EUR
   source: morningstar
 - date: '2025-03-14'
-  value: 1670.288
+  value: 3771.61
   currency: EUR
   source: morningstar
 - date: '2025-03-17'
-  value: 1671.346
+  value: 3772.76
   currency: EUR
   source: morningstar
 - date: '2025-03-18'
-  value: 1671.833
+  value: 3772.43
   currency: EUR
   source: morningstar
 - date: '2025-03-19'
-  value: 1674.771
+  value: 3772.72
   currency: EUR
   source: morningstar
 - date: '2025-03-20'
-  value: 1674.646
+  value: 3773.24
   currency: EUR
   source: morningstar
 - date: '2025-03-21'
-  value: 1673.935
+  value: 3773.46
   currency: EUR
   source: morningstar
 - date: '2025-03-24'
-  value: 1676.394
+  value: 3774.0
   currency: EUR
   source: morningstar
 - date: '2025-03-25'
-  value: 1676.84
+  value: 3774.39
   currency: EUR
   source: morningstar
 - date: '2025-03-26'
-  value: 1678.061
+  value: 3774.52
   currency: EUR
   source: morningstar
 - date: '2025-03-27'
-  value: 1676.925
+  value: 3774.75
   currency: EUR
   source: morningstar
 - date: '2025-03-28'
-  value: 1675.429
+  value: 3775.09
   currency: EUR
   source: morningstar
 - date: '2025-03-31'
-  value: 1672.087
+  value: 3775.7
   currency: EUR
   source: morningstar
 - date: '2025-04-01'
-  value: 1672.333
+  value: 3776.38
   currency: EUR
   source: morningstar
 - date: '2025-04-02'
-  value: 1674.072
+  value: 3776.7
   currency: EUR
   source: morningstar
 - date: '2025-04-03'
-  value: 1670.88
+  value: 3777.05
   currency: EUR
   source: morningstar
 - date: '2025-04-04'
-  value: 1655.281
+  value: 3777.25
   currency: EUR
   source: morningstar
 - date: '2025-04-07'
-  value: 1635.933
+  value: 3777.2
   currency: EUR
   source: morningstar
 - date: '2025-04-08'
-  value: 1648.646
+  value: 3777.58
   currency: EUR
   source: morningstar
 - date: '2025-04-09'
-  value: 1642.685
+  value: 3777.86
   currency: EUR
   source: morningstar
 - date: '2025-04-10'
-  value: 1650.027
+  value: 3778.49
   currency: EUR
   source: morningstar
 - date: '2025-04-11'
-  value: 1649.917
+  value: 3778.64
   currency: EUR
   source: morningstar
 - date: '2025-04-14'
-  value: 1658.364
+  value: 3779.48
   currency: EUR
   source: morningstar
 - date: '2025-04-15'
-  value: 1661.932
+  value: 3779.83
   currency: EUR
   source: morningstar
 - date: '2025-04-16'
-  value: 1663.883
+  value: 3780.49
   currency: EUR
   source: morningstar
 - date: '2025-04-17'
-  value: 1665.774
+  value: 3780.79
   currency: EUR
   source: morningstar
 - date: '2025-04-22'
-  value: 1662.072
+  value: 3781.97
   currency: EUR
   source: morningstar
 - date: '2025-04-23'
-  value: 1668.675
+  value: 3782.0
   currency: EUR
   source: morningstar
 - date: '2025-04-24'
-  value: 1670.733
+  value: 3782.71
   currency: EUR
   source: morningstar
 - date: '2025-04-25'
-  value: 1670.715
+  value: 3783.04
   currency: EUR
   source: morningstar
 - date: '2025-04-28'
-  value: 1672.594
+  value: 3783.59
   currency: EUR
   source: morningstar
 - date: '2025-04-29'
-  value: 1674.875
+  value: 3783.96
   currency: EUR
   source: morningstar
 - date: '2025-04-30'
-  value: 1675.918
+  value: 3784.13
   currency: EUR
   source: morningstar
 - date: '2025-05-02'
-  value: 1677.058
+  value: 3784.66
   currency: EUR
   source: morningstar
 - date: '2025-05-05'
-  value: 1675.908
+  value: 3785.22
   currency: EUR
   source: morningstar
 - date: '2025-05-06'
-  value: 1676.049
+  value: 3785.5
   currency: EUR
   source: morningstar
 - date: '2025-05-07'
-  value: 1676.025
+  value: 3785.81
   currency: EUR
   source: morningstar
-- date: '2025-05-08'
-  value: 1678.783
+- date: '2025-05-09'
+  value: 3786.47
   currency: EUR
   source: morningstar
 - date: '2025-05-12'
-  value: 1682.281
+  value: 3787.26
   currency: EUR
   source: morningstar
 - date: '2025-05-13'
-  value: 1686.753
+  value: 3787.83
   currency: EUR
   source: morningstar
 - date: '2025-05-14'
-  value: 1685.687
+  value: 3787.94
   currency: EUR
   source: morningstar
 - date: '2025-05-15'
-  value: 1688.593
+  value: 3788.46
   currency: EUR
   source: morningstar
 - date: '2025-05-16'
-  value: 1690.076
+  value: 3788.66
   currency: EUR
   source: morningstar
 - date: '2025-05-19'
-  value: 1691.474
+  value: 3789.2
   currency: EUR
   source: morningstar
 - date: '2025-05-20'
-  value: 1692.684
+  value: 3789.7
   currency: EUR
   source: morningstar
 - date: '2025-05-21'
-  value: 1692.957
+  value: 3789.72
   currency: EUR
   source: morningstar
 - date: '2025-05-22'
-  value: 1693.965
+  value: 3790.1
   currency: EUR
   source: morningstar
 - date: '2025-05-23'
-  value: 1693.449
+  value: 3790.48
   currency: EUR
   source: morningstar
 - date: '2025-05-26'
-  value: 1695.232
+  value: 3791.02
   currency: EUR
   source: morningstar
 - date: '2025-05-27'
-  value: 1696.898
+  value: 3791.21
   currency: EUR
   source: morningstar
 - date: '2025-05-28'
-  value: 1696.153
+  value: 3791.55
   currency: EUR
   source: morningstar
 - date: '2025-05-30'
-  value: 1701.503
+  value: 3792.39
   currency: EUR
   source: morningstar
 - date: '2025-06-02'
-  value: 1700.783
+  value: 3792.86
   currency: EUR
   source: morningstar
 - date: '2025-06-03'
-  value: 1701.686
+  value: 3793.26
   currency: EUR
   source: morningstar
 - date: '2025-06-04'
-  value: 1700.734
+  value: 3793.64
   currency: EUR
   source: morningstar
 - date: '2025-06-05'
-  value: 1699.62
+  value: 3793.96
   currency: EUR
   source: morningstar
 - date: '2025-06-06'
-  value: 1703.974
+  value: 3794.31
   currency: EUR
   source: morningstar
 - date: '2025-06-10'
-  value: 1706.127
+  value: 3795.36
   currency: EUR
   source: morningstar
 - date: '2025-06-11'
-  value: 1709.086
+  value: 3795.19
   currency: EUR
   source: morningstar
 - date: '2025-06-12'
-  value: 1708.6
+  value: 3795.6
   currency: EUR
   source: morningstar
 - date: '2025-06-13'
-  value: 1705.55
+  value: 3796.18
   currency: EUR
   source: morningstar
 - date: '2025-06-16'
-  value: 1709.663
+  value: 3796.66
   currency: EUR
   source: morningstar
 - date: '2025-06-17'
-  value: 1710.618
+  value: 3796.93
   currency: EUR
   source: morningstar
 - date: '2025-06-18'
-  value: 1711.828
+  value: 3796.95
   currency: EUR
   source: morningstar
 - date: '2025-06-19'
-  value: 1710.375
+  value: 3797.22
   currency: EUR
   source: morningstar
 - date: '2025-06-20'
-  value: 1712.753
+  value: 3797.52
+  currency: EUR
+  source: morningstar
+- date: '2025-06-23'
+  value: 3797.93
   currency: EUR
   source: morningstar
 - date: '2025-06-24'
-  value: 1714.875
+  value: 3798.25
   currency: EUR
   source: morningstar
 - date: '2025-06-25'
-  value: 1715.268
+  value: 3798.52
   currency: EUR
   source: morningstar
 - date: '2025-06-26'
-  value: 1716.093
+  value: 3798.79
   currency: EUR
   source: morningstar
 - date: '2025-06-27'
-  value: 1718.148
+  value: 3798.78
   currency: EUR
   source: morningstar
 - date: '2025-06-30'
-  value: 1720.503
+  value: 3799.31
   currency: EUR
   source: morningstar
 - date: '2025-07-01'
-  value: 1720.224
+  value: 3799.79
   currency: EUR
   source: morningstar
 - date: '2025-07-02'
-  value: 1723.268
+  value: 3799.94
   currency: EUR
   source: morningstar
 - date: '2025-07-03'
-  value: 1721.994
+  value: 3800.24
   currency: EUR
   source: morningstar
 - date: '2025-07-04'
-  value: 1723.472
+  value: 3800.65
   currency: EUR
   source: morningstar
 - date: '2025-07-07'
-  value: 1723.286
+  value: 3801.04
   currency: EUR
   source: morningstar
 - date: '2025-07-08'
-  value: 1724.175
+  value: 3801.38
   currency: EUR
   source: morningstar
 - date: '2025-07-09'
-  value: 1722.939
+  value: 3801.66
   currency: EUR
   source: morningstar
 - date: '2025-07-10'
-  value: 1724.945
+  value: 3801.96
   currency: EUR
   source: morningstar
 - date: '2025-07-11'
-  value: 1724.819
-  currency: EUR
-  source: morningstar
-- date: '2025-07-14'
-  value: 1725.553
+  value: 3802.3
   currency: EUR
   source: morningstar
 - date: '2025-07-15'
-  value: 1724.574
+  value: 3803.01
+  currency: EUR
+  source: morningstar
+- date: '2025-07-16'
+  value: 3803.1
+  currency: EUR
+  source: morningstar
+- date: '2025-07-17'
+  value: 3803.48
+  currency: EUR
+  source: morningstar
+- date: '2025-07-18'
+  value: 3803.77
+  currency: EUR
+  source: morningstar
+- date: '2025-07-21'
+  value: 3804.25
+  currency: EUR
+  source: morningstar
+- date: '2025-07-22'
+  value: 3804.5
   currency: EUR
   source: morningstar
 - date: '2025-07-23'
-  value: 1728.861
+  value: 3804.9
   currency: EUR
   source: morningstar
 - date: '2025-07-24'
-  value: 1729.946
+  value: 3805.36
   currency: EUR
   source: morningstar
 - date: '2025-07-25'
-  value: 1729.377
+  value: 3805.71
   currency: EUR
   source: morningstar
 - date: '2025-07-28'
-  value: 1728.354
+  value: 3806.13
   currency: EUR
   source: morningstar
 - date: '2025-07-29'
-  value: 1731.927
+  value: 3806.34
   currency: EUR
   source: morningstar
 - date: '2025-07-30'
-  value: 1732.138
+  value: 3806.53
   currency: EUR
   source: morningstar
 - date: '2025-07-31'
-  value: 1731.754
+  value: 3806.69
   currency: EUR
   source: morningstar
 - date: '2025-08-01'
-  value: 1732.775
+  value: 3807.13
   currency: EUR
   source: morningstar
 - date: '2025-08-04'
-  value: 1733.405
+  value: 3807.55
   currency: EUR
   source: morningstar
 - date: '2025-08-05'
-  value: 1733.442
+  value: 3807.59
   currency: EUR
   source: morningstar
 - date: '2025-08-06'
-  value: 1732.542
+  value: 3807.84
   currency: EUR
   source: morningstar
 - date: '2025-08-07'
-  value: 1733.097
+  value: 3808.14
   currency: EUR
   source: morningstar
 - date: '2025-08-08'
-  value: 1732.962
+  value: 3808.34
   currency: EUR
   source: morningstar
 - date: '2025-08-11'
-  value: 1733.378
+  value: 3808.53
   currency: EUR
   source: morningstar
 - date: '2025-08-12'
-  value: 1731.818
+  value: 3808.88
   currency: EUR
   source: morningstar
 - date: '2025-08-13'
-  value: 1732.357
+  value: 3809.09
   currency: EUR
   source: morningstar
 - date: '2025-08-14'
-  value: 1732.555
+  value: 3809.35
   currency: EUR
   source: morningstar
 - date: '2025-08-18'
-  value: 1733.916
+  value: 3810.04
   currency: EUR
   source: morningstar
 - date: '2025-08-19'
-  value: 1733.522
+  value: 3810.58
   currency: EUR
   source: morningstar
 - date: '2025-08-20'
-  value: 1734.847
+  value: 3810.76
   currency: EUR
   source: morningstar
 - date: '2025-08-21'
-  value: 1734.936
+  value: 3811.01
   currency: EUR
   source: morningstar
 - date: '2025-08-22'
-  value: 1735.99
+  value: 3811.48
   currency: EUR
   source: morningstar
 - date: '2025-08-25'
-  value: 1735.986
+  value: 3811.67
   currency: EUR
   source: morningstar
 - date: '2025-08-26'
-  value: 1734.347
+  value: 3812.03
   currency: EUR
   source: morningstar
 - date: '2025-08-27'
-  value: 1735.411
+  value: 3812.2
   currency: EUR
   source: morningstar
 - date: '2025-08-28'
-  value: 1736.814
+  value: 3812.42
   currency: EUR
   source: morningstar
 - date: '2025-08-29'
-  value: 1736.318
+  value: 3812.86
   currency: EUR
   source: morningstar
 - date: '2025-09-01'
-  value: 1736.467
+  value: 3813.09
   currency: EUR
   source: morningstar
 - date: '2025-09-02'
-  value: 1736.13
+  value: 3813.53
   currency: EUR
   source: morningstar
 - date: '2025-09-03'
-  value: 1735.443
+  value: 3813.51
   currency: EUR
   source: morningstar
 - date: '2025-09-04'
-  value: 1733.235
+  value: 3813.83
   currency: EUR
   source: morningstar
 - date: '2025-09-05'
-  value: 1733.945
+  value: 3814.2
   currency: EUR
   source: morningstar
 - date: '2025-09-08'
-  value: 1733.948
+  value: 3814.63
   currency: EUR
   source: morningstar
 - date: '2025-09-09'
-  value: 1734.908
+  value: 3814.77
   currency: EUR
   source: morningstar
 - date: '2025-09-10'
-  value: 1732.66
+  value: 3815.05
   currency: EUR
   source: morningstar
 - date: '2025-09-11'
-  value: 1739.563
+  value: 3815.39
   currency: EUR
   source: morningstar
 - date: '2025-09-12'
-  value: 1740.314
+  value: 3815.8
   currency: EUR
   source: morningstar
 - date: '2025-09-15'
-  value: 1741.314
+  value: 3816.35
   currency: EUR
   source: morningstar
 - date: '2025-09-16'
-  value: 1739.658
+  value: 3816.6
   currency: EUR
   source: morningstar
 - date: '2025-09-17'
-  value: 1741.482
+  value: 3816.69
   currency: EUR
   source: morningstar
 - date: '2025-09-18'
-  value: 1738.341
+  value: 3817.15
   currency: EUR
   source: morningstar
 - date: '2025-09-19'
-  value: 1735.205
+  value: 3817.55
   currency: EUR
   source: morningstar
 - date: '2025-09-22'
-  value: 1735.914
+  value: 3818.08
+  currency: EUR
+  source: morningstar
+- date: '2025-09-23'
+  value: 3818.42
   currency: EUR
   source: morningstar
 - date: '2025-09-24'
-  value: 1739.163
+  value: 3818.7
   currency: EUR
   source: morningstar
 - date: '2025-09-25'
-  value: 1740.482
+  value: 3818.65
   currency: EUR
   source: morningstar
 - date: '2025-09-26'
-  value: 1742.847
+  value: 3819.12
   currency: EUR
   source: morningstar
 - date: '2025-09-29'
-  value: 1746.755
+  value: 3819.55
   currency: EUR
   source: morningstar
 - date: '2025-09-30'
-  value: 1750.055
+  value: 3820.04
   currency: EUR
   source: morningstar
 - date: '2025-10-01'
-  value: 1752.32
+  value: 3820.26
   currency: EUR
   source: morningstar
 - date: '2025-10-02'
-  value: 1751.663
+  value: 3820.72
   currency: EUR
   source: morningstar
 - date: '2025-10-03'
-  value: 1751.492
+  value: 3821.09
   currency: EUR
   source: morningstar
 - date: '2025-10-06'
-  value: 1750.839
+  value: 3821.43
   currency: EUR
   source: morningstar
 - date: '2025-10-07'
-  value: 1751.352
+  value: 3821.76
   currency: EUR
   source: morningstar
 - date: '2025-10-08'
-  value: 1751.035
+  value: 3821.9
   currency: EUR
   source: morningstar
 - date: '2025-10-09'
-  value: 1751.907
+  value: 3822.24
   currency: EUR
   source: morningstar
 - date: '2025-10-10'
-  value: 1748.705
+  value: 3822.63
   currency: EUR
   source: morningstar
 - date: '2025-10-13'
-  value: 1752.485
+  value: 3823.01
   currency: EUR
   source: morningstar
 - date: '2025-10-14'
-  value: 1756.818
+  value: 3823.38
   currency: EUR
   source: morningstar
 - date: '2025-10-15'
-  value: 1758.49
+  value: 3823.64
   currency: EUR
   source: morningstar
 - date: '2025-10-16'
-  value: 1757.53
+  value: 3824.04
   currency: EUR
   source: morningstar
 - date: '2025-10-17'
-  value: 1748.539
+  value: 3824.33
   currency: EUR
   source: morningstar
 - date: '2025-10-20'
-  value: 1748.922
+  value: 3824.65
   currency: EUR
   source: morningstar
 - date: '2025-10-21'
-  value: 1748.215
+  value: 3824.95
   currency: EUR
   source: morningstar
 - date: '2025-10-22'
-  value: 1751.65
+  value: 3825.24
   currency: EUR
   source: morningstar
 - date: '2025-10-23'
-  value: 1753.19
+  value: 3825.46
   currency: EUR
   source: morningstar
 - date: '2025-10-24'
-  value: 1755.523
+  value: 3825.7
   currency: EUR
   source: morningstar
 - date: '2025-10-27'
-  value: 1756.138
+  value: 3826.26
   currency: EUR
   source: morningstar
 - date: '2025-10-28'
-  value: 1757.154
+  value: 3826.7
   currency: EUR
   source: morningstar
 - date: '2025-10-29'
-  value: 1755.568
+  value: 3827.01
   currency: EUR
   source: morningstar
 - date: '2025-10-30'
-  value: 1756.27
+  value: 3827.24
   currency: EUR
   source: morningstar
 - date: '2025-10-31'
-  value: 1758.454
+  value: 3827.63
   currency: EUR
   source: morningstar
 - date: '2025-11-03'
-  value: 1756.555
+  value: 3827.97
   currency: EUR
   source: morningstar
 - date: '2025-11-04'
-  value: 1756.31
+  value: 3828.32
   currency: EUR
   source: morningstar
 - date: '2025-11-05'
-  value: 1756.919
+  value: 3828.63
   currency: EUR
   source: morningstar
 - date: '2025-11-06'
-  value: 1754.717
+  value: 3828.84
   currency: EUR
   source: morningstar
 - date: '2025-11-07'
-  value: 1754.648
+  value: 3829.24
   currency: EUR
   source: morningstar
 - date: '2025-11-10'
-  value: 1755.998
-  currency: EUR
-  source: morningstar
-- date: '2025-11-11'
-  value: 1758.319
+  value: 3829.63
   currency: EUR
   source: morningstar
 - date: '2025-11-12'
-  value: 1759.514
+  value: 3830.12
   currency: EUR
   source: morningstar
 - date: '2025-11-13'
-  value: 1758.044
+  value: 3830.47
   currency: EUR
   source: morningstar
 - date: '2025-11-14'
-  value: 1757.828
+  value: 3830.69
   currency: EUR
   source: morningstar
 - date: '2025-11-17'
-  value: 1757.52
+  value: 3831.14
   currency: EUR
   source: morningstar
 - date: '2025-11-18'
-  value: 1759.113
+  value: 3831.53
   currency: EUR
   source: morningstar
 - date: '2025-11-19'
-  value: 1757.525
+  value: 3831.66
   currency: EUR
   source: morningstar
 - date: '2025-11-20'
-  value: 1758.732
+  value: 3832.09
   currency: EUR
   source: morningstar
 - date: '2025-11-21'
-  value: 1761.036
+  value: 3832.43
   currency: EUR
   source: morningstar
 - date: '2025-11-24'
-  value: 1761.282
+  value: 3832.78
   currency: EUR
   source: morningstar
 - date: '2025-11-25'
-  value: 1763.682
+  value: 3833.14
   currency: EUR
   source: morningstar
 - date: '2025-11-26'
-  value: 1764.637
+  value: 3833.32
   currency: EUR
   source: morningstar
 - date: '2025-11-27'
-  value: 1766.397
+  value: 3833.67
   currency: EUR
   source: morningstar
 - date: '2025-11-28'
-  value: 1769.583
+  value: 3834.0
   currency: EUR
   source: morningstar
 - date: '2025-12-01'
-  value: 1766.992
+  value: 3834.3
   currency: EUR
   source: morningstar
 - date: '2025-12-02'
-  value: 1765.965
+  value: 3834.7
   currency: EUR
   source: morningstar
 - date: '2025-12-03'
-  value: 1767.563
+  value: 3834.98
   currency: EUR
   source: morningstar
 - date: '2025-12-04'
-  value: 1768.102
+  value: 3835.31
   currency: EUR
   source: morningstar
 - date: '2025-12-05'
-  value: 1768.977
+  value: 3835.61
   currency: EUR
   source: morningstar
 - date: '2025-12-08'
-  value: 1770.576
+  value: 3836.07
   currency: EUR
   source: morningstar
 - date: '2025-12-09'
-  value: 1771.35
+  value: 3836.53
   currency: EUR
   source: morningstar
 - date: '2025-12-10'
-  value: 1772.235
+  value: 3836.9
   currency: EUR
   source: morningstar
 - date: '2025-12-11'
-  value: 1773.444
+  value: 3837.15
   currency: EUR
   source: morningstar
 - date: '2025-12-12'
-  value: 1773.7
+  value: 3837.57
   currency: EUR
   source: morningstar
 - date: '2025-12-15'
-  value: 1774.214
+  value: 3837.98
   currency: EUR
   source: morningstar
 - date: '2025-12-16'
-  value: 1772.878
+  value: 3838.28
   currency: EUR
   source: morningstar
 - date: '2025-12-17'
-  value: 1773.194
+  value: 3838.47
   currency: EUR
   source: morningstar
 - date: '2025-12-18'
-  value: 1774.853
+  value: 3838.83
   currency: EUR
   source: morningstar
 - date: '2025-12-19'
-  value: 1775.925
+  value: 3839.18
   currency: EUR
   source: morningstar
 - date: '2025-12-22'
-  value: 1777.236
+  value: 3839.54
   currency: EUR
   source: morningstar
 - date: '2025-12-23'
-  value: 1777.481
+  value: 3840.05
+  currency: EUR
+  source: morningstar
+- date: '2025-12-24'
+  value: 3840.53
   currency: EUR
   source: morningstar
 - date: '2025-12-29'
-  value: 1779.992
+  value: 3841.34
   currency: EUR
   source: morningstar
 - date: '2025-12-30'
-  value: 1780.224
+  value: 3841.55
   currency: EUR
   source: morningstar
 - date: '2025-12-31'
-  value: 1780.448
+  value: 3841.81
   currency: EUR
   source: morningstar
 - date: '2026-01-02'
-  value: 1780.277
+  value: 3842.29
   currency: EUR
   source: morningstar
 - date: '2026-01-05'
-  value: 1781.821
+  value: 3842.65
   currency: EUR
   source: morningstar
 - date: '2026-01-06'
-  value: 1782.215
+  value: 3843.1
   currency: EUR
   source: morningstar
 - date: '2026-01-07'
-  value: 1785.011
+  value: 3843.29
   currency: EUR
   source: morningstar
 - date: '2026-01-08'
-  value: 1785.542
+  value: 3843.53
   currency: EUR
   source: morningstar
 - date: '2026-01-09'
-  value: 1786.855
+  value: 3843.86
   currency: EUR
   source: morningstar
 - date: '2026-01-12'
-  value: 1786.886
+  value: 3844.41
   currency: EUR
   source: morningstar
 - date: '2026-01-13'
-  value: 1788.496
+  value: 3844.74
   currency: EUR
   source: morningstar
 - date: '2026-01-14'
-  value: 1791.005
+  value: 3844.98
   currency: EUR
   source: morningstar
 - date: '2026-01-15'
-  value: 1792.722
+  value: 3845.14
   currency: EUR
   source: morningstar
 - date: '2026-01-16'
-  value: 1794.489
+  value: 3845.6
   currency: EUR
   source: morningstar
 - date: '2026-01-19'
-  value: 1793.239
+  value: 3846.1
   currency: EUR
   source: morningstar
 - date: '2026-01-20'
-  value: 1790.154
+  value: 3846.37
   currency: EUR
   source: morningstar
 - date: '2026-01-21'
-  value: 1792.591
+  value: 3846.64
   currency: EUR
   source: morningstar
 - date: '2026-01-22'
-  value: 1796.447
+  value: 3847.02
   currency: EUR
   source: morningstar
 - date: '2026-01-23'
-  value: 1799.162
+  value: 3847.57
   currency: EUR
   source: morningstar
 - date: '2026-01-26'
-  value: 1798.312
+  value: 3847.88
   currency: EUR
   source: morningstar
 - date: '2026-01-27'
-  value: 1799.067
+  value: 3848.15
   currency: EUR
   source: morningstar
 - date: '2026-01-28'
-  value: 1798.147
+  value: 3848.41
   currency: EUR
   source: morningstar
 - date: '2026-01-29'
-  value: 1800.744
+  value: 3848.78
   currency: EUR
   source: morningstar
 - date: '2026-01-30'
-  value: 1798.328
+  value: 3849.13
   currency: EUR
   source: morningstar
 - date: '2026-02-02'
-  value: 1800.569
+  value: 3849.54
   currency: EUR
   source: morningstar
 - date: '2026-02-03'
-  value: 1799.378
+  value: 3850.01
   currency: EUR
   source: morningstar
 - date: '2026-02-04'
-  value: 1798.129
+  value: 3850.21
   currency: EUR
   source: morningstar
 - date: '2026-02-05'
-  value: 1796.549
+  value: 3850.41
   currency: EUR
   source: morningstar
 - date: '2026-02-06'
-  value: 1801.439
+  value: 3850.85
   currency: EUR
   source: morningstar
 - date: '2026-02-09'
-  value: 1803.499
+  value: 3851.44
   currency: EUR
   source: morningstar
 - date: '2026-02-10'
-  value: 1806.043
+  value: 3851.74
   currency: EUR
   source: morningstar
 - date: '2026-02-11'
-  value: 1802.564
+  value: 3852.06
   currency: EUR
   source: morningstar
 - date: '2026-02-12'
-  value: 1801.021
+  value: 3852.4
   currency: EUR
   source: morningstar
 - date: '2026-02-13'
-  value: 1801.105
+  value: 3852.65
   currency: EUR
   source: morningstar
 - date: '2026-02-16'
-  value: 1799.506
+  value: 3853.51
   currency: EUR
   source: morningstar
 - date: '2026-02-17'
-  value: 1804.327
+  value: 3853.84
   currency: EUR
   source: morningstar
 - date: '2026-02-18'
-  value: 1806.129
+  value: 3854.1
   currency: EUR
   source: morningstar
 - date: '2026-02-19'
-  value: 1807.438
+  value: 3854.43
   currency: EUR
   source: morningstar
 - date: '2026-02-20'
-  value: 1806.758
+  value: 3854.62
   currency: EUR
   source: morningstar
 - date: '2026-02-23'
-  value: 1805.939
+  value: 3854.68
   currency: EUR
   source: morningstar
 - date: '2026-02-24'
-  value: 1804.926
+  value: 3855.13
   currency: EUR
   source: morningstar
 - date: '2026-02-25'
-  value: 1806.35
+  value: 3855.29
   currency: EUR
   source: morningstar
 - date: '2026-02-26'
-  value: 1807.639
+  value: 3855.58
   currency: EUR
   source: morningstar
 - date: '2026-02-27'
-  value: 1806.293
+  value: 3855.98
   currency: EUR
   source: morningstar
 - date: '2026-03-02'
-  value: 1805.139
+  value: 3856.38
   currency: EUR
   source: morningstar
 - date: '2026-03-03'
-  value: 1799.603
+  value: 3856.7
   currency: EUR
   source: morningstar
 - date: '2026-03-04'
-  value: 1802.245
+  value: 3857.11
   currency: EUR
   source: morningstar
 - date: '2026-03-05'
-  value: 1799.105
+  value: 3857.28
   currency: EUR
   source: morningstar
 - date: '2026-03-06'
-  value: 1796.388
+  value: 3857.76
   currency: EUR
   source: morningstar
 - date: '2026-03-09'
-  value: 1796.624
+  value: 3858.04
   currency: EUR
   source: morningstar
 - date: '2026-03-10'
-  value: 1797.325
+  value: 3858.24
   currency: EUR
   source: morningstar
 - date: '2026-03-11'
-  value: 1793.091
+  value: 3858.38
   currency: EUR
   source: morningstar
 - date: '2026-03-12'
-  value: 1790.242
+  value: 3858.72
   currency: EUR
   source: morningstar
 - date: '2026-03-13'
-  value: 1786.381
+  value: 3858.8
+  currency: EUR
+  source: morningstar
+- date: '2026-03-16'
+  value: 3859.03
   currency: EUR
   source: morningstar

@@ -1,0 +1,21 @@
+# Événements pour le produit structuré
+# "D RENDEMENT E12M MARS 2026" (FRSG00016ZQ9) - EURIBOR 12M, SG
+#
+# events: événements réellement constatés (paiements)
+# expected_events: calendrier (coupon si EURIBOR ≤2,50%; autocall si ≤1,85% semestres 2-23)
+# Dates de constatation semestrielle: 23/09/2026 puis 19/03/2027, 23/09/2027, ... 23/03/2038
+# Échéance: 30/03/2038
+
+events: []
+expected_events:
+- type: maturity_observation
+  date: '2038-03-23'
+  description: Constatation finale EURIBOR 12M (coupon si ≤2,50%; capital garanti)
+  metadata:
+    underlying: EURIBOR_12M
+    coupon_threshold: 2.50
+- type: maturity_payment_expected
+  date: '2038-03-30'
+  description: Échéance (paiement capital + coupons en mémoire)
+  metadata:
+    final_observation_date: '2038-03-23'

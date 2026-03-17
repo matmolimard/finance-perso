@@ -19,7 +19,7 @@ from .alerts import AlertManager, ConsoleNotifier, AlertSeverity
 from .market.underlyings import UnderlyingProvider
 from .market.rates import RatesProvider
 from .market.quantalys import QuantalysProvider
-from .market.nav_daily import update_uc_navs
+from .market.nav_daily import update_uc_navs, backfill_uc_navs
 from .importers.himalia_movements import parse_himalia_text, movement_summary
 # Advisory imports are lazy (only when advice command is used) to avoid requiring httpx
 from .market.fetch_underlyings import (
@@ -187,6 +187,8 @@ class LotClassifier:
         # Trier les lots par date AVANT classification pour que la logique de détection
         # des bénéfices (qui dépend de l'ordre de traitement) fonctionne correctement
         def get_lot_date(lot):
+            if not isinstance(lot, dict):
+                return date.min
             lot_date_raw = lot.get('date')
             if not lot_date_raw:
                 return date.min
@@ -236,12 +238,11 @@ class PortfolioCLI:
                 break
             workspace_root = workspace_root.parent
         self.debug_log_path = workspace_root / ".cursor" / "debug.log"
-        # Ensure directory exists
-        self.debug_log_path.parent.mkdir(parents=True, exist_ok=True)
-        # Ensure log directory exists
+        # Ensure log directory exists (silently ignore permission errors, e.g. in tests)
         try:
             self.debug_log_path.parent.mkdir(parents=True, exist_ok=True)
-        except: pass
+        except Exception:
+            pass
         
         # Engines de valorisation
         self.engines = {
@@ -621,6 +622,53 @@ class PortfolioCLI:
         print()
         print(f"✓ OK: {len(ok)} | • Skipped: {len(skipped)} | ✗ Erreurs: {len(errors)}")
 
+    def backfill_market_history(self, *, years: int = 3, headless: bool = False):
+        """
+        Backfill des historiques sur N années:
+        - UC (si la source NAV expose un historique exploitable)
+        - Sous-jacents/taux
+        """
+        from datetime import datetime, timedelta
+
+        years = int(years or 3)
+        if years <= 0:
+            raise ValueError("--years doit être > 0")
+
+        end_date = datetime.now().date()
+        start_date = end_date - timedelta(days=365 * years)
+
+        print("\n" + "=" * 70)
+        print("PORTFOLIO TRACKER - Backfill historique marché")
+        print("=" * 70 + "\n")
+        print(f"Période: {start_date.isoformat()} -> {end_date.isoformat()} ({years} an(s))")
+        print()
+
+        # 1) UC NAVs
+        uc_results = backfill_uc_navs(
+            portfolio=self.portfolio,
+            market_data_dir=self.market_data_dir,
+            start_date=start_date,
+            end_date=end_date,
+            headless=headless,
+        )
+        uc_ok = [r for r in uc_results if r.status == "ok"]
+        uc_skipped = [r for r in uc_results if r.status == "skipped"]
+        uc_errors = [r for r in uc_results if r.status == "error"]
+
+        print("UC - Backfill NAV:")
+        for r in uc_results:
+            sym = "✓" if r.status == "ok" else "•" if r.status == "skipped" else "✗"
+            extra = ""
+            if r.status == "ok":
+                extra = f" (fetched={r.points_fetched}, changed={r.points_changed})"
+            print(f"{sym} {r.asset_id}: {r.message}{extra}")
+        print(f"UC résumé: ✓ OK={len(uc_ok)} | • Skipped={len(uc_skipped)} | ✗ Erreurs={len(uc_errors)}")
+        print()
+
+        # 2) Sous-jacents/taux
+        print("Sous-jacents/taux - Backfill:")
+        self.update_underlyings(headless=headless, years=years)
+
     def set_purchase_nav(
         self,
         *,
@@ -748,7 +796,9 @@ class PortfolioCLI:
         except Exception:
             pass
 
-        if update_units_held:
+        _asset_add = self.portfolio.get_asset(pos.asset_id)
+        _is_fonds_euro_add = _asset_add and _asset_add.asset_type == AssetType.FONDS_EURO
+        if update_units_held and not _is_fonds_euro_add:
             try:
                 total_units = sum(float(x.get("units")) for x in pos.investment.lots if isinstance(x, dict) and x.get("units") is not None)
                 pos.investment.units_held = float(total_units)
@@ -894,7 +944,15 @@ class PortfolioCLI:
         # Apply: upsert lots by (date,type,units,net_amount)
         def lot_key(lot: dict) -> str:
             lt = str(lot.get("type") or "buy").lower()
-            return f"{lot.get('date')}::{lt}::{lot.get('units')}::{lot.get('net_amount')}"
+            try:
+                u = round(float(lot.get("units") or 0), 4)
+            except (TypeError, ValueError):
+                u = lot.get("units")
+            try:
+                n = round(float(lot.get("net_amount") or 0), 2)
+            except (TypeError, ValueError):
+                n = lot.get("net_amount")
+            return f"{lot.get('date')}::{lt}::{u}::{n}"
 
         def normalize_lot(lot: dict) -> dict:
             if not isinstance(lot, dict):
@@ -918,7 +976,11 @@ class PortfolioCLI:
             p.investment.lots = list(dedup_map.values())
 
             # Recalc units_held after normalization/dedup (even if no new lot is added later)
-            if update_units_held:
+            # Ne jamais recalculer units_held pour les fonds euros : leur valeur est déclarée
+            # par l'assureur, pas déduite des lots (qui sont souvent incomplets historiquement).
+            _asset_for_uh = self.portfolio.get_asset(p.asset_id)
+            _is_fonds_euro = _asset_for_uh and _asset_for_uh.asset_type == AssetType.FONDS_EURO
+            if update_units_held and not _is_fonds_euro:
                 try:
                     p.investment.units_held = float(
                         sum(float(x.get("units")) for x in p.investment.lots if isinstance(x, dict) and x.get("units") is not None)
@@ -947,7 +1009,7 @@ class PortfolioCLI:
             p.investment.lots.append(new_lot)
             changed += 1
 
-            if update_units_held:
+            if update_units_held and not _is_fonds_euro:
                 try:
                     p.investment.units_held = float(
                         sum(float(x.get("units")) for x in p.investment.lots if isinstance(x, dict) and x.get("units") is not None)
@@ -1668,7 +1730,7 @@ class PortfolioCLI:
         # Préparer les données pour le tableau
         term_width = shutil.get_terminal_size().columns if hasattr(shutil, 'get_terminal_size') else 120
         
-        headers = ["Nom", "Portefeuille", "Mois", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Quantalys"]
+        headers = ["Nom", "Portefeuille", "Date achat", "Mois", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Quantalys"]
         compact_headers = headers
         
         table_rows = []
@@ -1683,6 +1745,7 @@ class PortfolioCLI:
             perf_annualized = r["perf_annualized"]
             is_sold = r["is_sold"]
             quantalys_display = r["quantalys_display"] or "N/A"
+            subscription_date = r.get("subscription_date")
             
             # Formater les valeurs
             buy_str = f"{invested_amount:,.2f} €" if isinstance(invested_amount, (int, float)) else "N/A"
@@ -1696,10 +1759,12 @@ class PortfolioCLI:
                 perf_annualized_str = "terminé"
             
             months_str = str(months) if months is not None else "N/A"
+            date_achat_str = subscription_date.isoformat() if subscription_date else "N/A"
             
             table_rows.append({
                 "Nom": name,
                 "Portefeuille": portfolio_name,
+                "Date achat": date_achat_str,
                 "Mois": months_str,
                 "Achat": buy_str,
                 "Valeur": v_str,
@@ -1710,11 +1775,12 @@ class PortfolioCLI:
             })
         
         # Alignements
-        compact_aligns = {"Nom": "l", "Portefeuille": "l", "Mois": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Quantalys": "l"}
+        compact_aligns = {"Nom": "l", "Portefeuille": "l", "Date achat": "l", "Mois": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Quantalys": "l"}
         
         # Largeurs maximales
         other_caps = {
             "Portefeuille": 5,  # Tronqué à 5 caractères
+            "Date achat": 10,
             "Mois": 4,
             "Achat": 15,
             "Valeur": 15,
@@ -1828,11 +1894,12 @@ class PortfolioCLI:
             
             print()
 
-    def update_underlyings(self, *, headless: bool = False):
+    def update_underlyings(self, *, headless: bool = False, years: Optional[int] = None):
         """
         Récupère et stocke les séries de sous-jacents configurées dans market_data/underlyings.yaml
         """
         import yaml
+        from datetime import timedelta
 
         cfg_file = self.market_data_dir / "underlyings.yaml"
         if not cfg_file.exists():
@@ -1847,9 +1914,15 @@ class PortfolioCLI:
 
         print("\n" + "="*70)
         print("PORTFOLIO TRACKER - Mise à jour des sous-jacents")
+        if years and years > 0:
+            print(f"Période ciblée: {years} an(s)")
         print("="*70 + "\n")
 
         total_changed = 0
+        start_date = None
+        if years and years > 0:
+            start_date = date.today() - timedelta(days=365 * int(years))
+
         for u in underlyings:
             if not isinstance(u, dict):
                 continue
@@ -1866,20 +1939,26 @@ class PortfolioCLI:
                     if not url:
                         raise ValueError("url manquante")
                     res = fetch_solactive_indexhistory(url=url, identifier=str(identifier), headless=headless)
+                    points = res.points
+                    if start_date:
+                        points = [p for p in points if p[0] >= start_date]
                     changed = self.underlyings_provider.upsert_history(
                         underlying_id=str(underlying_id),
                         source=res.source,
                         identifier=str(identifier),
-                        points=res.points,
+                        points=points,
                         extra={"url": url, "notes": u.get("notes")},
                     )
                 elif source == "euronext":
                     res = fetch_euronext_recent_history(identifier=str(identifier), headless=headless)
+                    points = res.points
+                    if start_date:
+                        points = [p for p in points if p[0] >= start_date]
                     changed = self.underlyings_provider.upsert_history(
                         underlying_id=str(underlying_id),
                         source=res.source,
                         identifier=str(identifier),
-                        points=res.points,
+                        points=points,
                         extra={"url": u.get("url"), "notes": u.get("notes")},
                     )
                 elif source == "merqube":
@@ -1888,13 +1967,17 @@ class PortfolioCLI:
                     res = fetch_merqube_indexhistory(
                         name=str(identifier),
                         metric=str(metric),
+                        start_date=start_date,
                         headless=headless,
                     )
+                    points = res.points
+                    if start_date:
+                        points = [p for p in points if p[0] >= start_date]
                     changed = self.underlyings_provider.upsert_history(
                         underlying_id=str(underlying_id),
                         source=res.source,
                         identifier=str(identifier),
-                        points=res.points,
+                        points=points,
                         extra={"url": u.get("url") or res.metadata.get("source_page"), "notes": u.get("notes"), "metric": metric},
                     )
                 elif source == "natixis":
@@ -1913,11 +1996,14 @@ class PortfolioCLI:
                     if not url:
                         raise ValueError("url manquante")
                     res = fetch_investing_rate(url=url, identifier=str(identifier), headless=headless)
+                    points = res.points
+                    if start_date:
+                        points = [p for p in points if p[0] >= start_date]
                     # Utiliser rates_provider au lieu de underlyings_provider
                     changed = self.rates_provider.upsert_history(
                         identifier=str(identifier),
                         source=res.source,
-                        points=res.points,
+                        points=points,
                         extra={"url": url, "notes": u.get("notes")},
                     )
                 else:
@@ -1925,7 +2011,10 @@ class PortfolioCLI:
                     continue
 
                 total_changed += changed
-                latest = self.underlyings_provider.get_data(str(underlying_id), "underlying", None)
+                if source == "investing" and u.get("type") == "rate":
+                    latest = self.rates_provider.get_data(str(identifier), "rate", None)
+                else:
+                    latest = self.underlyings_provider.get_data(str(underlying_id), "underlying", None)
                 latest_str = f"{latest['date'].isoformat()} -> {latest['value']}" if latest else "(aucune donnée)"
                 print(f"✓ {underlying_id}: {changed} point(s) upsert | dernier: {latest_str}")
             except Exception as e:
@@ -2248,6 +2337,671 @@ class PortfolioCLI:
             if pos_portfolio_name[:5] == portfolio_filter[:5]:
                 filtered.append(position)
         return filtered
+    
+    def _list_history_choices(self) -> List[Tuple[str, str]]:
+        """
+        Liste les séries disponibles pour history : (libellé affiché, terme de recherche).
+        Ordre : NAV UC, puis sous-jacents, puis taux.
+        """
+        market_data_dir = self.market_data_dir
+        choices: List[Tuple[str, str]] = []
+        for prefix, category in (
+            ("nav_uc", "NAV UC"),
+            ("underlying", "Sous-jacent"),
+            ("rates", "Taux"),
+        ):
+            for f in sorted(market_data_dir.glob(f"{prefix}_*.yaml")):
+                stem = f.stem
+                short = stem.replace(f"{prefix}_", "", 1) if stem.startswith(prefix + "_") else stem
+                label = f"{category} — {short.replace('_', ' ')}"
+                choices.append((label, stem))
+        return choices
+
+    def history(
+        self,
+        value: Optional[str] = None,
+        date_from: Optional[str] = None,
+        date_to: Optional[str] = None,
+        no_chart: bool = False,
+        all_series: bool = False,
+        chart_type: str = "line",
+        chart_marker: str = "dot",
+        chart_color: str = "green",
+    ) -> None:
+        """
+        Affiche l'historique d'une série temporelle enregistrée dans market_data/.
+
+        Si value est vide et pas --all : menu pour choisir la série.
+        Si --all : affiche l'historique (et le graphe) pour toutes les séries (filtres date conservés).
+
+        value : terme de recherche ou None pour le menu
+        date_from / date_to : filtres ISO (YYYY-MM-DD)
+        no_chart : désactive le graphe
+        all_series : si True, traite toutes les séries
+        chart_type : "line" (courbe) ou "bar" (diagramme à bâtons)
+        chart_marker : marqueur plotext (dot, sd, braille, hd, fhd, …)
+        chart_color : couleur plotext (green, blue, red, …)
+        """
+        import yaml
+        import shutil as _shutil
+
+        # ------------------------------------------------------------------
+        # Menu ou liste des séries à afficher
+        # ------------------------------------------------------------------
+        choices = self._list_history_choices()
+        if not choices:
+            print("Aucune série d'historique trouvée dans market_data/.")
+            return
+
+        if not value or not str(value).strip():
+            if all_series:
+                values_to_show = [stem for _, stem in choices]
+            else:
+                print("\n  Historique — Choisir une série :\n")
+                for i, (label, _) in enumerate(choices, 1):
+                    print(f"    {i:2}. {label}")
+                print(f"    {0:2}. Quitter")
+                try:
+                    raw = input("\n  Numéro ou terme de recherche : ").strip()
+                except EOFError:
+                    print("Annulé.")
+                    return
+                if not raw:
+                    print("Annulé.")
+                    return
+                if raw.isdigit():
+                    num = int(raw)
+                    if num == 0:
+                        print("Annulé.")
+                        return
+                    if 1 <= num <= len(choices):
+                        value = choices[num - 1][1]
+                    else:
+                        print(f"Choix invalide (1–{len(choices)} ou 0 pour quitter).")
+                        return
+                else:
+                    value = raw.replace("-", "_").replace(" ", "_")
+                values_to_show = [value]
+                print()
+        else:
+            values_to_show = [value]
+
+        # ------------------------------------------------------------------
+        # Validation des dates (une seule fois)
+        # ------------------------------------------------------------------
+        from datetime import date as _date_type
+
+        def _parse_opt_date(s: Optional[str], label: str) -> Optional[_date_type]:
+            if not s or not str(s).strip():
+                return None
+            try:
+                return datetime.strptime(str(s).strip(), "%Y-%m-%d").date()
+            except ValueError:
+                print(f"Date invalide pour {label} : « {s} ». Utilisez le format AAAA-MM-JJ (ex. 2026-03-01).")
+                raise SystemExit(1)
+
+        from_d = _parse_opt_date(date_from, "--from")
+        to_d = _parse_opt_date(date_to, "--to")
+
+        # ------------------------------------------------------------------
+        # Helpers de formatage de tableau (même approche que uc_view)
+        # ------------------------------------------------------------------
+        def _truncate(s: str, max_len: int) -> str:
+            if len(s) <= max_len:
+                return s
+            return s[:max(0, max_len - 3)] + "..."
+
+        def _format_table(
+            headers: List[str],
+            data_rows: List[Dict[str, str]],
+            *,
+            aligns: Optional[Dict[str, str]] = None,
+            max_widths: Optional[Dict[str, int]] = None,
+        ) -> str:
+            aligns = aligns or {}
+            max_widths = max_widths or {}
+            matrix = []
+            for r in data_rows:
+                row = [str(r.get(h) or "") for h in headers]
+                matrix.append(row)
+            widths = []
+            for i, h in enumerate(headers):
+                col_vals = [h] + [matrix[j][i] for j in range(len(matrix))]
+                w = max(len(v) for v in col_vals) if col_vals else len(h)
+                cap = max_widths.get(h)
+                if isinstance(cap, int) and cap > 0:
+                    w = min(w, cap)
+                widths.append(max(1, w))
+            for j in range(len(matrix)):
+                for i, h in enumerate(headers):
+                    matrix[j][i] = _truncate(matrix[j][i], widths[i])
+            header_cells = [_truncate(h, widths[i]) for i, h in enumerate(headers)]
+
+            def fmt_cell(h: str, i: int, val: str) -> str:
+                return val.rjust(widths[i]) if aligns.get(h) == "r" else val.ljust(widths[i])
+
+            header_line = "  ".join(fmt_cell(headers[i], i, header_cells[i]) for i in range(len(headers)))
+            sep_line = "  ".join("-" * widths[i] for i in range(len(headers)))
+            lines = [header_line, sep_line]
+            for row in matrix:
+                lines.append("  ".join(fmt_cell(headers[i], i, row[i]) for i in range(len(headers))))
+            return "\n".join(lines)
+
+        for value in values_to_show:
+            if len(values_to_show) > 1:
+                print("\n" + "=" * 80)
+
+            # ------------------------------------------------------------------
+            # 1. Découverte du fichier correspondant
+            # ------------------------------------------------------------------
+            market_data_dir = self.market_data_dir
+            candidates: List[Path] = []
+            search = value.lower().replace("-", "_").replace(" ", "_")
+
+            for prefix in ("nav_uc", "underlying", "rates"):
+                for f in sorted(market_data_dir.glob(f"{prefix}_*.yaml")):
+                    if search in f.stem.lower():
+                        candidates.append(f)
+
+            if not candidates:
+                print(f"\nAucun fichier trouvé pour la recherche « {value} »")
+                if len(values_to_show) > 1:
+                    continue
+                print("Conseil : utilisez un terme présent dans le nom du fichier")
+                print("  ex: bdl_rempart, MQDCA09P, CMS_EUR_10Y, eleva, dynastrat")
+                return
+
+            if len(candidates) > 1 and len(values_to_show) == 1:
+                print(f"\n{len(candidates)} fichiers correspondent — affichage du premier.")
+                print("Précisez le terme pour être plus sélectif. Fichiers trouvés :")
+                for c in candidates:
+                    print(f"  • {c.name}")
+
+            target_file = candidates[0]
+
+            # ------------------------------------------------------------------
+            # 2. Chargement et détection du type
+            # ------------------------------------------------------------------
+            with open(target_file, "r", encoding="utf-8") as fh:
+                data = yaml.safe_load(fh)
+
+            stem = target_file.stem.lower()
+            if stem.startswith("nav_uc"):
+                series_key = "nav_history"
+                series_type = "NAV UC"
+                value_label = "VL"
+                unit_suffix = ""
+            elif stem.startswith("underlying"):
+                series_key = "history"
+                series_type = "Sous-jacent"
+                value_label = data.get("metric", "valeur").replace("_", " ").title()
+                unit_suffix = ""
+            else:
+                series_key = "history"
+                series_type = "Taux"
+                value_label = "Taux"
+                unit_suffix = "%" if data.get("units") == "pct" else ""
+
+            raw_series = data.get(series_key, [])
+            if not raw_series:
+                print(f"Aucune donnée dans {target_file.name}")
+                if len(values_to_show) > 1:
+                    continue
+                return
+
+            # Construire un dict date → source pour les NAV UC
+            source_by_date: Dict[str, str] = {}
+            if stem.startswith("nav_uc"):
+                for entry in raw_series:
+                    src = entry.get("source", "")
+                    if src:
+                        source_by_date[str(entry.get("date", ""))] = src
+
+            # ------------------------------------------------------------------
+            # 3. Filtres de date + tri chronologique
+            # ------------------------------------------------------------------
+            points: List[Tuple[_date_type, float, str]] = []
+            for entry in raw_series:
+                try:
+                    d = datetime.strptime(str(entry["date"]), "%Y-%m-%d").date()
+                    v = float(entry["value"])
+                except (KeyError, TypeError, ValueError):
+                    continue
+                if from_d and d < from_d:
+                    continue
+                if to_d and d > to_d:
+                    continue
+                points.append((d, v, entry.get("currency", "")))
+
+            points.sort(key=lambda x: x[0])
+
+            if not points:
+                print("Aucun point dans la plage de dates demandée.")
+                if len(values_to_show) > 1:
+                    continue
+                return
+
+            first_val = points[0][1]
+            last_val = points[-1][1]
+            min_val = min(p[1] for p in points)
+            max_val = max(p[1] for p in points)
+            total_pct = (last_val / first_val - 1) * 100 if first_val else 0.0
+
+            currency_display = ""
+            if stem.startswith("nav_uc"):
+                currencies = {p[2] for p in points if p[2]}
+                currency_display = next(iter(currencies), "EUR")
+
+            # ------------------------------------------------------------------
+            # 4. En-tête
+            # ------------------------------------------------------------------
+            title_human = (
+                target_file.stem
+                .replace("nav_uc_", "")
+                .replace("underlying_", "")
+                .replace("rates_", "")
+                .replace("_", " ")
+                .upper()
+            )
+            term_width = _shutil.get_terminal_size().columns
+
+            print()
+            print("=" * min(term_width, 100))
+            print(f"HISTORIQUE  ·  {series_type}  ·  {title_human}")
+            print(f"Fichier : {target_file.name}")
+            if data.get("notes"):
+                print(f"Note    : {data['notes']}")
+            if data.get("url"):
+                print(f"URL     : {data['url']}")
+            print("=" * min(term_width, 100))
+            print()
+
+            # ------------------------------------------------------------------
+            # 5. Tableau
+            # ------------------------------------------------------------------
+            col_val = f"{value_label} ({currency_display})" if currency_display else value_label
+            show_source = bool(source_by_date)
+            headers = ["Date", col_val, "Δ préc.", "Δ départ"]
+            if show_source:
+                headers.append("Source")
+
+            aligns = {"Date": "l", col_val: "r", "Δ préc.": "r", "Δ départ": "r", "Source": "l"}
+            max_widths_table = {col_val: 14, "Δ préc.": 10, "Δ départ": 10, "Source": 18}
+
+            table_rows: List[Dict[str, str]] = []
+            prev_val = None
+            for d, v, _ in points:
+                val_str = f"{v:,.4f}{unit_suffix}"
+
+                delta_prev_str = ""
+                if prev_val is not None and prev_val != 0:
+                    dp = (v / prev_val - 1) * 100
+                    sign = "+" if dp >= 0 else ""
+                    delta_prev_str = f"{sign}{dp:.2f}%"
+
+                delta_start_str = ""
+                if first_val != 0:
+                    ds = (v / first_val - 1) * 100
+                    sign = "+" if ds >= 0 else ""
+                    delta_start_str = f"{sign}{ds:.2f}%"
+
+                row: Dict[str, str] = {
+                    "Date": str(d),
+                    col_val: val_str,
+                    "Δ préc.": delta_prev_str,
+                    "Δ départ": delta_start_str,
+                }
+                if show_source:
+                    row["Source"] = source_by_date.get(str(d), "")
+
+                table_rows.append(row)
+                prev_val = v
+
+            print(_format_table(headers, table_rows, aligns=aligns, max_widths=max_widths_table))
+
+            # ------------------------------------------------------------------
+            # 6. Résumé
+            # ------------------------------------------------------------------
+            sign = "+" if total_pct >= 0 else ""
+            print()
+            print(
+                f"Résumé : {len(points)} points  |"
+                f"  Premier : {points[0][0]} = {first_val:,.4f}"
+                f"  →  Dernier : {points[-1][0]} = {last_val:,.4f}"
+                f"  |  Évolution : {sign}{total_pct:.2f}%"
+                f"  |  Min : {min_val:,.4f}  Max : {max_val:,.4f}"
+            )
+
+            # ------------------------------------------------------------------
+            # 7. Graphe (plotext si dispo, sinon ASCII)
+            # ------------------------------------------------------------------
+            if no_chart or len(points) < 2:
+                print()
+                if len(values_to_show) > 1:
+                    continue
+                return
+
+            x_vals = list(range(len(points)))
+            y_vals = [p[1] for p in points]
+            dates = [str(p[0]) for p in points]
+
+            try:
+                import plotext as plt
+                plt.clf()
+                n = len(dates)
+                if chart_type == "bar":
+                    plt.bar(x_vals, y_vals, color=chart_color, marker=chart_marker)
+                    # Limiter l'axe Y aux données pour que les barres aient des hauteurs visibles (sinon 0→max écrase tout)
+                    y_min, y_max = min(y_vals), max(y_vals)
+                    margin = (y_max - y_min) * 0.05 if y_max > y_min else 1.0
+                    plt.ylim(max(0, y_min - margin), y_max + margin)
+                else:
+                    plt.plot(x_vals, y_vals, color=chart_color, marker=chart_marker)
+                plt.xlabel("Date")
+                plt.ylabel("VL (EUR)")
+                if n > 0:
+                    indices = [0, n // 2, n - 1] if n >= 3 else list(range(n))
+                    plt.xticks([x_vals[i] for i in indices], [dates[i] for i in indices])
+                plt.theme("clear")
+                plt.plotsize(80, 16)
+                print()
+                plt.show()
+                if len(values_to_show) > 1:
+                    continue
+                return
+            except (ImportError, AttributeError, TypeError, Exception):
+                pass
+
+            # Fallback : ASCII
+            chart_width = min(80, len(points))
+            chart_height = 8
+            if len(y_vals) > chart_width:
+                step = len(y_vals) / chart_width
+                sampled = [y_vals[int(i * step)] for i in range(chart_width)]
+            else:
+                sampled = y_vals
+
+            v_min = min(sampled)
+            v_max = max(sampled)
+            v_range = v_max - v_min if v_max != v_min else 1.0
+            normalized = [int((v - v_min) / v_range * (chart_height - 1)) for v in sampled]
+
+            print()
+            print("Graphe :")
+            for row_idx in range(chart_height - 1, -1, -1):
+                line_chars_loop: List[str] = []
+                for col_idx, nv in enumerate(normalized):
+                    prev_nv = normalized[col_idx - 1] if col_idx > 0 else nv
+                    if nv == row_idx:
+                        line_chars_loop.append("─")
+                    elif min(prev_nv, nv) < row_idx < max(prev_nv, nv):
+                        line_chars_loop.append("│")
+                    else:
+                        line_chars_loop.append(" ")
+                if row_idx == chart_height - 1:
+                    label = f"{v_max:>10,.4f}"
+                elif row_idx == 0:
+                    label = f"{v_min:>10,.4f}"
+                else:
+                    label = " " * 10
+                print(f"  {label} ┤{''.join(line_chars_loop)}")
+
+            first_date = dates[0]
+            last_date = dates[-1]
+            half = chart_width // 2
+            print(f"  {' ' * 12}{first_date:<{half}}{last_date:>{half}}")
+            print()
+
+    def contract_performance(self, contract_name: Optional[str] = None):
+        """
+        Affiche la performance du contrat année par année.
+        Utilise les snapshots officiels des relevés de situation pour 2022-2024,
+        et le calcul du tracker pour les années sans relevé disponible.
+
+        contract_name: Nom du contrat (ex. "SwissLife Capi Stratégic Premium") ou préfixe (ex. "Swiss").
+                       Par défaut : "SwissLife Capi Stratégic Premium".
+        """
+        import yaml
+        from datetime import date as date_type
+
+        target_contract = (contract_name or "SwissLife Capi Stratégic Premium").strip()
+        all_positions = self.portfolio.list_all_positions()
+        if len(target_contract) <= 5:
+            positions = self._filter_positions_by_portfolio(all_positions, target_contract)
+        else:
+            positions = [
+                p for p in all_positions
+                if (p.wrapper.contract_name or "").strip() == target_contract
+            ]
+
+        if not positions:
+            print(f"Aucune position pour le contrat '{target_contract}'.")
+            return
+
+        display_name = (positions[0].wrapper.contract_name or target_contract)[:40]
+
+        # --- Charger les snapshots officiels des relevés de situation ---
+        # Chercher le fichier de snapshots correspondant au contrat (slug sur le nom)
+        contract_slug = (
+            display_name.lower()
+            .replace("é", "e").replace("è", "e").replace("ê", "e")
+            .replace("à", "a").replace("â", "a")
+            .replace(" ", "_").replace("-", "_")
+        )
+        candidate_files = list((self.data_dir / "market_data").glob("contract_snapshots_*.yaml"))
+        snapshots_file = None
+        for f in candidate_files:
+            try:
+                raw_check = yaml.safe_load(f.read_text()) or {}
+                if raw_check.get("contract_name", "").strip() == display_name.strip():
+                    snapshots_file = f
+                    break
+            except Exception:
+                pass
+
+        official: dict[int, tuple[float, str]] = {}   # year → (value, source_label)
+        official_versements: float | None = None
+        official_retraits: float | None = None
+        flux_par_annee: dict[int, float] = {}   # flux externes nets par année
+        raw_snapshots: dict = {}
+        if snapshots_file and snapshots_file.exists():
+            raw_snapshots = yaml.safe_load(snapshots_file.read_text()) or {}
+            # Versements/retraits officiels (priment sur le calcul par lots)
+            if "versements_total" in raw_snapshots:
+                official_versements = float(raw_snapshots["versements_total"])
+            if "retraits_total" in raw_snapshots:
+                official_retraits = float(raw_snapshots["retraits_total"])
+            for yr, fx in (raw_snapshots.get("flux_externes_par_annee") or {}).items():
+                flux_par_annee[int(yr)] = float(fx)
+            for snap in raw_snapshots.get("snapshots", []):
+                d = snap.get("date")
+                v = snap.get("total_value")
+                if d and v is not None:
+                    snap_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
+                    actual_d = snap.get("actual_snapshot_date")
+                    if actual_d:
+                        actual_date = actual_d if hasattr(actual_d, "year") else datetime.fromisoformat(str(actual_d)).date()
+                        label = f"proxy {actual_date.strftime('%d/%m/%Y')}"
+                    else:
+                        label = "relevé officiel"
+                    official[snap_date.year] = (float(v), label)
+
+        # Déterminer les années à afficher : de la 1ère souscription au dernier snapshot officiel
+        # (ou année précédente si pas encore de snapshot pour l'année courante)
+        from datetime import date as date_type_local
+        current_year = date_type_local.today().year
+        sub_year_approx = min(
+            (d.year for p in positions
+             if (d := (p.investment.subscription_date if hasattr(p.investment.subscription_date, "year")
+                       else (datetime.fromisoformat(str(p.investment.subscription_date)).date()
+                             if p.investment.subscription_date else None)))
+             is not None),
+            default=current_year - 1
+        )
+        last_official_year = max(official.keys(), default=0)
+        # Afficher jusqu'au dernier snapshot disponible, ou jusqu'à l'année précédente
+        last_year = max(last_official_year, current_year - 1)
+        first_year = min(sub_year_approx, min(official.keys(), default=last_year))
+        years = list(range(first_year, last_year + 1))
+
+        values_by_year: dict[int, float] = {}
+        source_by_year: dict[int, str] = {}
+
+        for year in years:
+            if year in official:
+                values_by_year[year] = official[year][0]
+                source_by_year[year] = official[year][1]
+            else:
+                val_date = date_type(year, 12, 31)
+                total = 0.0
+                for position in positions:
+                    asset = self.portfolio.get_asset(position.asset_id)
+                    if not asset:
+                        continue
+                    engine = self.engines.get(asset.valuation_engine)
+                    if not engine:
+                        continue
+                    try:
+                        result = engine.valuate(asset, position, val_date)
+                        total += float(result.current_value or 0.0)
+                    except Exception:
+                        pass
+                values_by_year[year] = total
+                source_by_year[year] = "tracker"
+
+        # --- Frais explicites par année (lots de type 'fee') ---
+        # Ces frais = frais de gestion du contrat prélevés sur les positions.
+        # Les frais de gestion des actifs UC (intégrés dans la VL) ne sont pas inclus.
+        frais_by_year: dict[int, float] = {}
+        for position in positions:
+            for lot in (position.investment.lots or []):
+                if not isinstance(lot, dict) or lot.get("type") != "fee":
+                    continue
+                amt = lot.get("net_amount")
+                if amt is None:
+                    continue
+                d = lot.get("date")
+                if not d:
+                    continue
+                try:
+                    lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
+                except Exception:
+                    continue
+                if lot_date.year in {y for y in years}:
+                    frais_by_year[lot_date.year] = frais_by_year.get(lot_date.year, 0.0) + abs(float(amt))
+        total_frais = sum(frais_by_year.values())
+
+        # --- Perf hors flux : (V_fin - V_début - flux_externe) / V_début ---
+        # flux_externe = versements/retraits réels depuis l'extérieur (hors arbitrages internes)
+        variation_by_year: dict[int, float | None] = {}
+        for i, year in enumerate(years):
+            if year == years[0]:
+                variation_by_year[year] = None
+                continue
+            v_prev = values_by_year[years[i - 1]]
+            v_curr = values_by_year[year]
+            flux = flux_par_annee.get(year, 0.0)
+            if v_prev and v_prev > 0:
+                variation_by_year[year] = round((v_curr - v_prev - flux) / v_prev * 100.0, 2)
+            else:
+                variation_by_year[year] = None
+
+        # --- Depuis la souscription ---
+        sub_dates = []
+        for p in positions:
+            sd = p.investment.subscription_date
+            if sd:
+                try:
+                    d = sd if hasattr(sd, "year") else datetime.fromisoformat(str(sd)).date()
+                    sub_dates.append(d)
+                except Exception:
+                    pass
+        date_souscription = min(sub_dates) if sub_dates else date_type(2022, 11, 22)
+        date_souscription_str = date_souscription.strftime("%d/%m/%Y")
+
+        def _to_date(d):
+            if d is None:
+                return None
+            if hasattr(d, "year"):
+                return d
+            try:
+                return datetime.fromisoformat(str(d)).date()
+            except Exception:
+                return None
+
+        # Versements/retraits : utiliser les valeurs officielles du fichier de snapshots si disponibles,
+        # sinon calculer à partir des lots (premier achat de chaque position initiale).
+        if official_versements is not None:
+            versements_depuis = official_versements
+        else:
+            positions_jour1 = [
+                p for p in positions
+                if _to_date(p.investment.subscription_date) == date_souscription
+            ]
+            if not positions_jour1:
+                y0, m0 = date_souscription.year, date_souscription.month
+                positions_jour1 = [
+                    p for p in positions
+                    if (sd := _to_date(p.investment.subscription_date)) and sd.year == y0 and sd.month == m0
+                ]
+            versements_depuis = 0.0
+            for p in positions_jour1:
+                buys = [
+                    (ld, float(l["net_amount"]))
+                    for l in (p.investment.lots or [])
+                    if isinstance(l, dict) and l.get("type") == "buy" and l.get("net_amount") is not None
+                    and (ld := _to_date(l.get("date"))) is not None
+                ]
+                if buys:
+                    versements_depuis += min(buys, key=lambda x: x[0])[1]
+
+        retraits_depuis = official_retraits if official_retraits is not None else 0.0
+        valeur_actuelle = values_by_year[max(years)]
+        gain_depuis = valeur_actuelle - versements_depuis + retraits_depuis
+        base_perf = versements_depuis - retraits_depuis
+        perf_pct_depuis = round(gain_depuis / base_perf * 100.0, 2) if base_perf > 0 else None
+
+        # --- Impact frais sur la rentabilité ---
+        gain_hors_frais = gain_depuis + total_frais
+        perf_hors_frais_pct = round(gain_hors_frais / base_perf * 100.0, 2) if base_perf > 0 else None
+        frais_pct_base = round(total_frais / base_perf * 100.0, 2) if base_perf > 0 else None
+
+        # ---- Affichage ----
+        max_year = max(years)
+        max_src = source_by_year.get(max_year, "")
+        max_src_note = f" ({max_src})" if max_src else ""
+        sep = "  " + "-" * 68
+        print(f"Performance du contrat : {display_name}")
+        print()
+        print(f"  Depuis le {date_souscription_str}")
+        print(sep)
+        print(f"  Valeur au 31/12/{max_year}{max_src_note:<25} {valeur_actuelle:>14,.2f} €")
+        print(f"  Versements depuis                              {versements_depuis:>14,.2f} €")
+        if retraits_depuis:
+            print(f"  Retraits depuis                                {retraits_depuis:>14,.2f} €")
+        perf_str_global = f"  ({perf_pct_depuis:>+.2f} %)" if perf_pct_depuis is not None else ""
+        print(f"  Gain depuis souscription                       {gain_depuis:>14,.2f} €{perf_str_global}")
+        print(sep)
+        frais_pct_str = f"  ({frais_pct_base:>+.2f} % du capital)" if frais_pct_base is not None else ""
+        print(f"  Frais de gestion cumulés (contrat)             {total_frais:>14,.2f} €{frais_pct_str}")
+        hors_frais_str = f"  ({perf_hors_frais_pct:>+.2f} %)" if perf_hors_frais_pct is not None else ""
+        print(f"  Gain sans ces frais (théorique)                {gain_hors_frais:>14,.2f} €{hors_frais_str}")
+        print()
+        has_flux = any(v != 0.0 for v in flux_par_annee.values())
+        perf_col = "Perf. hors flux" if has_flux else "Variation   "
+        print("  Évolution de l'encours au 31/12")
+        print(f"  {'Année':<6} {'Valeur 31/12':>16} {perf_col:>15}  {'Frais contrat':>13}  {'Source'}")
+        print("  " + "-" * 80)
+        for year in years:
+            val_str = f"{values_by_year[year]:>16,.2f} €"
+            flux = flux_par_annee.get(year, 0.0)
+            flux_note = f"  (+{flux:,.0f} € versé)" if flux > 0 else (f"  (-{abs(flux):,.0f} € racheté)" if flux < 0 else "")
+            var_str = f"{variation_by_year[year]:>+.1f} %" if variation_by_year[year] is not None else "              —"
+            frais_yr = frais_by_year.get(year, 0.0)
+            frais_str = f"{frais_yr:>11,.0f} €" if frais_yr else "            —"
+            src = source_by_year.get(year, "")
+            print(f"  {year:<6} {val_str} {var_str:>15}  {frais_str}  {src}{flux_note}")
+        print()
     
     @staticmethod
     def _months_elapsed(start_date, end_date) -> int:
@@ -3042,6 +3796,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 "display_name": display_name,  # Sera mis à jour plus tard si nécessaire
                 "contract_name": contract_name,
                 "position_id": position.position_id,
+                "subscription_date": position.investment.subscription_date,
                 "months": months,
                 "period_months": period_months,  # Fréquence des coupons (6 = semestriel, 12 = annuel, etc.)
                 "current_value": current_value,
@@ -3438,9 +4193,14 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             if portfolio_name and portfolio_name != "N/A":
                 portfolio_name = portfolio_name[:5]
             
+            # Récupérer la date d'achat
+            subscription_date = r.get("subscription_date")
+            date_achat_str = subscription_date.isoformat() if subscription_date else "N/A"
+            
             table_rows.append({
                 "Nom": name,
                 "Portefeuille": portfolio_name,
+                "Date achat": date_achat_str,
                 "Mois": str(r["months"]),
                 "Sous-jacent": und_last,
                 "Initial": strike,
@@ -3466,6 +4226,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             headers = [
                 "Nom",
                 "Portefeuille",
+                "Date achat",
                 "Mois",
                 "Sous-jacent",
                 "Initial",
@@ -3487,6 +4248,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 "Perf si strike",
             ]
             aligns = {
+                "Date achat": "l",
                 "Mois": "r",
                 "Var%": "r",
                 "Coupon %": "r",
@@ -3505,6 +4267,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             # Caps par défaut (évite des lignes infinies). Ajustables au besoin.
             max_widths = {
                 "Nom": 42,
+                "Date achat": 10,
                 "Sous-jacent": 22,
                 "Initial": 26,
                 "Seuil remb.": 26,
@@ -3520,14 +4283,15 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             return
 
         # Vue compacte (par défaut) : moins de colonnes => pas de wrap, + détails en 2e ligne.
-        compact_headers = ["Nom", "Portefeuille", "Mois", "Prochaine", "Remb. si ajd ?", "Coupon %", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Perf si strike/an", "Valeur si strike", "Gain si strike", "Perf si strike"]
-        compact_aligns = {"Mois": "r", "Coupon %": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Perf si strike/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r"}
+        compact_headers = ["Nom", "Portefeuille", "Date achat", "Mois", "Prochaine", "Remb. si ajd ?", "Coupon %", "Achat", "Valeur", "Gain", "Perf", "Perf/an", "Perf si strike/an", "Valeur si strike", "Gain si strike", "Perf si strike"]
+        compact_aligns = {"Date achat": "l", "Mois": "r", "Coupon %": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r", "Perf si strike/an": "r", "Valeur si strike": "r", "Gain si strike": "r", "Perf si strike": "r"}
         compact_rows = [{h: r.get(h) for h in compact_headers} for r in table_rows]
 
         # Ajuster largeur du nom selon la place dispo (pour éviter le wrap).
         # Largeur approx = somme des autres colonnes + séparateurs.
         other_caps = {
             "Portefeuille": 5,
+            "Date achat": 10,
             "Mois": 4,
             "Prochaine": 10,
             "Remb. si ajd ?": 12,
@@ -4462,7 +5226,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         # Préparer les données pour le tableau
         term_width = shutil.get_terminal_size().columns if hasattr(shutil, 'get_terminal_size') else 120
         
-        headers = ["Nom", "Assureur", "Portefeuille", "Mois", "Achat", "Valeur", "Gain", "Perf", "Perf/an"]
+        headers = ["Nom", "Assureur", "Portefeuille", "Date achat", "Mois", "Achat", "Valeur", "Gain", "Perf", "Perf/an"]
         compact_headers = headers
         
         table_rows = []
@@ -4477,6 +5241,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             perf_amt = r["perf"]
             perf_annualized = r["perf_annualized"]
             is_sold = r["is_sold"]
+            subscription_date = r.get("subscription_date")
             
             # Formater les valeurs
             buy_str = f"{invested_amount:,.2f} €" if isinstance(invested_amount, (int, float)) else "N/A"
@@ -4490,11 +5255,13 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 perf_annualized_str = "terminé"
             
             months_str = str(months) if months is not None else "N/A"
+            date_achat_str = subscription_date.isoformat() if subscription_date else "N/A"
             
             table_rows.append({
                 "Nom": name,
                 "Assureur": insurer,
                 "Portefeuille": portfolio_name,
+                "Date achat": date_achat_str,
                 "Mois": months_str,
                 "Achat": buy_str,
                 "Valeur": v_str,
@@ -4504,12 +5271,13 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             })
         
         # Alignements
-        compact_aligns = {"Nom": "l", "Assureur": "l", "Portefeuille": "l", "Mois": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r"}
+        compact_aligns = {"Nom": "l", "Assureur": "l", "Portefeuille": "l", "Date achat": "l", "Mois": "r", "Achat": "r", "Valeur": "r", "Gain": "r", "Perf": "r", "Perf/an": "r"}
         
         # Largeurs maximales
         other_caps = {
             "Assureur": 12,
             "Portefeuille": 5,
+            "Date achat": 10,
             "Mois": 4,
             "Achat": 15,
             "Valeur": 15,
@@ -4774,6 +5542,29 @@ def main():
         action='store_true',
         help='Utilise un navigateur headless (Playwright) en fallback quand nécessaire (optionnel)'
     )
+    upd_parser.add_argument(
+        '--years',
+        type=int,
+        default=None,
+        help="Limite le backfill aux N dernières années (ex: --years 3)."
+    )
+
+    # Commande: backfill-market-history
+    backfill_parser = subparsers.add_parser(
+        'backfill-market-history',
+        help='Backfill historique UC + sous-jacents sur N années (défaut: 3 ans)'
+    )
+    backfill_parser.add_argument(
+        '--years',
+        type=int,
+        default=3,
+        help='Nombre d’années à récupérer (défaut: 3)'
+    )
+    backfill_parser.add_argument(
+        '--headless',
+        action='store_true',
+        help='Force l’utilisation du mode headless pour les sources web'
+    )
 
     # Commande: structured
     
@@ -4865,6 +5656,78 @@ def main():
         help='Filtre par nom de portefeuille (ex: HIMAL, Swiss). Affiche uniquement le récapitulatif pour ce portefeuille.'
     )
     
+    # Commande: contract-performance
+    cp_parser = subparsers.add_parser(
+        'contract-performance',
+        help='Performance du contrat année par année (valorisation 31/12 et perf. annuelle hors flux)'
+    )
+    cp_parser.add_argument(
+        '--contract',
+        type=str,
+        default='SwissLife Capi Stratégic Premium',
+        help='Nom du contrat (défaut: SwissLife Capi Stratégic Premium). Peut être un préfixe (ex: Swiss).'
+    )
+    
+    # Commande: history
+    history_parser = subparsers.add_parser(
+        'history',
+        help='Affiche l\'historique d\'une série temporelle (NAV UC, sous-jacent, taux). Sans argument : menu de sélection.'
+    )
+    history_parser.add_argument(
+        'value',
+        nargs='?',
+        default=None,
+        type=str,
+        help='Terme de recherche (ex: bdl_rempart, CMS_EUR_10Y). Omis : affiche un menu pour choisir.'
+    )
+    history_parser.add_argument(
+        '--from',
+        dest='date_from',
+        type=str,
+        default=None,
+        help='Date de début (ISO YYYY-MM-DD incluse)'
+    )
+    history_parser.add_argument(
+        '--to',
+        dest='date_to',
+        type=str,
+        default=None,
+        help='Date de fin (ISO YYYY-MM-DD incluse)'
+    )
+    history_parser.add_argument(
+        '--no-chart',
+        action='store_true',
+        help='Désactive le mini graphe ASCII (sparkline)'
+    )
+    history_parser.add_argument(
+        '--all',
+        action='store_true',
+        dest='history_all',
+        help='Affiche l\'historique (et le graphe) pour toutes les séries (filtres --from/--to conservés)'
+    )
+    history_parser.add_argument(
+        '--chart-type',
+        type=str,
+        choices=('line', 'bar'),
+        default='line',
+        metavar='TYPE',
+        help='Type de graphe: line (courbe) ou bar (diagramme à bâtons). Défaut: line'
+    )
+    history_parser.add_argument(
+        '--chart-marker',
+        type=str,
+        default='dot',
+        metavar='NAME',
+        help='Marqueur plotext: dot, sd, braille, hd, fhd (traits fins→épais). Voir docs/history_chart_options.md'
+    )
+    history_parser.add_argument(
+        '--chart-color',
+        type=str,
+        default='green',
+        metavar='NAME',
+        help='Couleur plotext: green, blue, red, cyan, magenta, etc.'
+    )
+
     # Commande: advice
     advice_parser = subparsers.add_parser(
         'advice',
@@ -4965,7 +5828,15 @@ def main():
                 dry_run=not bool(getattr(args, "apply", False)),
             )
         elif args.command == 'update-underlyings':
-            cli.update_underlyings(headless=bool(getattr(args, "headless", False)))
+            cli.update_underlyings(
+                headless=bool(getattr(args, "headless", False)),
+                years=getattr(args, "years", None),
+            )
+        elif args.command == 'backfill-market-history':
+            cli.backfill_market_history(
+                years=int(getattr(args, "years", 3) or 3),
+                headless=bool(getattr(args, "headless", False)),
+            )
         elif args.command == 'structured':
             cli.structured_products_view(
                 wide=bool(getattr(args, "wide", False)),
@@ -4978,6 +5849,8 @@ def main():
                 details=bool(getattr(args, "details", False)),
                 include_terminated=getattr(args, 'include_terminated', False),
             )
+        elif args.command == 'contract-performance':
+            cli.contract_performance(contract_name=getattr(args, 'contract', None))
         elif args.command == 'global':
             cli.global_view(
                 wide=bool(getattr(args, "wide", False)),
@@ -4990,6 +5863,17 @@ def main():
                 target_date=getattr(args, "date", None),
                 set_values=list(getattr(args, "set", []) or []),
                 headless=bool(getattr(args, "headless", False)),
+            )
+        elif args.command == 'history':
+            cli.history(
+                value=getattr(args, 'value', None),
+                date_from=getattr(args, 'date_from', None),
+                date_to=getattr(args, 'date_to', None),
+                no_chart=bool(getattr(args, 'no_chart', False)),
+                all_series=bool(getattr(args, 'history_all', False)),
+                chart_type=str(getattr(args, 'chart_type', 'line')),
+                chart_marker=str(getattr(args, 'chart_marker', 'dot')),
+                chart_color=str(getattr(args, 'chart_color', 'green')),
             )
         elif args.command == 'advice':
             cli.advice(

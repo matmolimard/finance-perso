@@ -51,6 +51,44 @@ assets:
       initial_observation_date: "2025-02-27"
       # documentation: "product_brochure/..."  # à ajouter quand la brochure sera disponible
 
+  # D RENDEMENT E12M MARS 2026 - Société Générale (EURIBOR 12M, coupon 3,5% si ≤2,50%, autocall si ≤1,85%)
+  - asset_id: struct_d_rendement_e12m_mar_2026
+    type: structured_product
+    name: "D RENDEMENT E12M MARS 2026"
+    isin: "FRSG00016ZQ9"
+    valuation_engine: event_based
+    metadata:
+      period_months: 6
+      coupon_label: "3,50% semestriel (TRA max 7%)"
+      # Sous-jacent: taux EURIBOR 12 mois (Bloomberg EUR012M)
+      underlying_id: "EURIBOR_12M"
+      underlying_label: "EURIBOR 12 mois"
+      # Coupon si EURIBOR 12M ≤ 2,50% ; autocall si ≤ 1,85% (semestres 2 à 23)
+      coupon_condition_threshold: 2.50
+      autocall_condition_threshold: 1.85
+      # Date d'échéance 30/03/2038 ; première constatation 23/09/2026
+      initial_observation_date: "2026-09-23"
+      maturity_years: 12.25
+      documentation: "product_brochure/EURIBOR_12M_7pct_Mars_2026-FRSG00016ZQ9.pdf"
+
+  # D Rendement TotalEnergies Dividende Forfaitaire 2,96 EUR Mars 2026 - Natixis (indice iEdge IDTTE3)
+  - asset_id: struct_d_rendement_totalenergies_div_forf_296_mar_2026
+    type: structured_product
+    name: "D Rendement TotalEnergies Dividende Forfaitaire 2,96 EUR Mars 2026"
+    isin: "FR0014014T52"
+    valuation_engine: event_based
+    metadata:
+      period_months: 6
+      coupon_label: "6% par semestre (12% par an)"
+      # Sous-jacent: iEdge TotalEnergies SE Decrement 2.96 EUR GTR Series 3 (Bloomberg IDTTE3 Index)
+      underlying_id: "iEdge_TotalEnergies_SE_Decrement_296_EUR_GTR_Series_3"
+      underlying_label: "iEdge TotalEnergies SE Decrement 2.96 EUR GTR Series 3®"
+      underlying_bloomberg: "IDTTE3 Index"
+      # Date d'évaluation initiale (Niveau Initial) 31/03/2026 ; échéance 15/04/2036
+      initial_observation_date: "2026-03-31"
+      # Autocall semestres 2 à 19 si Indice >= 100% ; à l'échéance seuils 100% / 50%
+      documentation: "product_brochure/TotalEnergies_12pct_Mars_2026-FR0014014T52.pdf"
+
   # Fonds euro
   - asset_id: fonds_euro_generali_aggv090
     type: fonds_euro
@@ -110,7 +148,6 @@ assets:
     valuation_engine: mark_to_market
     metadata:
       fund_type: "money_market"
-      status: "historical"  # vendu le 02/02/2025
 
   - asset_id: struct_callable_note_taux_fixe_dec_2023
     type: structured_product

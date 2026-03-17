@@ -1,13 +1,13 @@
 # Notes Quantalys des fonds
 # Source: https://www.quantalys.com
-# Dernière mise à jour: 2025-12-30
+# Dernière mise à jour: 2026-03-12
 
 ratings:
 - isin: FR0010174144
   name: BDL Rempart C
-  quantalys_rating: 4
+  quantalys_rating: 5
   quantalys_category: null
-  last_update: '2025-12-23'
+  last_update: '2026-03-12'
   notes: Note globale Quantalys
 - isin: FR0010233726
   name: Generali Trésorerie ISR B
@@ -53,9 +53,9 @@ ratings:
   notes: Note globale Quantalys
 - isin: LU1331971769
   name: Eleva Absolute Return Europe
-  quantalys_rating: 5
+  quantalys_rating: 3
   quantalys_category: null
-  last_update: '2025-12-30'
+  last_update: '2026-02-19'
   notes: Note globale Quantalys
 - isin: LU1694789535
   name: DNCA Invest Alpha Bonds B EUR
@@ -65,9 +65,9 @@ ratings:
   notes: Note globale Quantalys
 - isin: LU1920211973
   name: Eleva Absolute Return Europe Fund A2 EUR Acc
-  quantalys_rating: 5
+  quantalys_rating: 3
   quantalys_category: null
-  last_update: '2025-12-30'
+  last_update: '2026-02-19'
   notes: Note globale Quantalys
 - isin: LU2061939729
   name: IVO Fixed Income Short Duration SRI EUR R Cap

@@ -26,6 +26,21 @@ cd finance-perso
 pip install -r requirements.txt
 ```
 
+## 🐳 Exécution avec Docker
+
+```bash
+# Build
+make docker-build
+
+# Vue globale
+make docker-global
+
+# Historique d'une valeur
+make docker-history VALUE=bdl_rempart
+```
+
+Guide complet serveur: `DEPLOY_SERVER.md`
+
 ## 🏗️ Architecture
 
 ```

@@ -1,0 +1,24 @@
+# Événements pour le produit structuré
+# "D Rendement TotalEnergies Dividende Forfaitaire 2,96 EUR Mars 2026" (FR0014014T52) - Natixis
+#
+# events: événements réellement constatés (paiements)
+# expected_events: autocall semestres 2-19 si Indice >= 100%; échéance 15/04/2036 (seuils 100% / 50%)
+# Date d'Évaluation Initiale: 31/03/2026
+# Dates d'Évaluation Semestrielle: 31/03/2027 ... 01/10/2035
+# Date d'Évaluation Finale: 31/03/2036 ; Date d'Échéance: 15/04/2036
+
+events: []
+expected_events:
+- type: maturity_observation
+  date: '2036-03-31'
+  description: Évaluation finale (>=100% gain 120%; [50%,100%) capital; <50% perte)
+  metadata:
+    underlying: iEdge_TotalEnergies_SE_Decrement_296_EUR_GTR_Series_3
+    threshold_capital_plus_gain_pct_of_initial: 100.0
+    threshold_capital_only_pct_of_initial: 50.0
+    final_gain: 1.2
+- type: maturity_payment_expected
+  date: '2036-04-15'
+  description: Échéance (paiement)
+  metadata:
+    final_observation_date: '2036-03-31'

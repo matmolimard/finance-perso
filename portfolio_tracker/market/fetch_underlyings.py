@@ -99,15 +99,39 @@ def fetch_solactive_indexhistory(url: str, identifier: str, *, headless: bool = 
         headless=headless,
     )
 
-    # Le endpoint renvoie souvent du JSON avec content-type text/html.
-    # Si parsing JSON échoue et headless=True, retenter via headless en lisant le body de réponse.
+    # Le endpoint peut renvoyer:
+    # - un JSON brut (historique)
+    # - une page HTML (consentement / fallback)
+    # On tente d'abord json.loads direct, puis extraction d'un JSON array embarqué.
     try:
         data = json.loads(text)
     except Exception:
-        if not headless:
-            raise
-        text2 = headless_get_response_text(url)
-        data = json.loads(text2)
+        # Essai 2: extraire un JSON array directement dans le texte
+        m = re.search(r"(\[\s*\{[\s\S]*?\}\s*\])", text)
+        if m:
+            try:
+                data = json.loads(m.group(1))
+            except Exception:
+                data = None
+        else:
+            data = None
+
+        # Essai 3: fallback headless (body de réponse)
+        if data is None:
+            try:
+                text2 = headless_get_response_text(url)
+                data = json.loads(text2)
+            except Exception:
+                # Essai 4: JSON array embarqué côté headless
+                m2 = re.search(r"(\[\s*\{[\s\S]*?\}\s*\])", text2 if 'text2' in locals() else "")
+                if m2:
+                    data = json.loads(m2.group(1))
+                else:
+                    # Message explicite (plutôt qu'une JSONDecodeError opaque)
+                    raise ValueError(
+                        f"Solactive: réponse non exploitable pour {identifier} "
+                        f"(JSON direct absent, fallback headless sans données parseables)"
+                    )
     points: List[Tuple[date, float]] = []
     for row in data:
         if not isinstance(row, dict):
@@ -566,4 +590,3 @@ def fetch_investing_rate(url: str, identifier: str, *, headless: bool = False) -
             "source_page": url,
         },
     )
-
