@@ -215,11 +215,6 @@ class TestFeesDisplayInStructuredView:
         assert "Frais:" in output_str or "Frais:" in output_str
         assert "200.00" in output_str or "200,00" in output_str
 
-
-            # Dans ce cas, on accepte que le test passe si le produit est affiché
-        else:
-            assert has_fees
-    
     def test_fees_not_displayed_when_zero(self, tmp_path):
         """Test que les frais ne sont pas affichés quand ils sont nuls ou très petits"""
         positions_file = tmp_path / "positions.yaml"

@@ -6,7 +6,7 @@ from typing import Optional, Dict, Any
 from enum import Enum
 
 
-class AssetType(Enum):
+class AssetType(str, Enum):
     """Types d'actifs supportés"""
     STRUCTURED_PRODUCT = "structured_product"
     FONDS_EURO = "fonds_euro"
@@ -14,7 +14,7 @@ class AssetType(Enum):
     UC_ILLIQUID = "uc_illiquid"
 
 
-class ValuationEngine(Enum):
+class ValuationEngine(str, Enum):
     """Moteurs de valorisation disponibles"""
     EVENT_BASED = "event_based"
     DECLARATIVE = "declarative"

@@ -29,188 +29,25 @@ from .market.fetch_underlyings import (
     fetch_natixis_index,
     fetch_investing_rate,
 )
-
-
-# ==============================================================================
-# CLASSIFICATION CENTRALISÉE DES MOUVEMENTS
-# ==============================================================================
-# Cette section contient LA SEULE SOURCE DE VÉRITÉ pour identifier les mouvements
-# Toutes les autres parties du code DOIVENT utiliser ces classes/méthodes
-
-class LotCategory(Enum):
-    """Catégories de mouvements (source de vérité unique)"""
-    EXTERNAL_DEPOSIT = "external_deposit"      # Versement externe (de l'argent frais)
-    INTERNAL_CAPITALIZATION = "internal_capitalization"  # Capitalisation interne (intérêts, dividendes)
-    WITHDRAWAL = "withdrawal"                  # Retrait / rachat
-    FEE = "fee"                               # Frais
-    TAX = "tax"                               # Taxe / prélèvement
-    OTHER = "other"                           # Autre mouvement
-
-
-@dataclass
-class ClassifiedLot:
-    """Résultat de la classification d'un lot (source de vérité unique)"""
-    category: LotCategory
-    date: date
-    amount: float  # Toujours > 0, le signe est dans la category
-    raw_lot: dict
-    
-    def is_cash_inflow(self) -> bool:
-        """Retourne True si c'est un apport d'argent externe"""
-        return self.category == LotCategory.EXTERNAL_DEPOSIT
-    
-    def is_cash_outflow(self) -> bool:
-        """Retourne True si c'est une sortie d'argent (retrait, frais, taxes)"""
-        return self.category in (LotCategory.WITHDRAWAL, LotCategory.FEE, LotCategory.TAX)
-    
-    def is_performance(self) -> bool:
-        """Retourne True si c'est de la performance (capitalisation interne)"""
-        return self.category == LotCategory.INTERNAL_CAPITALIZATION
-    
-    def for_xirr(self) -> Optional[float]:
-        """
-        Retourne le montant pour XIRR, ou None si ne doit pas être inclus.
-        Convention: négatif = sortie d'argent, positif = rentrée d'argent
-        
-        Note: Les frais/taxes/capitalisations ne sont PAS des flux XIRR car ils sont
-        déjà inclus dans la current_value (via cashflow_adjustments pour les frais/taxes,
-        et directement dans la valeur pour les capitalisations internes).
-        """
-        if self.category == LotCategory.EXTERNAL_DEPOSIT:
-            return -self.amount  # Sortie d'argent (investissement)
-        elif self.category == LotCategory.WITHDRAWAL:
-            return self.amount   # Rentrée d'argent (rachat)
-        # Les frais/taxes/capitalisations ne sont PAS des flux XIRR
-        # (déjà inclus dans la valeur finale)
-        return None
-
-
-class LotClassifier:
-    """
-    Classificateur centralisé de lots.
-    TOUTES les fonctions doivent utiliser cette classe pour identifier les mouvements.
-    """
-    
-    def __init__(self):
-        self._external_deposits_seen = set()  # Track des versements externes déjà vus par position
-    
-    def classify_lot(self, lot: dict, position_id: str) -> Optional[ClassifiedLot]:
-        """
-        Classifie un lot selon sa nature.
-        C'est LA SEULE MÉTHODE qui doit être utilisée pour identifier les mouvements.
-        
-        Args:
-            lot: Le lot à classifier
-            position_id: L'identifiant de la position (pour le tracking des versements externes)
-        
-        Returns:
-            ClassifiedLot ou None si le lot est invalide
-        """
-        if not isinstance(lot, dict):
-            return None
-        
-        # Extraire les informations de base
-        lot_type = str(lot.get('type', 'buy')).lower()
-        net_amount = lot.get('net_amount', 0.0)
-        lot_date_raw = lot.get('date')
-        
-        # Parser la date
-        if not lot_date_raw:
-            return None
-        try:
-            if isinstance(lot_date_raw, str):
-                lot_date = datetime.fromisoformat(lot_date_raw).date()
-            else:
-                lot_date = lot_date_raw
-        except:
-            return None
-        
-        # Classification selon le type
-        if lot_type == 'buy' and net_amount > 0:
-            # Est-ce un versement externe ou une capitalisation interne ?
-            is_external = self._is_external_deposit(lot, position_id)
-            category = LotCategory.EXTERNAL_DEPOSIT if is_external else LotCategory.INTERNAL_CAPITALIZATION
-            return ClassifiedLot(category, lot_date, abs(net_amount), lot)
-        
-        elif lot_type in ('sell', 'other') and net_amount < 0:
-            # Retrait / rachat
-            return ClassifiedLot(LotCategory.WITHDRAWAL, lot_date, abs(net_amount), lot)
-        
-        elif lot_type == 'fee' and net_amount < 0:
-            # Frais
-            return ClassifiedLot(LotCategory.FEE, lot_date, abs(net_amount), lot)
-        
-        elif lot_type == 'tax' and net_amount < 0:
-            # Taxe
-            return ClassifiedLot(LotCategory.TAX, lot_date, abs(net_amount), lot)
-        
-        else:
-            # Autre (montant positif non-buy, ou type inconnu)
-            return ClassifiedLot(LotCategory.OTHER, lot_date, abs(net_amount), lot)
-    
-    def _is_external_deposit(self, lot: dict, position_id: str) -> bool:
-        """
-        Détermine si un lot 'buy' est un versement externe.
-        Logique centralisée (source de vérité unique).
-        """
-        # Si external est explicitement défini, l'utiliser
-        external = lot.get('external')
-        if external is not None:
-            if external:
-                self._external_deposits_seen.add(position_id)
-            return bool(external)
-        
-        # Heuristique : si c'est le 31/12 et qu'on a déjà vu des versements externes,
-        # c'est probablement une participation aux bénéfices
-        lot_date_raw = lot.get('date')
-        if lot_date_raw and position_id in self._external_deposits_seen:
-            try:
-                if isinstance(lot_date_raw, str):
-                    lot_date_obj = datetime.fromisoformat(lot_date_raw).date()
-                else:
-                    lot_date_obj = lot_date_raw
-                # Si c'est le 31/12 et qu'on a déjà vu des versements externes
-                if lot_date_obj.month == 12 and lot_date_obj.day == 31:
-                    return False  # C'est une participation aux bénéfices
-            except:
-                pass
-        
-        # Par défaut, considérer comme versement externe et le marquer
-        self._external_deposits_seen.add(position_id)
-        return True
-    
-    def classify_all_lots(self, lots: list, position_id: str) -> list[ClassifiedLot]:
-        """
-        Classifie tous les lots d'une position.
-        Retourne une liste triée par date.
-        """
-        # Trier les lots par date AVANT classification pour que la logique de détection
-        # des bénéfices (qui dépend de l'ordre de traitement) fonctionne correctement
-        def get_lot_date(lot):
-            if not isinstance(lot, dict):
-                return date.min
-            lot_date_raw = lot.get('date')
-            if not lot_date_raw:
-                return date.min
-            try:
-                if isinstance(lot_date_raw, str):
-                    return datetime.fromisoformat(lot_date_raw).date()
-                return lot_date_raw
-            except:
-                return date.min
-        
-        sorted_lots = sorted(lots, key=get_lot_date)
-        
-        classified = []
-        for lot in sorted_lots:
-            classified_lot = self.classify_lot(lot, position_id)
-            if classified_lot:
-                classified.append(classified_lot)
-        
-        # Trier par date (déjà trié, mais on le fait pour être sûr)
-        classified.sort(key=lambda cl: cl.date)
-        
-        return classified
+from .lot_classifier import LotCategory, ClassifiedLot, LotClassifier
+from .finance import (
+    calculate_xirr,
+    is_external_contribution,
+    calculate_invested_amounts,
+    build_cashflows_for_xirr,
+    calculate_performance_metrics,
+)
+from .lot_helpers import (
+    is_position_sold,
+    extract_sell_date_from_lots,
+    extract_sell_value_from_lots,
+    calculate_fees_total,
+    calculate_fonds_euro_invested_amount,
+    get_fonds_euro_reference_date,
+    calculate_fonds_euro_performance_values,
+)
+from .formatting import truncate as _truncate_fn, format_table as _format_table_fn
+from .views.history import history_view, list_history_choices
 
 
 class PortfolioCLI:
@@ -1794,59 +1631,7 @@ class PortfolioCLI:
         name_cap = max(20, min(60, (term_width or 120) - fixed - 8))
         compact_max_widths = {"Nom": name_cap}
         
-        # Fonction locale pour formater le tableau (identique à structured_products_view)
-        def _truncate(s, max_len):
-            if len(s) <= max_len:
-                return s
-            return s[:max(0, max_len - 3)] + "..."
-        
-        def _format_table(headers, data_rows, *, aligns=None, max_widths=None):
-            """
-            Render un tableau monospace lisible dans un terminal.
-            - aligns: dict[col] -> 'l'|'r' (left/right)
-            - max_widths: dict[col] -> int (cap de largeur, tronque avec "...")
-            """
-            aligns = aligns or {}
-            max_widths = max_widths or {}
-            
-            # Convertir en matrice de strings
-            matrix = []
-            for r in data_rows:
-                row = []
-                for h in headers:
-                    row.append("" if r.get(h) is None else str(r.get(h)))
-                matrix.append(row)
-            
-            # Largeur auto, avec cap éventuel
-            widths = []
-            for i, h in enumerate(headers):
-                col_vals = [h] + [matrix[j][i] for j in range(len(matrix))]
-                w = max(len(v) for v in col_vals) if col_vals else len(h)
-                cap = max_widths.get(h)
-                if isinstance(cap, int) and cap > 0:
-                    w = min(w, cap)
-                widths.append(max(1, w))
-            
-            # Tronquer selon widths
-            for j in range(len(matrix)):
-                for i, h in enumerate(headers):
-                    matrix[j][i] = _truncate(matrix[j][i], widths[i])
-            
-            header_cells = [_truncate(h, widths[i]) for i, h in enumerate(headers)]
-            
-            def fmt_cell(h, i, val):
-                if aligns.get(h) == "r":
-                    return val.rjust(widths[i])
-                return val.ljust(widths[i])
-            
-            header_line = "  ".join(fmt_cell(headers[i], i, header_cells[i]) for i in range(len(headers)))
-            sep_line = "  ".join(("-" * widths[i]) for i in range(len(headers)))
-            lines = [header_line, sep_line]
-            for row in matrix:
-                lines.append("  ".join(fmt_cell(headers[i], i, row[i]) for i in range(len(headers))))
-            return "\n".join(lines)
-        
-        print(_format_table(compact_headers, table_rows, aligns=compact_aligns, max_widths=compact_max_widths))
+        print(_format_table_fn(compact_headers, table_rows, aligns=compact_aligns, max_widths=compact_max_widths))
         
         if not details:
             return
@@ -2027,220 +1812,23 @@ class PortfolioCLI:
     # ============================================================================
     
     def _is_position_sold(self, position: Position) -> bool:
-        """
-        Détermine si une position est vendue (units_held ≈ 0).
-        Helper centralisé pour éviter la duplication.
-        """
-        units_held = position.investment.units_held
-        if units_held is not None:
-            try:
-                if abs(float(units_held)) < 0.01:
-                    return True
-            except (ValueError, TypeError):
-                pass
-        return False
-    
+        return is_position_sold(position)
+
     def _extract_sell_date_from_lots(self, lots: List[Dict[str, Any]]) -> Optional[date]:
-        """
-        Extrait la date de vente depuis les lots de type 'sell' ou 'tax' (liquidation).
-        Helper centralisé pour éviter la duplication.
-        """
-        sell_dates = []
-        # Chercher d'abord les lots "sell"
-        for lot in lots:
-            if not isinstance(lot, dict):
-                continue
-            lt = str(lot.get("type") or "").lower()
-            if lt != "sell":
-                continue
-            lot_date = lot.get("date")
-            if lot_date:
-                try:
-                    if isinstance(lot_date, str):
-                        sell_dates.append(datetime.fromisoformat(lot_date).date())
-                    elif hasattr(lot_date, 'year'):
-                        sell_dates.append(lot_date)
-                except (ValueError, TypeError):
-                    continue
-        
-        # Si pas de lot "sell", chercher un lot "tax" qui retire toutes les units (liquidation)
-        if not sell_dates:
-            for lot in lots:
-                if not isinstance(lot, dict):
-                    continue
-                lt = str(lot.get("type") or "").lower()
-                if lt != "tax":
-                    continue
-                # Vérifier si ce lot retire une grande quantité d'units (liquidation)
-                units = lot.get("units")
-                if units is not None:
-                    try:
-                        units_f = float(units)
-                        if units_f < -10:  # Seuil pour détecter une liquidation
-                            lot_date = lot.get("date")
-                            if lot_date:
-                                try:
-                                    if isinstance(lot_date, str):
-                                        sell_dates.append(datetime.fromisoformat(lot_date).date())
-                                    elif hasattr(lot_date, 'year'):
-                                        sell_dates.append(lot_date)
-                                except (ValueError, TypeError):
-                                    continue
-                    except (ValueError, TypeError):
-                        continue
-        
-        # Retourner la date de vente la plus récente
-        return max(sell_dates) if sell_dates else None
-    
+        return extract_sell_date_from_lots(lots)
+
     def _extract_sell_value_from_lots(self, lots: List[Dict[str, Any]]) -> Optional[float]:
-        """
-        Extrait la valeur de vente depuis les lots.
-        Helper centralisé pour éviter la duplication.
-        """
-        for lot in lots:
-            if not isinstance(lot, dict):
-                continue
-            lt = str(lot.get("type") or "").lower()
-            if lt == "sell":
-                amt = lot.get("net_amount")
-                if amt is None:
-                    gross = lot.get("gross_amount")
-                    fees = lot.get("fees_amount") or 0.0
-                    if gross is not None:
-                        try:
-                            amt = float(gross) - float(fees or 0.0)
-                        except (ValueError, TypeError):
-                            amt = None
-                if amt is not None:
-                    try:
-                        return abs(float(amt))
-                    except (ValueError, TypeError):
-                        continue
-            elif lt == "tax":
-                # Vérifier si c'est une liquidation (retire beaucoup d'units)
-                units = lot.get("units")
-                if units is not None:
-                    try:
-                        units_f = float(units)
-                        if units_f < -10:  # Liquidation
-                            amt = lot.get("net_amount")
-                            if amt is not None:
-                                try:
-                                    return abs(float(amt))
-                                except (ValueError, TypeError):
-                                    continue
-                    except (ValueError, TypeError):
-                        continue
-        return None
-    
+        return extract_sell_value_from_lots(lots)
+
     def _calculate_fees_total(self, lots: List[Dict[str, Any]], metadata: Optional[Dict[str, Any]] = None) -> float:
-        """
-        Calcule les frais totaux depuis les lots ou les métadonnées.
-        Helper centralisé pour éviter la duplication.
-        """
-        fees_total = 0.0
-        if lots:
-            classified_lots = self.lot_classifier.classify_all_lots(lots, "")
-            for cl in classified_lots:
-                if cl.category == LotCategory.FEE:
-                    fees_total += cl.amount
-        
-        # Utiliser cashflow_adjustments depuis les métadonnées si disponible (plus fiable)
-        if metadata:
-            cashflow_adjustments = metadata.get("cashflow_adjustments")
-            if cashflow_adjustments is not None:
-                fees_total = abs(float(cashflow_adjustments))
-        
-        return fees_total
-    
+        return calculate_fees_total(lots, self.lot_classifier, metadata)
+
     def _calculate_fonds_euro_invested_amount(self, position: Position, lots: List[Dict[str, Any]]) -> float:
-        """
-        Calcule le capital investi pour un fonds euro en utilisant _is_external_contribution.
-        Helper centralisé pour éviter la duplication.
-        """
-        invested_amount = position.investment.invested_amount
-        if lots:
-            buy_total = 0.0
-            sell_other_total = 0.0
-            fees_total = 0.0
-            has_previous_external = False
-            for lot in lots:
-                if not isinstance(lot, dict):
-                    continue
-                lot_type = str(lot.get('type', 'buy')).lower()
-                net_amt = lot.get('net_amount', 0.0)
-                
-                if lot_type == 'buy' and net_amt > 0:
-                    if self._is_external_contribution(lot, has_previous_external):
-                        buy_total += net_amt
-                        has_previous_external = True
-                elif lot_type in ('sell', 'other', 'tax') and net_amt < 0:
-                    sell_other_total += abs(net_amt)
-                elif lot_type == 'fee' and net_amt < 0:
-                    fees_total += abs(net_amt)
-            
-            invested_real_from_lots = max(0.0, buy_total - sell_other_total - fees_total)
-            if invested_real_from_lots > 0:
-                invested_amount = invested_real_from_lots
-        
-        return float(invested_amount) if invested_amount else 0.0
-    
+        return calculate_fonds_euro_invested_amount(position, lots)
+
     def _get_fonds_euro_reference_date(self, lots: list, position_id: str, today: date) -> date:
-        """
-        Détermine la date de référence pour le calcul de performance des fonds euros.
-        
-        Règle générique : tant qu'on n'a pas le mouvement de bénéfice pour une année,
-        on ne prend pas en compte cette année ni l'année N-1 dans le calcul.
-        
-        Args:
-            lots: Liste des lots de la position
-            position_id: ID de la position
-            today: Date actuelle
-            
-        Returns:
-            Date de référence (31/12 de la dernière année avec bénéfices connus)
-        """
-        classifier = LotClassifier()
-        classified_lots = classifier.classify_all_lots(lots, position_id)
-        
-        # Trouver toutes les années pour lesquelles on a une participation aux bénéfices
-        benefit_years = set()
-        for classified_lot in classified_lots:
-            if classified_lot.category == LotCategory.INTERNAL_CAPITALIZATION:
-                benefit_years.add(classified_lot.date.year)
-        
-        if not benefit_years:
-            # Aucun bénéfice connu : utiliser la date de souscription ou aujourd'hui si très récent
-            # Par défaut, on prend N-2 pour être sûr d'avoir des données
-            if today.month <= 2:  # Janvier ou février : les bénéfices de N-1 ne sont probablement pas connus
-                ref_year = today.year - 2
-            else:
-                ref_year = today.year - 1
-            ref_date = date(ref_year, 12, 31)
-            return ref_date
-        
-        # Trouver la dernière année avec bénéfices connus
-        last_benefit_year = max(benefit_years)
-        
-        # Si on est en janvier/février, les bénéfices de l'année précédente ne sont peut-être pas encore connus
-        # Donc on ne prend pas en compte l'année N-1 si on n'a pas son mouvement de bénéfice
-        if today.month <= 2:
-            # On est en janvier/février : les bénéfices de N-1 ne sont probablement pas encore connus
-            # On utilise donc la dernière année pour laquelle on a un mouvement de bénéfice
-            # (qui devrait être N-2)
-            ref_year = last_benefit_year
-        else:
-            # On est après février : les bénéfices de N-1 devraient être connus
-            # Si on a le mouvement de bénéfice pour N-1, on peut l'utiliser
-            if last_benefit_year >= today.year - 1:
-                ref_year = today.year - 1
-            else:
-                # Sinon, on utilise la dernière année connue
-                ref_year = last_benefit_year
-        
-        ref_date = date(ref_year, 12, 31)
-        return ref_date
-    
+        return get_fonds_euro_reference_date(lots, position_id, today)
+
     def _calculate_fonds_euro_performance_values(
         self,
         current_value: float,
@@ -2248,39 +1836,9 @@ class PortfolioCLI:
         position_id: str,
         ref_date_end: date,
     ) -> Tuple[Optional[float], Optional[float]]:
-        """
-        Calcule value_for_perf et invested_for_perf pour les fonds euros.
-        Helper centralisé pour éviter la duplication.
-        
-        Returns:
-            Tuple de (value_for_perf, invested_for_perf)
-        """
-        # Utiliser les méthodes helper centralisées pour calculer les montants investis
-        invested_amounts = self._calculate_invested_amounts(lots, position_id, ref_date_end)
-        invested_for_perf = invested_amounts['invested_external_until_ref']
-        
-        # Calculer la valeur au 31/12/(N-1)
-        value_for_perf = None
-        if current_value is not None:
-            value_for_perf = float(current_value)
-            if lots:
-                # Classifier tous les lots de l'année N
-                classified_lots = self.lot_classifier.classify_all_lots(lots, position_id)
-                ref_year = ref_date_end.year
-                for cl in classified_lots:
-                    # Si c'est un mouvement de l'année N
-                    if cl.date.year > ref_year:
-                        if cl.category == LotCategory.EXTERNAL_DEPOSIT:
-                            # Soustraire les versements externes (pas dans units_held au 31/12/(N-1))
-                            value_for_perf -= cl.amount
-                        elif cl.category == LotCategory.INTERNAL_CAPITALIZATION:
-                            # Soustraire les capitalisations internes (pas dans units_held au 31/12/(N-1))
-                            value_for_perf -= cl.amount
-                        elif cl.is_cash_outflow():
-                            # Ajouter les sorties (car elles diminuent la valeur actuelle)
-                            value_for_perf += cl.amount
-        
-        return value_for_perf, invested_for_perf if invested_for_perf > 0 else None
+        return calculate_fonds_euro_performance_values(
+            current_value, lots, position_id, ref_date_end, self.lot_classifier,
+        )
     
     def _is_structured_product_terminated(
         self,
@@ -2339,23 +1897,7 @@ class PortfolioCLI:
         return filtered
     
     def _list_history_choices(self) -> List[Tuple[str, str]]:
-        """
-        Liste les séries disponibles pour history : (libellé affiché, terme de recherche).
-        Ordre : NAV UC, puis sous-jacents, puis taux.
-        """
-        market_data_dir = self.market_data_dir
-        choices: List[Tuple[str, str]] = []
-        for prefix, category in (
-            ("nav_uc", "NAV UC"),
-            ("underlying", "Sous-jacent"),
-            ("rates", "Taux"),
-        ):
-            for f in sorted(market_data_dir.glob(f"{prefix}_*.yaml")):
-                stem = f.stem
-                short = stem.replace(f"{prefix}_", "", 1) if stem.startswith(prefix + "_") else stem
-                label = f"{category} — {short.replace('_', ' ')}"
-                choices.append((label, stem))
-        return choices
+        return list_history_choices(self.market_data_dir)
 
     def history(
         self,
@@ -2368,389 +1910,10 @@ class PortfolioCLI:
         chart_marker: str = "dot",
         chart_color: str = "green",
     ) -> None:
-        """
-        Affiche l'historique d'une série temporelle enregistrée dans market_data/.
-
-        Si value est vide et pas --all : menu pour choisir la série.
-        Si --all : affiche l'historique (et le graphe) pour toutes les séries (filtres date conservés).
-
-        value : terme de recherche ou None pour le menu
-        date_from / date_to : filtres ISO (YYYY-MM-DD)
-        no_chart : désactive le graphe
-        all_series : si True, traite toutes les séries
-        chart_type : "line" (courbe) ou "bar" (diagramme à bâtons)
-        chart_marker : marqueur plotext (dot, sd, braille, hd, fhd, …)
-        chart_color : couleur plotext (green, blue, red, …)
-        """
-        import yaml
-        import shutil as _shutil
-
-        # ------------------------------------------------------------------
-        # Menu ou liste des séries à afficher
-        # ------------------------------------------------------------------
-        choices = self._list_history_choices()
-        if not choices:
-            print("Aucune série d'historique trouvée dans market_data/.")
-            return
-
-        if not value or not str(value).strip():
-            if all_series:
-                values_to_show = [stem for _, stem in choices]
-            else:
-                print("\n  Historique — Choisir une série :\n")
-                for i, (label, _) in enumerate(choices, 1):
-                    print(f"    {i:2}. {label}")
-                print(f"    {0:2}. Quitter")
-                try:
-                    raw = input("\n  Numéro ou terme de recherche : ").strip()
-                except EOFError:
-                    print("Annulé.")
-                    return
-                if not raw:
-                    print("Annulé.")
-                    return
-                if raw.isdigit():
-                    num = int(raw)
-                    if num == 0:
-                        print("Annulé.")
-                        return
-                    if 1 <= num <= len(choices):
-                        value = choices[num - 1][1]
-                    else:
-                        print(f"Choix invalide (1–{len(choices)} ou 0 pour quitter).")
-                        return
-                else:
-                    value = raw.replace("-", "_").replace(" ", "_")
-                values_to_show = [value]
-                print()
-        else:
-            values_to_show = [value]
-
-        # ------------------------------------------------------------------
-        # Validation des dates (une seule fois)
-        # ------------------------------------------------------------------
-        from datetime import date as _date_type
-
-        def _parse_opt_date(s: Optional[str], label: str) -> Optional[_date_type]:
-            if not s or not str(s).strip():
-                return None
-            try:
-                return datetime.strptime(str(s).strip(), "%Y-%m-%d").date()
-            except ValueError:
-                print(f"Date invalide pour {label} : « {s} ». Utilisez le format AAAA-MM-JJ (ex. 2026-03-01).")
-                raise SystemExit(1)
-
-        from_d = _parse_opt_date(date_from, "--from")
-        to_d = _parse_opt_date(date_to, "--to")
-
-        # ------------------------------------------------------------------
-        # Helpers de formatage de tableau (même approche que uc_view)
-        # ------------------------------------------------------------------
-        def _truncate(s: str, max_len: int) -> str:
-            if len(s) <= max_len:
-                return s
-            return s[:max(0, max_len - 3)] + "..."
-
-        def _format_table(
-            headers: List[str],
-            data_rows: List[Dict[str, str]],
-            *,
-            aligns: Optional[Dict[str, str]] = None,
-            max_widths: Optional[Dict[str, int]] = None,
-        ) -> str:
-            aligns = aligns or {}
-            max_widths = max_widths or {}
-            matrix = []
-            for r in data_rows:
-                row = [str(r.get(h) or "") for h in headers]
-                matrix.append(row)
-            widths = []
-            for i, h in enumerate(headers):
-                col_vals = [h] + [matrix[j][i] for j in range(len(matrix))]
-                w = max(len(v) for v in col_vals) if col_vals else len(h)
-                cap = max_widths.get(h)
-                if isinstance(cap, int) and cap > 0:
-                    w = min(w, cap)
-                widths.append(max(1, w))
-            for j in range(len(matrix)):
-                for i, h in enumerate(headers):
-                    matrix[j][i] = _truncate(matrix[j][i], widths[i])
-            header_cells = [_truncate(h, widths[i]) for i, h in enumerate(headers)]
-
-            def fmt_cell(h: str, i: int, val: str) -> str:
-                return val.rjust(widths[i]) if aligns.get(h) == "r" else val.ljust(widths[i])
-
-            header_line = "  ".join(fmt_cell(headers[i], i, header_cells[i]) for i in range(len(headers)))
-            sep_line = "  ".join("-" * widths[i] for i in range(len(headers)))
-            lines = [header_line, sep_line]
-            for row in matrix:
-                lines.append("  ".join(fmt_cell(headers[i], i, row[i]) for i in range(len(headers))))
-            return "\n".join(lines)
-
-        for value in values_to_show:
-            if len(values_to_show) > 1:
-                print("\n" + "=" * 80)
-
-            # ------------------------------------------------------------------
-            # 1. Découverte du fichier correspondant
-            # ------------------------------------------------------------------
-            market_data_dir = self.market_data_dir
-            candidates: List[Path] = []
-            search = value.lower().replace("-", "_").replace(" ", "_")
-
-            for prefix in ("nav_uc", "underlying", "rates"):
-                for f in sorted(market_data_dir.glob(f"{prefix}_*.yaml")):
-                    if search in f.stem.lower():
-                        candidates.append(f)
-
-            if not candidates:
-                print(f"\nAucun fichier trouvé pour la recherche « {value} »")
-                if len(values_to_show) > 1:
-                    continue
-                print("Conseil : utilisez un terme présent dans le nom du fichier")
-                print("  ex: bdl_rempart, MQDCA09P, CMS_EUR_10Y, eleva, dynastrat")
-                return
-
-            if len(candidates) > 1 and len(values_to_show) == 1:
-                print(f"\n{len(candidates)} fichiers correspondent — affichage du premier.")
-                print("Précisez le terme pour être plus sélectif. Fichiers trouvés :")
-                for c in candidates:
-                    print(f"  • {c.name}")
-
-            target_file = candidates[0]
-
-            # ------------------------------------------------------------------
-            # 2. Chargement et détection du type
-            # ------------------------------------------------------------------
-            with open(target_file, "r", encoding="utf-8") as fh:
-                data = yaml.safe_load(fh)
-
-            stem = target_file.stem.lower()
-            if stem.startswith("nav_uc"):
-                series_key = "nav_history"
-                series_type = "NAV UC"
-                value_label = "VL"
-                unit_suffix = ""
-            elif stem.startswith("underlying"):
-                series_key = "history"
-                series_type = "Sous-jacent"
-                value_label = data.get("metric", "valeur").replace("_", " ").title()
-                unit_suffix = ""
-            else:
-                series_key = "history"
-                series_type = "Taux"
-                value_label = "Taux"
-                unit_suffix = "%" if data.get("units") == "pct" else ""
-
-            raw_series = data.get(series_key, [])
-            if not raw_series:
-                print(f"Aucune donnée dans {target_file.name}")
-                if len(values_to_show) > 1:
-                    continue
-                return
-
-            # Construire un dict date → source pour les NAV UC
-            source_by_date: Dict[str, str] = {}
-            if stem.startswith("nav_uc"):
-                for entry in raw_series:
-                    src = entry.get("source", "")
-                    if src:
-                        source_by_date[str(entry.get("date", ""))] = src
-
-            # ------------------------------------------------------------------
-            # 3. Filtres de date + tri chronologique
-            # ------------------------------------------------------------------
-            points: List[Tuple[_date_type, float, str]] = []
-            for entry in raw_series:
-                try:
-                    d = datetime.strptime(str(entry["date"]), "%Y-%m-%d").date()
-                    v = float(entry["value"])
-                except (KeyError, TypeError, ValueError):
-                    continue
-                if from_d and d < from_d:
-                    continue
-                if to_d and d > to_d:
-                    continue
-                points.append((d, v, entry.get("currency", "")))
-
-            points.sort(key=lambda x: x[0])
-
-            if not points:
-                print("Aucun point dans la plage de dates demandée.")
-                if len(values_to_show) > 1:
-                    continue
-                return
-
-            first_val = points[0][1]
-            last_val = points[-1][1]
-            min_val = min(p[1] for p in points)
-            max_val = max(p[1] for p in points)
-            total_pct = (last_val / first_val - 1) * 100 if first_val else 0.0
-
-            currency_display = ""
-            if stem.startswith("nav_uc"):
-                currencies = {p[2] for p in points if p[2]}
-                currency_display = next(iter(currencies), "EUR")
-
-            # ------------------------------------------------------------------
-            # 4. En-tête
-            # ------------------------------------------------------------------
-            title_human = (
-                target_file.stem
-                .replace("nav_uc_", "")
-                .replace("underlying_", "")
-                .replace("rates_", "")
-                .replace("_", " ")
-                .upper()
-            )
-            term_width = _shutil.get_terminal_size().columns
-
-            print()
-            print("=" * min(term_width, 100))
-            print(f"HISTORIQUE  ·  {series_type}  ·  {title_human}")
-            print(f"Fichier : {target_file.name}")
-            if data.get("notes"):
-                print(f"Note    : {data['notes']}")
-            if data.get("url"):
-                print(f"URL     : {data['url']}")
-            print("=" * min(term_width, 100))
-            print()
-
-            # ------------------------------------------------------------------
-            # 5. Tableau
-            # ------------------------------------------------------------------
-            col_val = f"{value_label} ({currency_display})" if currency_display else value_label
-            show_source = bool(source_by_date)
-            headers = ["Date", col_val, "Δ préc.", "Δ départ"]
-            if show_source:
-                headers.append("Source")
-
-            aligns = {"Date": "l", col_val: "r", "Δ préc.": "r", "Δ départ": "r", "Source": "l"}
-            max_widths_table = {col_val: 14, "Δ préc.": 10, "Δ départ": 10, "Source": 18}
-
-            table_rows: List[Dict[str, str]] = []
-            prev_val = None
-            for d, v, _ in points:
-                val_str = f"{v:,.4f}{unit_suffix}"
-
-                delta_prev_str = ""
-                if prev_val is not None and prev_val != 0:
-                    dp = (v / prev_val - 1) * 100
-                    sign = "+" if dp >= 0 else ""
-                    delta_prev_str = f"{sign}{dp:.2f}%"
-
-                delta_start_str = ""
-                if first_val != 0:
-                    ds = (v / first_val - 1) * 100
-                    sign = "+" if ds >= 0 else ""
-                    delta_start_str = f"{sign}{ds:.2f}%"
-
-                row: Dict[str, str] = {
-                    "Date": str(d),
-                    col_val: val_str,
-                    "Δ préc.": delta_prev_str,
-                    "Δ départ": delta_start_str,
-                }
-                if show_source:
-                    row["Source"] = source_by_date.get(str(d), "")
-
-                table_rows.append(row)
-                prev_val = v
-
-            print(_format_table(headers, table_rows, aligns=aligns, max_widths=max_widths_table))
-
-            # ------------------------------------------------------------------
-            # 6. Résumé
-            # ------------------------------------------------------------------
-            sign = "+" if total_pct >= 0 else ""
-            print()
-            print(
-                f"Résumé : {len(points)} points  |"
-                f"  Premier : {points[0][0]} = {first_val:,.4f}"
-                f"  →  Dernier : {points[-1][0]} = {last_val:,.4f}"
-                f"  |  Évolution : {sign}{total_pct:.2f}%"
-                f"  |  Min : {min_val:,.4f}  Max : {max_val:,.4f}"
-            )
-
-            # ------------------------------------------------------------------
-            # 7. Graphe (plotext si dispo, sinon ASCII)
-            # ------------------------------------------------------------------
-            if no_chart or len(points) < 2:
-                print()
-                if len(values_to_show) > 1:
-                    continue
-                return
-
-            x_vals = list(range(len(points)))
-            y_vals = [p[1] for p in points]
-            dates = [str(p[0]) for p in points]
-
-            try:
-                import plotext as plt
-                plt.clf()
-                n = len(dates)
-                if chart_type == "bar":
-                    plt.bar(x_vals, y_vals, color=chart_color, marker=chart_marker)
-                    # Limiter l'axe Y aux données pour que les barres aient des hauteurs visibles (sinon 0→max écrase tout)
-                    y_min, y_max = min(y_vals), max(y_vals)
-                    margin = (y_max - y_min) * 0.05 if y_max > y_min else 1.0
-                    plt.ylim(max(0, y_min - margin), y_max + margin)
-                else:
-                    plt.plot(x_vals, y_vals, color=chart_color, marker=chart_marker)
-                plt.xlabel("Date")
-                plt.ylabel("VL (EUR)")
-                if n > 0:
-                    indices = [0, n // 2, n - 1] if n >= 3 else list(range(n))
-                    plt.xticks([x_vals[i] for i in indices], [dates[i] for i in indices])
-                plt.theme("clear")
-                plt.plotsize(80, 16)
-                print()
-                plt.show()
-                if len(values_to_show) > 1:
-                    continue
-                return
-            except (ImportError, AttributeError, TypeError, Exception):
-                pass
-
-            # Fallback : ASCII
-            chart_width = min(80, len(points))
-            chart_height = 8
-            if len(y_vals) > chart_width:
-                step = len(y_vals) / chart_width
-                sampled = [y_vals[int(i * step)] for i in range(chart_width)]
-            else:
-                sampled = y_vals
-
-            v_min = min(sampled)
-            v_max = max(sampled)
-            v_range = v_max - v_min if v_max != v_min else 1.0
-            normalized = [int((v - v_min) / v_range * (chart_height - 1)) for v in sampled]
-
-            print()
-            print("Graphe :")
-            for row_idx in range(chart_height - 1, -1, -1):
-                line_chars_loop: List[str] = []
-                for col_idx, nv in enumerate(normalized):
-                    prev_nv = normalized[col_idx - 1] if col_idx > 0 else nv
-                    if nv == row_idx:
-                        line_chars_loop.append("─")
-                    elif min(prev_nv, nv) < row_idx < max(prev_nv, nv):
-                        line_chars_loop.append("│")
-                    else:
-                        line_chars_loop.append(" ")
-                if row_idx == chart_height - 1:
-                    label = f"{v_max:>10,.4f}"
-                elif row_idx == 0:
-                    label = f"{v_min:>10,.4f}"
-                else:
-                    label = " " * 10
-                print(f"  {label} ┤{''.join(line_chars_loop)}")
-
-            first_date = dates[0]
-            last_date = dates[-1]
-            half = chart_width // 2
-            print(f"  {' ' * 12}{first_date:<{half}}{last_date:>{half}}")
-            print()
+        history_view(
+            self.market_data_dir, value, date_from, date_to,
+            no_chart, all_series, chart_type, chart_marker, chart_color,
+        )
 
     def contract_performance(self, contract_name: Optional[str] = None):
         """
@@ -3869,67 +3032,11 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         
         rows.sort(key=lambda r: (r["name"], r["position_id"]))
 
-        def _truncate(s: str, max_len: int) -> str:
-            s = "" if s is None else str(s)
-            if max_len <= 0:
-                return ""
-            if len(s) <= max_len:
-                return s
-            if max_len <= 3:
-                return s[:max_len]
-            return s[: max_len - 3] + "..."
-
         def _clip_to_term(s: str, width: int) -> str:
             """Tronque une ligne à la largeur du terminal, sans casser l'affichage."""
             if not width or width <= 0:
                 return s
-            return _truncate(s, width)
-
-        def _format_table(headers, data_rows, *, aligns=None, max_widths=None):
-            """
-            Render un tableau monospace lisible dans un terminal.
-            - aligns: dict[col] -> 'l'|'r' (left/right)
-            - max_widths: dict[col] -> int (cap de largeur, tronque avec "...")
-            """
-            aligns = aligns or {}
-            max_widths = max_widths or {}
-
-            # Convertir en matrice de strings
-            matrix = []
-            for r in data_rows:
-                row = []
-                for h in headers:
-                    row.append("" if r.get(h) is None else str(r.get(h)))
-                matrix.append(row)
-
-            # Largeur auto, avec cap éventuel
-            widths = []
-            for i, h in enumerate(headers):
-                col_vals = [h] + [matrix[j][i] for j in range(len(matrix))]
-                w = max(len(v) for v in col_vals) if col_vals else len(h)
-                cap = max_widths.get(h)
-                if isinstance(cap, int) and cap > 0:
-                    w = min(w, cap)
-                widths.append(max(1, w))
-
-            # Tronquer selon widths
-            for j in range(len(matrix)):
-                for i, h in enumerate(headers):
-                    matrix[j][i] = _truncate(matrix[j][i], widths[i])
-
-            header_cells = [_truncate(h, widths[i]) for i, h in enumerate(headers)]
-
-            def fmt_cell(h, i, val):
-                if aligns.get(h) == "r":
-                    return val.rjust(widths[i])
-                return val.ljust(widths[i])
-
-            header_line = "  ".join(fmt_cell(headers[i], i, header_cells[i]) for i in range(len(headers)))
-            sep_line = "  ".join(("-" * widths[i]) for i in range(len(headers)))
-            lines = [header_line, sep_line]
-            for row in matrix:
-                lines.append("  ".join(fmt_cell(headers[i], i, row[i]) for i in range(len(headers))))
-            return "\n".join(lines)
+            return _truncate_fn(s, width)
 
         term_width = shutil.get_terminal_size(fallback=(120, 20)).columns
         print("\n" + "=" * min(term_width, 120))
@@ -4279,7 +3386,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
                 max_widths["Nom"] = min(max_widths["Nom"], 32)
                 max_widths["Seuil remb."] = min(max_widths["Seuil remb."], 20)
 
-            print(_format_table(headers, table_rows, aligns=aligns, max_widths=max_widths))
+            print(_format_table_fn(headers, table_rows, aligns=aligns, max_widths=max_widths))
             return
 
         # Vue compacte (par défaut) : moins de colonnes => pas de wrap, + détails en 2e ligne.
@@ -4312,7 +3419,7 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         name_cap = max(20, min(60, (term_width or 120) - fixed - 8))
         compact_max_widths = {"Nom": name_cap}
 
-        print(_format_table(compact_headers, compact_rows, aligns=compact_aligns, max_widths=compact_max_widths))
+        print(_format_table_fn(compact_headers, compact_rows, aligns=compact_aligns, max_widths=compact_max_widths))
 
         if not details:
             return
@@ -4370,197 +3477,18 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
             print()
     
     def _calculate_xirr(self, cashflows: list, guess: float = 0.1, max_iter: int = 100, precision: float = 1e-6) -> Optional[float]:
-        """
-        Calcule le XIRR (taux de rendement interne annualisé) pour une série de flux de trésorerie.
-        Utilise la méthode de Newton-Raphson (pas de dépendance externe).
-        
-        Args:
-            cashflows: Liste de tuples (date, montant) où les montants négatifs sont des sorties
-            guess: Estimation initiale du taux
-            max_iter: Nombre maximum d'itérations
-            precision: Précision souhaitée
-            
-        Returns:
-            Le taux annualisé en décimal (ex: 0.05 pour 5%) ou None si pas de convergence
-        """
-        if not cashflows or len(cashflows) < 2:
-            return None
-        
-        # Trier par date
-        cashflows = sorted(cashflows, key=lambda x: x[0])
-        
-        # Date de référence (première date)
-        ref_date = cashflows[0][0]
-        
-        # Convertir en (jours depuis ref_date, montant)
-        cf_data = []
-        for dt, amt in cashflows:
-            days = (dt - ref_date).days
-            cf_data.append((days / 365.25, amt))  # Convertir en années
-        
-        # Méthode de Newton-Raphson pour trouver le taux
-        rate = guess
-        for _ in range(max_iter):
-            # Calculer la valeur actuelle nette (NPV) et sa dérivée
-            npv = 0.0
-            npv_deriv = 0.0
-            
-            for t, amt in cf_data:
-                npv += amt / ((1 + rate) ** t)
-                npv_deriv -= t * amt / ((1 + rate) ** (t + 1))
-            
-            # Vérifier la convergence
-            if abs(npv) < precision:
-                return rate
-            
-            # Mise à jour du taux
-            if npv_deriv != 0:
-                rate = rate - npv / npv_deriv
-            else:
-                return None
-        
-        # Pas de convergence
-        return None
-    
+        return calculate_xirr(cashflows, guess, max_iter, precision)
+
     @staticmethod
     def _is_external_contribution(lot: dict, has_previous_external: bool = False) -> bool:
-        """
-        Détermine si un mouvement 'buy' est un versement externe ou une participation aux bénéfices.
-        
-        Args:
-            lot: Le lot à vérifier
-            has_previous_external: True si on a déjà vu des versements externes avant
-            
-        Returns:
-            True si c'est un versement externe, False si c'est une participation aux bénéfices
-        """
-        if not isinstance(lot, dict):
-            return False
-        
-        lot_type = str(lot.get('type', 'buy')).lower()
-        if lot_type != 'buy':
-            return False
-        
-        # Si external est explicitement défini, l'utiliser
-        external = lot.get('external')
-        if external is not None:
-            return bool(external)
-        
-        # Heuristique : si c'est le 31/12 et qu'il y a déjà eu des versements externes,
-        # c'est probablement une participation aux bénéfices
-        lot_date = lot.get('date')
-        if lot_date and has_previous_external:
-            try:
-                if isinstance(lot_date, str):
-                    lot_date_obj = datetime.fromisoformat(lot_date).date()
-                else:
-                    lot_date_obj = lot_date
-                # Si c'est le 31/12 et qu'on a déjà vu des versements externes, c'est probablement des intérêts
-                if lot_date_obj.month == 12 and lot_date_obj.day == 31:
-                    return False
-            except:
-                pass
-        
-        # Par défaut, considérer comme versement externe (pour compatibilité)
-        return True
-    
+        return is_external_contribution(lot, has_previous_external)
+
     def _calculate_invested_amounts(self, lots: list, position_id: str, ref_date: Optional[date] = None) -> dict:
-        """
-        Calcule les montants investis à partir des lots.
-        MÉTHODE CENTRALISÉE utilisant LotClassifier (source de vérité unique).
-        
-        Args:
-            lots: Liste des lots (mouvements)
-            position_id: ID de la position (pour la classification)
-            ref_date: Date de référence (optionnelle). Si fournie, calcule aussi invested_until_ref
-        
-        Returns:
-            Dict avec:
-            - invested_total: Capital investi total (achats externes - rachats - frais)
-            - invested_external: Capital externe uniquement (versements externes)
-            - invested_until_ref: Capital investi jusqu'à ref_date (si ref_date fournie)
-            - invested_external_until_ref: Capital externe jusqu'à ref_date (si ref_date fournie)
-        """
-        result = {
-            'invested_total': 0.0,
-            'invested_external': 0.0,
-            'invested_until_ref': 0.0,
-            'invested_external_until_ref': 0.0,
-        }
-        
-        if not lots:
-            return result
-        
-        # Classifier tous les lots (source de vérité unique)
-        classified_lots = self.lot_classifier.classify_all_lots(lots, position_id)
-        
-        deposits = 0.0
-        withdrawals = 0.0
-        fees_taxes = 0.0
-        
-        deposits_until_ref = 0.0
-        withdrawals_until_ref = 0.0
-        fees_taxes_until_ref = 0.0
-        
-        for cl in classified_lots:
-            is_before_ref = (cl.date <= ref_date) if ref_date else True
-            
-            if cl.category == LotCategory.EXTERNAL_DEPOSIT:
-                deposits += cl.amount
-                if is_before_ref:
-                    deposits_until_ref += cl.amount
-            
-            elif cl.category == LotCategory.WITHDRAWAL:
-                withdrawals += cl.amount
-                if is_before_ref:
-                    withdrawals_until_ref += cl.amount
-            
-            elif cl.category in (LotCategory.FEE, LotCategory.TAX):
-                fees_taxes += cl.amount
-                if is_before_ref:
-                    fees_taxes_until_ref += cl.amount
-        
-        result['invested_total'] = max(0.0, deposits - withdrawals - fees_taxes)
-        result['invested_external'] = deposits
-        result['invested_until_ref'] = max(0.0, deposits_until_ref - withdrawals_until_ref - fees_taxes_until_ref)
-        result['invested_external_until_ref'] = deposits_until_ref
-        
-        return result
-    
+        return calculate_invested_amounts(lots, position_id, self.lot_classifier, ref_date)
+
     def _build_cashflows_for_xirr(self, lots: list, position_id: str, value_at_end: float, end_date: date) -> list:
-        """
-        Construit la liste des flux de trésorerie pour le calcul XIRR.
-        MÉTHODE CENTRALISÉE utilisant LotClassifier (source de vérité unique).
-        
-        Args:
-            lots: Liste des lots (mouvements)
-            position_id: ID de la position (pour la classification)
-            value_at_end: Valeur finale (positive)
-            end_date: Date de la valeur finale
-        
-        Returns:
-            Liste de tuples (date, montant) pour XIRR
-        """
-        cashflows = []
-        
-        # Classifier tous les lots (source de vérité unique)
-        classified_lots = self.lot_classifier.classify_all_lots(lots, position_id)
-        
-        # Filtrer jusqu'à end_date et construire les flux XIRR
-        for cl in classified_lots:
-            if cl.date > end_date:
-                continue
-            
-            xirr_amount = cl.for_xirr()
-            if xirr_amount is not None:
-                cashflows.append((cl.date, xirr_amount))
-        
-        # Ajouter la valeur finale
-        if cashflows:
-            cashflows.append((end_date, value_at_end))
-        
-        return cashflows
-    
+        return build_cashflows_for_xirr(lots, position_id, self.lot_classifier, value_at_end, end_date)
+
     def _calculate_performance_metrics(
         self,
         current_value: float,
@@ -4572,85 +3500,10 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         value_for_perf: Optional[float] = None,
         invested_for_perf: Optional[float] = None,
     ) -> dict:
-        """
-        Calcule les métriques de performance (gain, perf%, perf annualisée).
-        Utilise XIRR si des lots sont fournis, sinon calcul simple.
-        MÉTHODE CENTRALISÉE utilisant LotClassifier (source de vérité unique).
-        
-        Args:
-            current_value: Valeur actuelle (pour le gain affiché)
-            invested_amount: Capital investi total (pour le gain affiché)
-            subscription_date: Date de souscription
-            position_id: ID de la position (pour la classification)
-            end_date: Date de fin pour le calcul (défaut: aujourd'hui)
-            lots: Liste des lots pour calcul XIRR (optionnel)
-            value_for_perf: Valeur ajustée pour le calcul de performance (optionnel, pour fonds euros)
-            invested_for_perf: Capital investi ajusté pour le calcul de performance (optionnel, pour fonds euros)
-        
-        Returns:
-            Dict avec:
-            - gain: Gain absolu (sur current_value - invested_amount)
-            - perf: Performance totale en %
-            - perf_annualized: Performance annualisée en %
-        """
-        result = {
-            'gain': 0.0,
-            'perf': None,
-            'perf_annualized': None,
-        }
-        
-        if not current_value or not invested_amount or invested_amount <= 0:
-            return result
-        
-        if end_date is None:
-            end_date = datetime.now().date()
-        
-        # Calcul du gain (toujours sur les valeurs actuelles pour l'affichage)
-        gain = float(current_value) - float(invested_amount)
-        result['gain'] = gain
-        
-        # Si on a des lots ET des valeurs ajustées (value_for_perf/invested_for_perf),
-        # utiliser XIRR (cas des fonds euros avec calcul jusqu'à N-1)
-        # Pour les autres cas (produits structurés, UC), on utilisera le calcul simple
-        if lots and value_for_perf is not None and invested_for_perf is not None:
-            # Utiliser les valeurs ajustées (pour fonds euros avec calcul jusqu'à N-1)
-            value_for_xirr = float(value_for_perf)
-            invested_for_xirr = float(invested_for_perf)
-            
-            # Vérifier que les valeurs pour XIRR sont valides
-            if value_for_xirr and invested_for_xirr > 0:
-                try:
-                    cashflows = self._build_cashflows_for_xirr(lots, position_id, value_for_xirr, end_date)
-                    if cashflows:
-                        xirr_result = self._calculate_xirr(cashflows)
-                        if xirr_result is not None:
-                            # XIRR retourne déjà un taux annualisé en décimal
-                            result['perf_annualized'] = xirr_result * 100.0
-                            
-                            # Calculer la performance totale à partir du taux annualisé
-                            days_elapsed = (end_date - subscription_date).days
-                            if days_elapsed > 0:
-                                years_real = days_elapsed / 365.25
-                                if years_real > 0:
-                                    result['perf'] = ((1.0 + xirr_result) ** years_real - 1.0) * 100.0
-                            
-                            return result
-                except (OverflowError, ValueError, ZeroDivisionError):
-                    # Si XIRR échoue, fallback sur calcul simple
-                    pass
-        
-        # Sinon, calcul simple
-        perf = (gain / float(invested_amount)) * 100.0
-        result['perf'] = perf
-        
-        # Annualiser
-        days_elapsed = (end_date - subscription_date).days
-        if days_elapsed > 0:
-            years_real = days_elapsed / 365.25
-            if years_real > 0:
-                result['perf_annualized'] = ((1.0 + perf / 100.0) ** (1.0 / years_real) - 1.0) * 100.0
-        
-        return result
+        return calculate_performance_metrics(
+            current_value, invested_amount, subscription_date, position_id,
+            self.lot_classifier, end_date, lots, value_for_perf, invested_for_perf,
+        )
     
     def _collect_view_data(self, *, include_terminated: bool = False):
         """
@@ -5290,60 +4143,8 @@ Vous pouvez maintenant me poser des questions sur ces recommandations, sur votre
         name_cap = max(20, min(60, (term_width or 120) - fixed - 8))
         compact_max_widths = {"Nom": name_cap}
         
-        # Fonction locale pour formater le tableau (identique à uc_view)
-        def _truncate(s, max_len):
-            if len(s) <= max_len:
-                return s
-            return s[:max(0, max_len - 3)] + "..."
-        
-        def _format_table(headers, data_rows, *, aligns=None, max_widths=None):
-            """
-            Render un tableau monospace lisible dans un terminal.
-            - aligns: dict[col] -> 'l'|'r' (left/right)
-            - max_widths: dict[col] -> int (cap de largeur, tronque avec "...")
-            """
-            aligns = aligns or {}
-            max_widths = max_widths or {}
-            
-            # Convertir en matrice de strings
-            matrix = []
-            for r in data_rows:
-                row = []
-                for h in headers:
-                    row.append("" if r.get(h) is None else str(r.get(h)))
-                matrix.append(row)
-            
-            # Largeur auto, avec cap éventuel
-            widths = []
-            for i, h in enumerate(headers):
-                col_vals = [h] + [matrix[j][i] for j in range(len(matrix))]
-                w = max(len(v) for v in col_vals) if col_vals else len(h)
-                cap = max_widths.get(h)
-                if isinstance(cap, int) and cap > 0:
-                    w = min(w, cap)
-                widths.append(max(1, w))
-            
-            # Tronquer selon widths
-            for j in range(len(matrix)):
-                for i, h in enumerate(headers):
-                    matrix[j][i] = _truncate(matrix[j][i], widths[i])
-            
-            header_cells = [_truncate(h, widths[i]) for i, h in enumerate(headers)]
-            
-            def fmt_cell(h, i, val):
-                if aligns.get(h) == "r":
-                    return val.rjust(widths[i])
-                return val.ljust(widths[i])
-            
-            header_line = "  ".join(fmt_cell(headers[i], i, header_cells[i]) for i in range(len(headers)))
-            sep_line = "  ".join(("-" * widths[i]) for i in range(len(headers)))
-            lines = [header_line, sep_line]
-            for row in matrix:
-                lines.append("  ".join(fmt_cell(headers[i], i, row[i]) for i in range(len(headers))))
-            return "\n".join(lines)
-        
-        print(_format_table(compact_headers, table_rows, aligns=compact_aligns, max_widths=compact_max_widths))
-        
+        print(_format_table_fn(compact_headers, table_rows, aligns=compact_aligns, max_widths=compact_max_widths))
+
         if not details:
             return
         

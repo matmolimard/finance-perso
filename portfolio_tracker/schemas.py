@@ -7,19 +7,7 @@ from enum import Enum
 from typing import Any, Dict, List, Optional
 from pydantic import BaseModel, Field, field_validator, model_validator
 
-
-class AssetType(str, Enum):
-    STRUCTURED_PRODUCT = "structured_product"
-    FONDS_EURO = "fonds_euro"
-    UC_FUND = "uc_fund"
-    UC_ILLIQUID = "uc_illiquid"
-
-
-class ValuationEngine(str, Enum):
-    EVENT_BASED = "event_based"
-    DECLARATIVE = "declarative"
-    MARK_TO_MARKET = "mark_to_market"
-    HYBRID = "hybrid"
+from .core.asset import AssetType, ValuationEngine
 
 
 class AssetSchema(BaseModel):

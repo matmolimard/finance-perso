@@ -1,6 +1,7 @@
 """
 Mark-to-Market Engine - Valorisation au prix de marché (UC cotées)
 """
+import logging
 from datetime import date, datetime
 from typing import Optional
 from pathlib import Path
@@ -8,6 +9,8 @@ import yaml
 from dataclasses import dataclass
 
 from .base import BaseValuationEngine, ValuationResult
+
+logger = logging.getLogger(__name__)
 from ..core.asset import Asset
 from ..core.position import Position
 
@@ -50,8 +53,8 @@ class MarkToMarketEngine(BaseValuationEngine):
                     lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
                     if lot_date > val_date:
                         continue
-                except Exception:
-                    pass
+                except (ValueError, TypeError):
+                    logger.debug("Cannot parse lot date %r", d, exc_info=True)
             try:
                 units = lot.get("units")
                 if units is None:
@@ -80,9 +83,10 @@ class MarkToMarketEngine(BaseValuationEngine):
                     if net_amount is not None:
                         buy_units_total += units_f
                         buy_amount_total += float(net_amount)
-            except Exception:
+            except (ValueError, TypeError):
+                logger.debug("Cannot parse lot units/amount", exc_info=True)
                 continue
-        
+
         # Si lots disponibles (position a été gérée via lots), utiliser la somme filtrée à val_date.
         # Cela permet les valorisations historiques correctes (pas encore acheté → 0 unités).
         # Si aucun lot n'existe, utiliser units_held du YAML (position simple sans historique de lots).
@@ -150,7 +154,8 @@ class MarkToMarketEngine(BaseValuationEngine):
                 if float(position.investment.units_held) != 0:
                     purchase_nav = float(position.investment.invested_amount) / float(position.investment.units_held)
                     purchase_nav_source = "derived"
-            except Exception:
+            except (ValueError, TypeError):
+                logger.debug("Cannot derive purchase NAV", exc_info=True)
                 purchase_nav = None
 
         # Calculer la valorisation (units_held reste la source de vérité si présent; sinon lots)
@@ -210,7 +215,8 @@ class MarkToMarketEngine(BaseValuationEngine):
             try:
                 if float(purchase_nav) != 0:
                     perf_pct = ((float(nav_value) / float(purchase_nav)) - 1.0) * 100.0
-            except Exception:
+            except (ValueError, TypeError):
+                logger.debug("Cannot compute perf_pct", exc_info=True)
                 perf_pct = None
 
         # Utiliser invested_amount du YAML comme source de vérité (capital investi actuel après retraits)

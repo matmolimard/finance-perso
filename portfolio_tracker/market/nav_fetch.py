@@ -36,6 +36,7 @@ from __future__ import annotations
 
 import csv
 import json
+import logging
 import re
 import ssl
 from dataclasses import dataclass
@@ -45,6 +46,8 @@ from typing import Any, Dict, Optional, Tuple, List
 from urllib.request import Request, urlopen
 
 import yaml
+
+logger = logging.getLogger(__name__)
 
 from .headless import headless_get_text, headless_get_response_text
 
@@ -243,7 +246,7 @@ def fetch_nav_for_asset_id(
                 if decimal == ",":
                     raw_v = raw_v.replace(",", ".")
                 v = float(raw_v)
-            except Exception:
+            except (ValueError, TypeError, KeyError, IndexError):
                 continue
             if best is None or d > best[0]:
                 best = (d, v)

@@ -1,6 +1,7 @@
 """
 Event-based Engine - Valorisation par événements (produits structurés)
 """
+import logging
 from datetime import date, datetime
 from typing import Optional, List, Tuple, Dict, Any
 from pathlib import Path
@@ -8,6 +9,8 @@ import yaml
 
 from .base import BaseValuationEngine, ValuationResult, ValuationEvent
 from ..core.asset import Asset
+
+logger = logging.getLogger(__name__)
 from ..core.position import Position
 
 
@@ -151,7 +154,8 @@ class EventBasedEngine(BaseValuationEngine):
                         continue
                     try:
                         lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
-                    except Exception:
+                    except (ValueError, TypeError):
+                        logger.debug("Cannot parse lot date %r", d, exc_info=True)
                         continue
                     if lot_date > val_date:
                         continue  # lot postérieur à la date de valorisation
@@ -226,8 +230,8 @@ class EventBasedEngine(BaseValuationEngine):
                         lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
                         if lot_date > val_date:
                             continue
-                    except Exception:
-                        pass
+                    except (ValueError, TypeError):
+                        logger.debug("Cannot parse lot date %r", d, exc_info=True)
                 try:
                     units = lot.get("units")
                     if units is not None:
@@ -299,8 +303,8 @@ class EventBasedEngine(BaseValuationEngine):
                 if lot_date <= val_date:
                     has_buy_before_val_date = True
                     break
-            except Exception:
-                pass
+            except (ValueError, TypeError):
+                logger.debug("Cannot parse lot date %r", d, exc_info=True)
         if lots and not has_buy_before_val_date:
             # Position pas encore achetée à val_date → valeur = 0
             return ValuationResult(
