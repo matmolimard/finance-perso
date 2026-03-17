@@ -11,7 +11,7 @@ from typing import Dict, List, Optional, Tuple
 from ..core.asset import Asset, AssetType
 from ..core.portfolio import Portfolio
 from .nav_store import NavPoint, upsert_nav_point
-from .nav_fetch import fetch_nav_for_asset_id
+from .nav_fetch import fetch_nav_for_asset_id, fetch_nav_history_for_asset_id
 from .quantalys import QuantalysProvider
 
 
@@ -22,6 +22,15 @@ class NavUpdateResult:
     status: str  # ok|skipped|error
     message: str
     changed: bool = False
+
+
+@dataclass(frozen=True)
+class NavBackfillResult:
+    asset_id: str
+    status: str  # ok|skipped|error
+    message: str
+    points_fetched: int = 0
+    points_changed: int = 0
 
 
 def _parse_set_values(set_pairs: Optional[List[str]]) -> Dict[str, float]:
@@ -206,5 +215,87 @@ def update_uc_navs(
         portfolio.save_positions()
 
     return results, positions_changed
+
+
+def backfill_uc_navs(
+    *,
+    portfolio: Portfolio,
+    market_data_dir,
+    start_date: date,
+    end_date: date,
+    headless: bool = False,
+) -> List[NavBackfillResult]:
+    """
+    Backfill historique UC sur une période donnée.
+    """
+    results: List[NavBackfillResult] = []
+
+    seen_assets = set()
+    for pos in portfolio.list_all_positions():
+        asset = portfolio.get_asset(pos.asset_id)
+        if not asset:
+            continue
+        if asset.asset_type not in {AssetType.UC_FUND, AssetType.UC_ILLIQUID}:
+            continue
+        if asset.valuation_engine.value != "mark_to_market":
+            continue
+        if asset.asset_id in seen_assets:
+            continue
+        if asset.metadata.get("status") == "historical":
+            continue
+        seen_assets.add(asset.asset_id)
+
+        try:
+            fetched_points = fetch_nav_history_for_asset_id(
+                market_data_dir=market_data_dir,
+                asset_id=asset.asset_id,
+                start_date=start_date,
+                end_date=end_date,
+                force_headless=headless,
+            )
+            if not fetched_points:
+                results.append(
+                    NavBackfillResult(
+                        asset_id=asset.asset_id,
+                        status="skipped",
+                        message="Pas d'historique récupérable avec la source actuelle (souvent html_regex = point ponctuel).",
+                    )
+                )
+                continue
+
+            changed_count = 0
+            for p in fetched_points:
+                _, changed = upsert_nav_point(
+                    market_data_dir=market_data_dir,
+                    identifier=asset.asset_id,
+                    point=NavPoint(
+                        point_date=p.nav_date,
+                        value=float(p.value),
+                        currency=str(p.currency or "EUR"),
+                        source=p.source or "auto_history",
+                    ),
+                )
+                if changed:
+                    changed_count += 1
+
+            results.append(
+                NavBackfillResult(
+                    asset_id=asset.asset_id,
+                    status="ok",
+                    message=f"Backfill terminé ({changed_count} nouveau(x)/modifié(s)).",
+                    points_fetched=len(fetched_points),
+                    points_changed=changed_count,
+                )
+            )
+        except Exception as e:
+            results.append(
+                NavBackfillResult(
+                    asset_id=asset.asset_id,
+                    status="error",
+                    message=f"Erreur backfill: {e}",
+                )
+            )
+
+    return results
 
 

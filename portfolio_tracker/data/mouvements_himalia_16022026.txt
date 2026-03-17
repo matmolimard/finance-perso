@@ -1,0 +1,60 @@
+Mouvements sur le compte
+
+16 février 2026
+
+
+Ost sans impact fiscal - 16/02/2026
+0,00 €
+
+FRIP00000YI4
+D Rendement Ca Dividende Forfaitaire 0,90 EUR Février 2025
+-27 233,90 €
+Quantité
+-23,4775
+Cours
+1 160,00 €
+Montant net
+-27 233,90 €
+
+FR0010233726
+Generali Trésorerie ISR B
+27 233,90 €
+Quantité
+7,0672
+Cours
+3 853,51 €
+Montant net
+27 233,90 €
+
+31 décembre 2025
+
+
+Taxes et prélevements sociaux - 31/12/2025
+-334,05 €
+Fiscalité
+334,05 €
+
+AGGV090
+Actif Général Generali Vie
+-334,05 €
+Quantité
+-334,05
+Cours
+1,00 €
+Montant net
+-334,05 €
+
+Taxes et prélevements sociaux - 31/12/2025
+-137,00 €
+Fiscalité
+137,00 €
+
+AGGV090
+Actif Général Generali Vie
+-137,00 €
+Quantité
+-137
+Cours
+1,00 €
+Montant net
+-137,00 €

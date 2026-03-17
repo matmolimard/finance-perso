@@ -34,6 +34,7 @@ class MarkToMarketEngine(BaseValuationEngine):
         val_date = self._get_valuation_date(valuation_date)
         
         # Lots (achats multiples) -> unités détenues + PRU basé sur achats
+        # On filtre les lots à val_date pour les valorisations historiques correctes.
         lots = position.investment.lots or []
         lots_units_total = 0.0
         buy_units_total = 0.0
@@ -42,6 +43,15 @@ class MarkToMarketEngine(BaseValuationEngine):
         for lot in lots:
             if not isinstance(lot, dict):
                 continue
+            # Ignorer les lots postérieurs à val_date (valorisation historique)
+            d = lot.get("date")
+            if d is not None:
+                try:
+                    lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
+                    if lot_date > val_date:
+                        continue
+                except Exception:
+                    pass
             try:
                 units = lot.get("units")
                 if units is None:
@@ -73,10 +83,15 @@ class MarkToMarketEngine(BaseValuationEngine):
             except Exception:
                 continue
         
-        # Si units_held=0 (position historique vendue), retourner 0 même sans NAV
+        # Si lots disponibles (position a été gérée via lots), utiliser la somme filtrée à val_date.
+        # Cela permet les valorisations historiques correctes (pas encore acheté → 0 unités).
+        # Si aucun lot n'existe, utiliser units_held du YAML (position simple sans historique de lots).
+        has_lots = any(isinstance(l, dict) for l in lots)
         units_held = position.investment.units_held
-        if lots_has_data:
-            units_held = lots_units_total
+        if has_lots:
+            units_held = lots_units_total  # somme filtrée à val_date (0 si pas encore acheté)
+        elif units_held is None:
+            units_held = 0.0
         # Accepter des valeurs très proches de 0 (erreurs d'arrondi)
         if units_held is not None and abs(float(units_held)) < 0.01:
             # Utiliser invested_amount du YAML comme source de vérité

@@ -1,7 +1,7 @@
 underlying_id: euronext_fr:FRIX00000185-XPAR
 source: euronext
 identifier: FRIX00000185-XPAR
-last_updated: '2026-01-14T10:27:45'
+last_updated: '2026-03-16T21:44:58'
 history:
 - date: '2023-12-27'
   value: 34.093
@@ -1047,5 +1047,93 @@ history:
   value: 45.46
 - date: '2026-01-13'
   value: 44.516
+- date: '2026-01-14'
+  value: 45.201
+- date: '2026-01-15'
+  value: 45.316
+- date: '2026-01-16'
+  value: 45.241
+- date: '2026-01-19'
+  value: 45.068
+- date: '2026-01-20'
+  value: 44.594
+- date: '2026-01-21'
+  value: 44.11
+- date: '2026-01-22'
+  value: 45.173
+- date: '2026-01-23'
+  value: 44.38
+- date: '2026-01-26'
+  value: 44.486
+- date: '2026-01-27'
+  value: 45.748
+- date: '2026-01-28'
+  value: 45.514
+- date: '2026-01-29'
+  value: 45.28
+- date: '2026-01-30'
+  value: 45.465
+- date: '2026-02-02'
+  value: 46.448
+- date: '2026-02-03'
+  value: 46.652
+- date: '2026-02-04'
+  value: 46.638
+- date: '2026-02-05'
+  value: 46.384
+- date: '2026-02-06'
+  value: 48.063
+- date: '2026-02-09'
+  value: 48.308
+- date: '2026-02-10'
+  value: 48.373
+- date: '2026-02-11'
+  value: 49.563
+- date: '2026-02-12'
+  value: 49.419
+- date: '2026-02-13'
+  value: 48.847
+- date: '2026-02-16'
+  value: 49.978
+- date: '2026-02-17'
+  value: 49.714
+- date: '2026-02-18'
+  value: 50.187
+- date: '2026-02-19'
+  value: 50.68
+- date: '2026-02-20'
+  value: 50.974
+- date: '2026-02-23'
+  value: 51.079
+- date: '2026-02-24'
+  value: 51.075
+- date: '2026-02-25'
+  value: 51.229
+- date: '2026-02-26'
+  value: 52.418
+- date: '2026-02-27'
+  value: 52.373
+- date: '2026-03-02'
+  value: 51.723
+- date: '2026-03-03'
+  value: 50.685
+- date: '2026-03-04'
+  value: 49.905
+- date: '2026-03-05'
+  value: 49.175
+- date: '2026-03-06'
+  value: 48.584
+- date: '2026-03-09'
+  value: 47.805
+- date: '2026-03-10'
+  value: 48.823
+- date: '2026-03-11'
+  value: 49.166
+- date: '2026-03-12'
+  value: 49.221
+- date: '2026-03-13'
+  value: 49.455
+- date: '2026-03-16'
+  value: 49.868
 url: https://live.euronext.com/fr/product/indices/FRIX00000185-XPAR
 notes: Euronext G Bouygues 261021 GR Decrement 1.7 (SGBD)

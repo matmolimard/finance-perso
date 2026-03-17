@@ -41,7 +41,7 @@ import ssl
 from dataclasses import dataclass
 from datetime import date, datetime
 from pathlib import Path
-from typing import Any, Dict, Optional, Tuple
+from typing import Any, Dict, Optional, Tuple, List
 from urllib.request import Request, urlopen
 
 import yaml
@@ -388,4 +388,205 @@ def fetch_nav_for_asset_id(
 
     raise ValueError(f"{asset_id}: kind non supporté: {kind}")
 
+
+_MORNINGSTAR_TOKEN = "klr5zyak8x"
+_MORNINGSTAR_TIMESERIES_URL = (
+    "https://tools.morningstar.fr/api/rest.svc/timeseries_price/{token}"
+    "?id={sec_id}&currencyId=EUR&idtype=Morningstar"
+    "&frequency=daily&startDate={start}&endDate={end}&outputType=COMPACTJSON"
+)
+
+
+def _fetch_morningstar_history(
+    sec_id: str,
+    start_date: date,
+    end_date: date,
+    currency: str = "EUR",
+) -> List[FetchedNav]:
+    """
+    Récupère l'historique NAV depuis Morningstar pour un SecId donné.
+
+    Format de réponse: [[timestamp_ms, nav_float], ...] (COMPACTJSON)
+    """
+    url = _MORNINGSTAR_TIMESERIES_URL.format(
+        token=_MORNINGSTAR_TOKEN,
+        sec_id=sec_id,
+        start=start_date.isoformat(),
+        end=end_date.isoformat(),
+    )
+    raw = _http_get_text(url, user_agent="Mozilla/5.0", timeout_s=30)
+    if not raw.strip().startswith("["):
+        raise ValueError(f"Morningstar: réponse inattendue pour {sec_id}: {raw[:120]}")
+
+    data = json.loads(raw)
+    out: List[FetchedNav] = []
+    for item in data:
+        if not isinstance(item, list) or len(item) != 2:
+            continue
+        ts_ms, nav_val = item
+        try:
+            nav_date = datetime.utcfromtimestamp(float(ts_ms) / 1000).date()
+            nav = round(float(nav_val), 4)
+        except (ValueError, TypeError, OSError):
+            continue
+        if start_date <= nav_date <= end_date:
+            out.append(FetchedNav(value=nav, nav_date=nav_date, currency=currency, source="morningstar"))
+    return out
+
+
+def fetch_nav_history_for_asset_id(
+    *,
+    market_data_dir: Path,
+    asset_id: str,
+    start_date: date,
+    end_date: Optional[date] = None,
+    force_headless: bool = False,
+) -> List[FetchedNav]:
+    """
+    Récupère un historique de VL pour un asset_id (si la source le permet).
+
+    - `url_csv`: lit toutes les lignes exploitables de la source CSV.
+    - `url_json`: supporte une liste JSON (optionnellement via history_path).
+    - `html_regex` + `morningstar_secid`: utilise Morningstar pour l'historique complet.
+    - `html_regex` seul: retourne au mieux 1 point ponctuel.
+    """
+    cfg = load_nav_sources_cfg(market_data_dir).get(asset_id)
+    if not cfg:
+        return []
+
+    kind = str(cfg.get("kind") or "").strip()
+    url = str(cfg.get("url") or "").strip()
+    if not kind or not url:
+        return []
+
+    end_d = end_date or date.today()
+    if start_date > end_d:
+        return []
+
+    currency = str(cfg.get("currency") or "EUR")
+    source_label = str(cfg.get("source") or kind)
+    headless = bool(cfg.get("headless", False)) or bool(force_headless)
+    timeout_s = int(cfg.get("timeout_s", 30))
+    user_agent = str(cfg.get("user_agent") or "portfolio-tracker/1.0")
+
+    out: List[FetchedNav] = []
+
+    # ---------------------------
+    # url_csv (historique natif)
+    # ---------------------------
+    if kind == "url_csv":
+        if headless:
+            raw = headless_get_response_text(url)
+            content = raw.encode("utf-8", errors="replace")
+        else:
+            content = _http_get_bytes(url, user_agent=user_agent, timeout_s=timeout_s)
+
+        text = content.decode("utf-8", errors="replace")
+        delimiter = str(cfg.get("delimiter") or ",")
+        date_col = str(cfg.get("date_column") or "date")
+        value_col = str(cfg.get("value_column") or "value")
+        date_fmt = cfg.get("date_format")
+        decimal = str(cfg.get("decimal") or ".")
+
+        by_date: Dict[date, float] = {}
+        reader = csv.DictReader(text.splitlines(), delimiter=delimiter)
+        for row in reader:
+            if not isinstance(row, dict):
+                continue
+            if date_col not in row or value_col not in row:
+                continue
+            try:
+                d = _parse_date_any(row[date_col], fmt=date_fmt)
+                if d < start_date or d > end_d:
+                    continue
+                raw_v = str(row[value_col]).strip()
+                if decimal == ",":
+                    raw_v = raw_v.replace(",", ".")
+                v = float(raw_v)
+            except Exception:
+                continue
+            by_date[d] = v
+
+        for d in sorted(by_date.keys()):
+            out.append(FetchedNav(value=by_date[d], nav_date=d, currency=currency, source=source_label))
+        return out
+
+    # ---------------------------
+    # url_json (historique si list)
+    # ---------------------------
+    if kind == "url_json":
+        if headless:
+            raw = headless_get_response_text(url)
+        else:
+            raw = _http_get_text(url, user_agent=user_agent, timeout_s=timeout_s)
+        obj = json.loads(raw)
+
+        history_path = cfg.get("history_path")
+        rows_obj = _get_path(obj, str(history_path)) if history_path else obj
+        if isinstance(rows_obj, list):
+            date_path = str(cfg.get("history_date_path") or cfg.get("date_path") or "date")
+            value_path = str(cfg.get("history_value_path") or cfg.get("value_path") or "value")
+            date_fmt = cfg.get("date_format")
+            by_date: Dict[date, float] = {}
+            for row in rows_obj:
+                if not isinstance(row, (dict, list)):
+                    continue
+                try:
+                    raw_date = _get_path(row, date_path)
+                    raw_val = _get_path(row, value_path)
+                    if raw_date is None or raw_val is None:
+                        continue
+                    d = _parse_date_any(raw_date, fmt=date_fmt)
+                    if d < start_date or d > end_d:
+                        continue
+                    v = float(str(raw_val).replace(",", "."))
+                except Exception:
+                    continue
+                by_date[d] = v
+
+            for d in sorted(by_date.keys()):
+                out.append(FetchedNav(value=by_date[d], nav_date=d, currency=currency, source=source_label))
+            if out:
+                return out
+
+        # Fallback : source JSON ponctuelle
+        single = fetch_nav_for_asset_id(
+            market_data_dir=market_data_dir,
+            asset_id=asset_id,
+            target_date=end_d,
+            force_headless=force_headless,
+        )
+        if single and start_date <= single.nav_date <= end_d:
+            return [single]
+        return []
+
+    # ---------------------------
+    # html_regex / autres
+    # Si morningstar_secid est présent, on l'utilise pour l'historique complet.
+    # Sinon, fallback sur un seul point ponctuel.
+    # ---------------------------
+    morningstar_secid = cfg.get("morningstar_secid")
+    if morningstar_secid:
+        try:
+            return _fetch_morningstar_history(
+                sec_id=str(morningstar_secid),
+                start_date=start_date,
+                end_date=end_d,
+                currency=currency,
+            )
+        except Exception as e:
+            raise ValueError(f"{asset_id}: erreur Morningstar ({morningstar_secid}): {e}") from e
+
+    try:
+        single = fetch_nav_for_asset_id(
+            market_data_dir=market_data_dir,
+            asset_id=asset_id,
+            target_date=end_d,
+            force_headless=force_headless,
+        )
+    except Exception:
+        single = None
+    if single and start_date <= single.nav_date <= end_d:
+        return [single]
+    return []
 

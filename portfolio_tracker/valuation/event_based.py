@@ -139,68 +139,102 @@ class EventBasedEngine(BaseValuationEngine):
                 )
             
             if abs(units_held_float) < 0.01:
-                # Calculer le capital investi réel depuis les lots (même pour positions vendues)
-                buy_amount_total = 0.0
+                # units_held=0 = position fermée dans l'état courant.
+                # Mais pour une valorisation historique (val_date < date de clôture),
+                # la position était peut-être encore ouverte → calculer les units à val_date.
+                units_at_val_date = 0.0
                 for lot in lots:
                     if not isinstance(lot, dict):
                         continue
-                    lt = str(lot.get("type") or "buy").lower()
-                    if lt != "buy":
+                    d = lot.get("date")
+                    if d is None:
                         continue
-                    amt = lot.get("net_amount")
-                    if amt is None:
-                        gross = lot.get("gross_amount")
-                        fees = lot.get("fees_amount") or 0.0
-                        if gross is not None:
-                            try:
-                                amt = float(gross) - float(fees or 0.0)
-                            except (ValueError, TypeError):
-                                amt = None
-                    if amt is not None:
+                    try:
+                        lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
+                    except Exception:
+                        continue
+                    if lot_date > val_date:
+                        continue  # lot postérieur à la date de valorisation
+                    u = lot.get("units")
+                    if u is not None:
                         try:
-                            if float(amt) > 0:
-                                buy_amount_total += float(amt)
+                            units_at_val_date += float(u)
                         except (ValueError, TypeError):
+                            pass
+                
+                if abs(units_at_val_date) > 0.01:
+                    # Position encore ouverte à val_date : laisser le moteur calculer normalement.
+                    # On continue l'exécution (pas de return ici).
+                    pass
+                else:
+                    # Position fermée à val_date → current_value = 0.
+                    buy_amount_total = 0.0
+                    for lot in lots:
+                        if not isinstance(lot, dict):
                             continue
-                
-                invested = position.investment.invested_amount
-                if invested is None:
-                    invested = 0.0
-                # Utiliser la somme des lots buy si disponible, sinon invested_amount du YAML
-                invested_for_valuation = buy_amount_total if buy_amount_total > 0 else invested
-                
-                # Pour une position vendue, utiliser la valeur de vente si disponible
-                sell_value = _extract_sell_value(lots)
-                current_value = sell_value if sell_value is not None else 0.0
-                return ValuationResult(
-                    position_id=position.position_id,
-                    asset_id=asset.asset_id,
-                    valuation_date=val_date,
-                    current_value=current_value,
-                    invested_amount=invested,
-                    status="ok",
-                    message="Position historique (vendue/réinvestie, units_held=0)" + (
-                        f" - Valeur de vente: {current_value:,.2f} €" if sell_value is not None else ""
-                    ),
-                    metadata={
-                        "invested_for_valuation": invested_for_valuation if buy_amount_total > 0 else None,
-                        "buy_amount_total": buy_amount_total if buy_amount_total > 0 else None,
-                    }
-                )
+                        lt = str(lot.get("type") or "buy").lower()
+                        if lt != "buy":
+                            continue
+                        amt = lot.get("net_amount")
+                        if amt is None:
+                            gross = lot.get("gross_amount")
+                            fees = lot.get("fees_amount") or 0.0
+                            if gross is not None:
+                                try:
+                                    amt = float(gross) - float(fees or 0.0)
+                                except (ValueError, TypeError):
+                                    amt = None
+                        if amt is not None:
+                            try:
+                                if float(amt) > 0:
+                                    buy_amount_total += float(amt)
+                            except (ValueError, TypeError):
+                                continue
+                    
+                    invested = position.investment.invested_amount
+                    if invested is None:
+                        invested = 0.0
+                    invested_for_valuation = buy_amount_total if buy_amount_total > 0 else invested
+                    sell_value = _extract_sell_value(lots)
+                    return ValuationResult(
+                        position_id=position.position_id,
+                        asset_id=asset.asset_id,
+                        valuation_date=val_date,
+                        current_value=0.0,
+                        invested_amount=invested,
+                        status="ok",
+                        message="Position historique (vendue/réinvestie, units_held=0)" + (
+                            f" - Valeur de vente: {sell_value:,.2f} €" if sell_value is not None else ""
+                        ),
+                        metadata={
+                            "invested_for_valuation": invested_for_valuation if buy_amount_total > 0 else None,
+                            "buy_amount_total": buy_amount_total if buy_amount_total > 0 else None,
+                            "sell_value": sell_value,
+                        }
+                    )
         
         # Si units_held n'est pas défini dans le YAML, calculer depuis les lots
         if units_held_yaml is None:
+            # Calculer les units seulement pour les lots <= val_date (historique)
             lots_units_total = 0.0
             for lot in lots:
                 if not isinstance(lot, dict):
                     continue
+                d = lot.get("date")
+                if d is not None:
+                    try:
+                        lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
+                        if lot_date > val_date:
+                            continue
+                    except Exception:
+                        pass
                 try:
                     units = lot.get("units")
                     if units is not None:
                         lots_units_total += float(units)
                 except (ValueError, TypeError):
                     pass
-            # Si la somme des units depuis les lots est 0 ou très proche de 0, la position est vendue
+            # Si la somme des units à val_date est 0 ou très proche de 0, la position était vendue
             if abs(lots_units_total) < 0.01:
                 # Calculer le capital investi réel depuis les lots (même pour positions vendues)
                 buy_amount_total = 0.0
@@ -232,25 +266,53 @@ class EventBasedEngine(BaseValuationEngine):
                 # Utiliser la somme des lots buy si disponible, sinon invested_amount du YAML
                 invested_for_valuation = buy_amount_total if buy_amount_total > 0 else invested
                 
-                # Pour une position vendue, utiliser la valeur de vente si disponible
+                # Position vendue : current_value = 0 (elle n'est plus dans le portefeuille).
                 sell_value = _extract_sell_value(lots)
-                current_value = sell_value if sell_value is not None else 0.0
                 return ValuationResult(
                     position_id=position.position_id,
                     asset_id=asset.asset_id,
                     valuation_date=val_date,
-                    current_value=current_value,
+                    current_value=0.0,
                     invested_amount=invested,
                     status="ok",
                     message="Position historique (vendue/réinvestie, units_held=0 depuis lots)" + (
-                        f" - Valeur de vente: {current_value:,.2f} €" if sell_value is not None else ""
+                        f" - Valeur de vente: {sell_value:,.2f} €" if sell_value is not None else ""
                     ),
                     metadata={
                         "invested_for_valuation": invested_for_valuation if buy_amount_total > 0 else None,
                         "buy_amount_total": buy_amount_total if buy_amount_total > 0 else None,
+                        "sell_value": sell_value,
                     }
                 )
         
+        # Vérifier que la position a été achetée avant val_date.
+        # Si aucun lot "buy" n'existe avant val_date, la position n'était pas encore ouverte.
+        has_buy_before_val_date = False
+        for lot in lots:
+            if not isinstance(lot, dict) or str(lot.get("type") or "").lower() != "buy":
+                continue
+            d = lot.get("date")
+            if d is None:
+                continue
+            try:
+                lot_date = d if hasattr(d, "year") else datetime.fromisoformat(str(d)).date()
+                if lot_date <= val_date:
+                    has_buy_before_val_date = True
+                    break
+            except Exception:
+                pass
+        if lots and not has_buy_before_val_date:
+            # Position pas encore achetée à val_date → valeur = 0
+            return ValuationResult(
+                position_id=position.position_id,
+                asset_id=asset.asset_id,
+                valuation_date=val_date,
+                current_value=0.0,
+                invested_amount=0.0,
+                status="ok",
+                message="Position non encore ouverte à cette date",
+            )
+
         # Valorisation = capital investi (buys) + coupons reçus + ajustements (frais/taxes/other cashflows)
         # Utiliser invested_amount du YAML comme source de vérité (capital investi actuel après retraits)
         # Ne calculer à partir des lots que si invested_amount n'est pas défini (None)

@@ -18,6 +18,9 @@ python-dotenv>=1.0.0
 # Optional: email notifications
 # smtplib is built-in
 
+# Optional: graphiques en terminal (make history) — ou: pip install -e ".[charts]"
+# plotext>=5.2.0
+
 # Development
 pytest>=7.4.0
 pytest-cov>=4.1.0

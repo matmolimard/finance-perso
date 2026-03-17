@@ -70,12 +70,16 @@ def classify_movement(label: str) -> str:
     l = (label or "").lower()
     if "frais de gestion" in l or l.startswith("frais"):
         return "fee"
-    if "tax" in l or "prélèvements" in l or "prelevements" in l or "fiscal" in l:
-        return "tax"
+    # Tester buy/OST/arbitrage AVANT tax pour éviter que "sans impact fiscal" → "tax"
+    if "versement" in l or "arbitrage" in l or l.startswith("ost"):
+        return "buy"
+    if "participation aux bénéfices" in l or "participation aux benefices" in l:
+        return "income"
     if "distribution" in l or "revenus" in l:
         return "income"
-    if "versement" in l or "arbitrage" in l or "ost" in l:
-        return "buy"
+    # "taxes et prélèvements" ou "prélèvements sociaux" — condition affinée
+    if "prélèvements" in l or "prelevements" in l or "taxes et" in l:
+        return "tax"
     return "other"
 
 

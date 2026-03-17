@@ -11,30 +11,30 @@ positions:
     invested_amount: 0.0
     units_held: 47.0724
     lots:
-    - date: '2025-09-22'
+    - date: 2025-09-22
       type: fee
-      units: -0.1179
-      currency: EUR
-      nav: 888.6
+      gross_amount: null
+      fees_amount: null
       net_amount: -104.77
-    - date: '2025-06-23'
+      units: -0.1179
+    - date: 2025-06-23
       type: fee
-      units: -0.1182
-      currency: EUR
-      nav: 936.7
+      gross_amount: null
+      fees_amount: null
       net_amount: -110.72
-    - date: '2025-03-24'
+      units: -0.1182
+    - date: 2025-03-24
       type: fee
-      units: -0.1185
-      currency: EUR
-      nav: 942.5
+      gross_amount: null
+      fees_amount: null
       net_amount: -111.69
-    - date: '2025-02-02'
+      units: -0.1185
+    - date: 2025-02-02
       type: buy
-      units: 47.427
-      currency: EUR
-      nav: 1000.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 47427.06
+      units: 47.427
 - position_id: pos_008
   asset_id: struct_d_rendement_ca_div_forf_090_fev_2025
   holder_type: individual
@@ -45,32 +45,38 @@ positions:
   investment:
     subscription_date: '2025-02-28'
     invested_amount: 0.0
-    units_held: 23.5363
+    units_held: 0.05880000000000152
     lots:
-    - date: '2025-09-22'
+    - date: 2025-09-22
       type: fee
-      units: -0.0589
-      currency: EUR
-      nav: 1081.4
+      gross_amount: null
+      fees_amount: null
       net_amount: -63.69
-    - date: '2025-06-23'
+      units: -0.0589
+    - date: 2025-06-23
       type: fee
-      units: -0.0591
-      currency: EUR
-      nav: 1021.8
+      gross_amount: null
+      fees_amount: null
       net_amount: -60.39
-    - date: '2025-03-24'
+      units: -0.0591
+    - date: 2025-03-24
       type: fee
-      units: -0.0592
-      currency: EUR
-      nav: 1071.9
+      gross_amount: null
+      fees_amount: null
       net_amount: -63.46
-    - date: '2025-02-02'
+      units: -0.0592
+    - date: 2025-02-02
       type: buy
-      units: 23.7135
-      currency: EUR
-      nav: 1000.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 23713.53
+      units: 23.7135
+    - date: '2026-02-16'
+      type: sell
+      units: -23.4775
+      currency: EUR
+      nav: 1160.0
+      net_amount: -27233.9
 - position_id: pos_009
   asset_id: struct_d_rendement_bouygues_div_fix_170_fev_2025
   holder_type: individual
@@ -83,30 +89,30 @@ positions:
     invested_amount: 0.0
     units_held: 23.5363
     lots:
-    - date: '2025-09-22'
+    - date: 2025-09-22
       type: fee
-      units: -0.0589
-      currency: EUR
-      nav: 1074.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -63.26
-    - date: '2025-06-23'
+      units: -0.0589
+    - date: 2025-06-23
       type: fee
-      units: -0.0591
-      currency: EUR
-      nav: 1049.4
+      gross_amount: null
+      fees_amount: null
       net_amount: -62.02
-    - date: '2025-03-24'
+      units: -0.0591
+    - date: 2025-03-24
       type: fee
-      units: -0.0592
-      currency: EUR
-      nav: 1079.4
+      gross_amount: null
+      fees_amount: null
       net_amount: -63.9
-    - date: '2025-02-02'
+      units: -0.0592
+    - date: 2025-02-02
       type: buy
-      units: 23.7135
-      currency: EUR
-      nav: 1000.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 23713.53
+      units: 23.7135
 - position_id: pos_010
   asset_id: fonds_euro_generali_aggv090
   holder_type: individual
@@ -116,54 +122,68 @@ positions:
     contract_name: HIMALIA
   investment:
     subscription_date: '2023-12-06'
-    # Capital externe uniquement (hors intérêts capitalisés)
-    invested_amount: 66500.0
-    units_held: 69856.82
+    invested_amount: 0.0
+    units_held: 72124.42
     lots:
-    - date: '2023-12-06'
+    - date: 2023-12-06
       type: buy
-      units: 49000.0
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 49000.0
-      external: true
-    - date: '2023-12-31'
+      units: 49000.0
+    - date: 2023-12-31
       type: tax
-      units: -21.76
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -21.76
-    - date: '2024-12-31'
+      units: -21.76
+    - date: 2024-12-31
       type: tax
-      units: -304.05
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -304.05
-    - date: '2024-12-31'
+      units: -304.05
+    - date: 2024-12-31
       type: buy
-      units: 735.0
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 735.0
-    - date: '2024-12-31'
+      units: 735.0
+    - date: 2024-12-31
       type: tax
-      units: -126.43
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -126.43
-    - date: '2025-08-28'
+      units: -126.43
+    - date: 2025-08-28
       type: buy
-      units: 1179.76
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 1179.76
-    - date: '2025-09-04'
+      units: 1179.76
+    - date: 2025-09-04
       type: buy
+      gross_amount: null
+      fees_amount: null
+      net_amount: 17500.0
       units: 17500.0
+    - date: '2025-12-31'
+      type: buy
+      units: 1942.17
+      nav: 1.0
+      net_amount: 1942.17
+    - date: '2025-12-31'
+      type: tax
+      units: -334.05
       currency: EUR
       nav: 1.0
-      net_amount: 17500.0
-      external: true
+      net_amount: -334.05
+    - date: '2025-12-31'
+      type: tax
+      units: -137.0
+      currency: EUR
+      nav: 1.0
+      net_amount: -137.0
 - position_id: pos_011
   asset_id: uc_eleva_absolute_return_europe
   holder_type: individual
@@ -173,23 +193,23 @@ positions:
     contract_name: HIMALIA
   investment:
     subscription_date: '2025-09-04'
-    invested_amount: 6500.0
+    invested_amount: 0.0
     units_held: 43.6852
     purchase_nav: 149.16467780429593
+    purchase_nav_source: manual
     lots:
-    - date: '2025-09-04'
+    - date: 2025-09-04
       type: buy
-      units: 43.7946
-      currency: EUR
-      nav: 148.42
+      gross_amount: null
+      fees_amount: null
       net_amount: 6500.0
-      external: true
-    - date: '2025-09-22'
+      units: 43.7946
+    - date: 2025-09-22
       type: fee
-      units: -0.1094
-      currency: EUR
-      nav: 150.07
+      gross_amount: null
+      fees_amount: null
       net_amount: -16.42
+      units: -0.1094
 - position_id: pos_012
   asset_id: uc_helium_selection_b_eur
   holder_type: individual
@@ -199,23 +219,23 @@ positions:
     contract_name: HIMALIA
   investment:
     subscription_date: '2025-09-04'
-    invested_amount: 6500.0
+    invested_amount: 0.0
     units_held: 3.7393
     purchase_nav: 1742.6273458445041
+    purchase_nav_source: manual
     lots:
-    - date: '2025-09-22'
+    - date: 2025-09-22
       type: fee
-      units: -0.0093
-      currency: EUR
-      nav: 1735.914
+      gross_amount: null
+      fees_amount: null
       net_amount: -16.14
-    - date: '2025-09-04'
+      units: -0.0093
+    - date: 2025-09-04
       type: buy
-      units: 3.7486
-      currency: EUR
-      nav: 1733.945
+      gross_amount: null
+      fees_amount: null
       net_amount: 6500.0
-      external: true
+      units: 3.7486
 - position_id: pos_013
   asset_id: uc_bdl_rempart_c
   holder_type: individual
@@ -225,23 +245,23 @@ positions:
     contract_name: HIMALIA
   investment:
     subscription_date: '2025-09-04'
-    invested_amount: 6500.0
+    invested_amount: 0.0
     units_held: 25.9101
     purchase_nav: 251.4993228864384
+    purchase_nav_source: manual
     lots:
-    - date: '2025-09-22'
+    - date: 2025-09-22
       type: fee
-      units: -0.0649
-      currency: EUR
-      nav: 243.66
+      gross_amount: null
+      fees_amount: null
       net_amount: -15.81
-    - date: '2025-09-04'
+      units: -0.0649
+    - date: 2025-09-04
       type: buy
-      units: 25.975
-      currency: EUR
-      nav: 250.24
+      gross_amount: null
+      fees_amount: null
       net_amount: 6500.0
-      external: true
+      units: 25.975
 - position_id: pos_014
   asset_id: uc_strategie_conviction
   holder_type: individual
@@ -251,23 +271,23 @@ positions:
     contract_name: HIMALIA
   investment:
     subscription_date: '2025-09-04'
-    invested_amount: 6500.0
+    invested_amount: 0.0
     units_held: 43.0985
     purchase_nav: 151.19443604475356
+    purchase_nav_source: manual
     lots:
-    - date: '2025-09-22'
+    - date: 2025-09-22
       type: fee
-      units: -0.108
-      currency: EUR
-      nav: 151.46
+      gross_amount: null
+      fees_amount: null
       net_amount: -16.36
-    - date: '2025-09-04'
+      units: -0.108
+    - date: 2025-09-04
       type: buy
-      units: 43.2065
-      currency: EUR
-      nav: 150.44
+      gross_amount: null
+      fees_amount: null
       net_amount: 6500.0
-      external: true
+      units: 43.2065
 - position_id: pos_015
   asset_id: uc_dnca_flexibonds_c_eur
   holder_type: individual
@@ -277,23 +297,23 @@ positions:
     contract_name: HIMALIA
   investment:
     subscription_date: '2025-09-04'
-    invested_amount: 6500.0
+    invested_amount: 0.0
     units_held: 61.556599999999996
     purchase_nav: 105.85801996645115
+    purchase_nav_source: manual
     lots:
-    - date: '2025-09-22'
+    - date: 2025-09-22
       type: fee
-      units: -0.1542
-      currency: EUR
-      nav: 105.26
+      gross_amount: null
+      fees_amount: null
       net_amount: -16.23
-    - date: '2025-09-04'
+      units: -0.1542
+    - date: 2025-09-04
       type: buy
-      units: 61.7108
-      currency: EUR
-      nav: 105.33
+      gross_amount: null
+      fees_amount: null
       net_amount: 6500.0
-      external: true
+      units: 61.7108
 - position_id: pos_016
   asset_id: uc_generali_tresorerie_isr_b
   holder_type: individual
@@ -304,20 +324,26 @@ positions:
   investment:
     subscription_date: '2025-01-03'
     invested_amount: 0.0
-    units_held: 0.0
+    units_held: 7.0672
     lots:
-    - date: '2025-01-03'
+    - date: 2025-01-03
       type: buy
-      units: 25.2336
-      currency: EUR
-      nav: 3748.9
+      gross_amount: null
+      fees_amount: null
       net_amount: 94598.28
-    - date: '2025-02-02'
+      units: 25.2336
+    - date: 2025-02-02
       type: sell
-      units: -25.2336
-      currency: EUR
-      nav: 3759.04
+      gross_amount: null
+      fees_amount: null
       net_amount: -94854.11
+      units: -25.2336
+    - date: '2026-02-16'
+      type: buy
+      units: 7.0672
+      currency: EUR
+      nav: 3853.51
+      net_amount: 27233.9
 - position_id: pos_017
   asset_id: struct_callable_note_taux_fixe_dec_2023
   holder_type: individual
@@ -327,46 +353,45 @@ positions:
     contract_name: HIMALIA
   investment:
     subscription_date: '2023-12-06'
-    invested_amount: 91000.0
+    invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-12-06'
+    - date: 2023-12-06
       type: buy
-      units: 91.0
-      currency: EUR
-      nav: 1000.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 91000.0
-      external: true
-    - date: '2024-03-18'
+      units: 91.0
+    - date: 2024-03-18
       type: fee
-      units: -0.2275
-      currency: EUR
-      nav: 985.9
+      gross_amount: null
+      fees_amount: null
       net_amount: -224.29
-    - date: '2024-06-17'
+      units: -0.2275
+    - date: 2024-06-17
       type: fee
-      units: -0.2269
-      currency: EUR
-      nav: 995.6
+      gross_amount: null
+      fees_amount: null
       net_amount: -225.9
-    - date: '2024-09-23'
+      units: -0.2269
+    - date: 2024-09-23
       type: fee
-      units: -0.2263
-      currency: EUR
-      nav: 1006.3
+      gross_amount: null
+      fees_amount: null
       net_amount: -227.73
-    - date: '2024-12-23'
+      units: -0.2263
+    - date: 2024-12-23
       type: fee
-      units: -0.2257
-      currency: EUR
-      nav: 1028.4
+      gross_amount: null
+      fees_amount: null
       net_amount: -232.11
-    - date: '2025-01-03'
+      units: -0.2257
+    - date: 2025-01-03
       type: sell
-      units: -90.0936
-      currency: EUR
-      nav: 1050.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -94598.28
+      units: -90.0936
 - position_id: pos_swiss_001
   asset_id: fonds_euro_swisslife
   holder_type: company
@@ -376,46 +401,57 @@ positions:
     contract_name: SwissLife Capi Stratégic Premium
   investment:
     subscription_date: '2022-11-09'
-    invested_amount: 360000.0
-    units_held: 213105.23
+    invested_amount: 0.0
+    units_held: 223380.21
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: other
-      units: -174330.93
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -173962.34
-    - date: '2024-12-31'
+      units: -174330.93
+    - date: 2024-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 15718.16
+      units: 15718.16
+    - date: 2024-12-31
       type: fee
-      units: -2521.87
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -2521.87
-    - date: '2024-12-31'
+      units: -2521.87
+    - date: 2024-12-31
       type: buy
-      units: 14671.02
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 14671.02
-    - date: '2023-12-31'
+      units: 14671.02
+    - date: 2023-12-31
       type: fee
-      units: -2442.38
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -2442.38
-    - date: '2022-12-31'
+      units: -2442.38
+    - date: 2022-12-31
       type: fee
-      units: -336.05
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: -336.05
-    - date: '2022-11-09'
+      units: -336.05
+    - date: 2022-11-09
       type: buy
-      units: 360000.0
-      currency: EUR
-      nav: 1.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 360000.0
-      external: true
+      units: 360000.0
+    - date: 2025-12-31
+      type: buy
+      gross_amount: null
+      fees_amount: null
+      net_amount: 12253.67
+      units: 12253.67
 - position_id: pos_swiss_002
   asset_id: struct_d_rendement_engie_div_fix_095_mar_2025
   holder_type: company
@@ -426,32 +462,38 @@ positions:
   investment:
     subscription_date: '2025-02-04'
     invested_amount: 0.0
-    units_held: 108.365795
+    units_held: 108.10263300000001
     lots:
-    - date: '2025-09-30'
+    - date: 2025-09-30
       type: fee
-      units: -0.263803
-      currency: EUR
-      nav: 1011.51276
+      gross_amount: null
+      fees_amount: null
       net_amount: -266.84
-    - date: '2025-06-30'
+      units: -0.263803
+    - date: 2025-06-30
       type: fee
-      units: -0.261567
-      currency: EUR
-      nav: 1015.91484
+      gross_amount: null
+      fees_amount: null
       net_amount: -265.73
-    - date: '2025-03-31'
+      units: -0.261567
+    - date: 2025-03-31
       type: fee
-      units: -0.158395
-      currency: EUR
-      nav: 1036.52065
+      gross_amount: null
+      fees_amount: null
       net_amount: -164.18
-    - date: '2025-02-04'
+      units: -0.158395
+    - date: 2025-02-04
       type: buy
-      units: 109.04956
-      currency: EUR
-      nav: 1000.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 109049.56
+      units: 109.04956
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -274.5
+      units: -0.263162
 - position_id: pos_swiss_003
   asset_id: struct_d_rendement_distribution_fev_2025
   holder_type: company
@@ -462,32 +504,38 @@ positions:
   investment:
     subscription_date: '2025-02-28'
     invested_amount: 0.0
-    units_held: 108.365795
+    units_held: 108.10263300000001
     lots:
-    - date: '2025-09-30'
+    - date: 2025-09-30
       type: fee
-      units: -0.263803
-      currency: EUR
-      nav: 880.58168
+      gross_amount: null
+      fees_amount: null
       net_amount: -232.3
-    - date: '2025-06-30'
+      units: -0.263803
+    - date: 2025-06-30
       type: fee
-      units: -0.261567
-      currency: EUR
-      nav: 929.81842
+      gross_amount: null
+      fees_amount: null
       net_amount: -243.21
-    - date: '2025-03-31'
+      units: -0.261567
+    - date: 2025-03-31
       type: fee
-      units: -0.158395
-      currency: EUR
-      nav: 933.42416
+      gross_amount: null
+      fees_amount: null
       net_amount: -147.85
-    - date: '2025-02-04'
+      units: -0.158395
+    - date: 2025-02-04
       type: buy
-      units: 109.04956
-      currency: EUR
-      nav: 999.99991
+      gross_amount: null
+      fees_amount: null
       net_amount: 109049.55
+      units: 109.04956
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -218.56
+      units: -0.263162
 - position_id: pos_swiss_004
   asset_id: struct_d_rendement_luxe_dec_2025
   holder_type: company
@@ -498,14 +546,20 @@ positions:
   investment:
     subscription_date: '2025-12-12'
     invested_amount: 0.0
-    units_held: 86.42589
+    units_held: 86.382503
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 86.42589
-      currency: EUR
-      nav: 999.99977
+      gross_amount: null
+      fees_amount: null
       net_amount: 86425.87
+      units: 86.42589
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -44.76
+      units: -0.043387
 - position_id: pos_swiss_005
   asset_id: struct_d_coupon_kg_eni_091_oct_2023
   holder_type: company
@@ -516,56 +570,62 @@ positions:
   investment:
     subscription_date: '2023-09-13'
     invested_amount: 0.0
-    units_held: 75.43981699999999
+    units_held: 75.257505
     lots:
-    - date: '2025-09-30'
+    - date: 2025-09-30
       type: fee
-      units: -0.182756
-      currency: EUR
-      nav: 1065.90499
+      gross_amount: null
+      fees_amount: null
       net_amount: -194.8
-    - date: '2025-06-30'
+      units: -0.182756
+    - date: 2025-06-30
       type: fee
-      units: -0.181207
-      currency: EUR
-      nav: 984.01493
+      gross_amount: null
+      fees_amount: null
       net_amount: -178.31
-    - date: '2025-03-31'
+      units: -0.181207
+    - date: 2025-03-31
       type: fee
-      units: -0.179645
-      currency: EUR
-      nav: 1002.42423
+      gross_amount: null
+      fees_amount: null
       net_amount: -180.08
-    - date: '2024-12-31'
+      units: -0.179645
+    - date: 2024-12-31
       type: fee
-      units: -0.183575
-      currency: EUR
-      nav: 940.92179
+      gross_amount: null
+      fees_amount: null
       net_amount: -172.73
-    - date: '2024-03-31'
+      units: -0.183575
+    - date: 2024-03-31
       type: fee
-      units: -0.183
-      currency: EUR
-      nav: 962.45902
+      gross_amount: null
+      fees_amount: null
       net_amount: -176.13
-    - date: '2023-12-31'
+      units: -0.183
+    - date: 2023-12-31
       type: fee
-      units: -0.186
-      currency: EUR
-      nav: 973.97849
+      gross_amount: null
+      fees_amount: null
       net_amount: -181.16
-    - date: '2023-09-30'
+      units: -0.186
+    - date: 2023-09-30
       type: fee
-      units: -0.034
-      currency: EUR
-      nav: 1011.47059
+      gross_amount: null
+      fees_amount: null
       net_amount: -34.39
-    - date: '2023-09-13'
+      units: -0.034
+    - date: 2023-09-13
       type: buy
-      units: 76.57
-      currency: EUR
-      nav: 999.99582
+      gross_amount: null
+      fees_amount: null
       net_amount: 76569.68
+      units: 76.57
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -196.73
+      units: -0.182312
 - position_id: pos_swiss_006
   asset_id: uc_strategie_conviction
   holder_type: company
@@ -576,63 +636,76 @@ positions:
   investment:
     subscription_date: '2022-11-24'
     invested_amount: 0.0
-    units_held: 509.577537
+    units_held: 522.843469
     purchase_nav: 145.99300239163753
+    purchase_nav_source: manual
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 237.763634
-      currency: EUR
-      nav: 154.21
+      gross_amount: null
+      fees_amount: null
       net_amount: 36665.53
-    - date: '2025-09-30'
+      units: 237.763634
+    - date: 2025-09-30
       type: fee
-      units: -0.658483
-      currency: EUR
-      nav: 151.04407
+      gross_amount: null
+      fees_amount: null
       net_amount: -99.46
-    - date: '2025-06-30'
+      units: -0.658483
+    - date: 2025-06-30
       type: fee
-      units: -0.652903
-      currency: EUR
-      nav: 147.7249
+      gross_amount: null
+      fees_amount: null
       net_amount: -96.45
-    - date: '2025-03-31'
+      units: -0.652903
+    - date: 2025-03-31
       type: fee
-      units: -0.647274
-      currency: EUR
-      nav: 148.00524
+      gross_amount: null
+      fees_amount: null
       net_amount: -95.8
-    - date: '2024-12-31'
+      units: -0.647274
+    - date: 2024-12-31
       type: fee
-      units: -0.661437
-      currency: EUR
-      nav: 151.03477
+      gross_amount: null
+      fees_amount: null
       net_amount: -99.9
-    - date: '2024-03-31'
+      units: -0.661437
+    - date: 2024-03-31
       type: fee
-      units: -0.659
-      currency: EUR
-      nav: 147.49621
+      gross_amount: null
+      fees_amount: null
       net_amount: -97.2
-    - date: '2023-12-31'
+      units: -0.659
+    - date: 2023-12-31
       type: fee
-      units: -0.67
-      currency: EUR
-      nav: 144.53731
+      gross_amount: null
+      fees_amount: null
       net_amount: -96.84
-    - date: '2023-09-30'
+      units: -0.67
+    - date: 2023-09-30
       type: fee
-      units: -0.124
-      currency: EUR
-      nav: 137.01613
+      gross_amount: null
+      fees_amount: null
       net_amount: -16.99
-    - date: '2023-09-13'
+      units: -0.124
+    - date: 2023-09-13
       type: buy
-      units: 275.887
-      currency: EUR
-      nav: 138.77004
+      gross_amount: null
+      fees_amount: null
       net_amount: 38284.85
+      units: 275.887
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -120.11
+      units: -0.776245
+    - date: 2025-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 2172.75
+      units: 14.042177
 - position_id: pos_swiss_007
   asset_id: uc_helium_selection_b_eur
   holder_type: company
@@ -643,87 +716,100 @@ positions:
   investment:
     subscription_date: '2022-11-24'
     invested_amount: 0.0
-    units_held: 43.83756799999999
+    units_held: 44.167818
     purchase_nav: 1555.2940366972477
+    purchase_nav_source: manual
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 5.904513
-      currency: EUR
-      nav: 1774.214
+      gross_amount: null
+      fees_amount: null
       net_amount: 10475.87
-    - date: '2025-09-30'
+      units: 5.904513
+    - date: 2025-09-30
       type: fee
-      units: -0.091969
-      currency: EUR
-      nav: 1742.86799
+      gross_amount: null
+      fees_amount: null
       net_amount: -160.29
-    - date: '2025-06-30'
+      units: -0.091969
+    - date: 2025-06-30
       type: fee
-      units: -0.09119
-      currency: EUR
-      nav: 1716.09294
+      gross_amount: null
+      fees_amount: null
       net_amount: -156.49
-    - date: '2025-03-31'
+      units: -0.09119
+    - date: 2025-03-31
       type: fee
-      units: -0.090404
-      currency: EUR
-      nav: 1676.92623
+      gross_amount: null
+      fees_amount: null
       net_amount: -151.6
-    - date: '2024-12-31'
+      units: -0.090404
+    - date: 2024-12-31
       type: fee
-      units: -0.092382
-      currency: EUR
-      nav: 1652.49178
+      gross_amount: null
+      fees_amount: null
       net_amount: -152.66
-    - date: '2024-07-11'
+      units: -0.092382
+    - date: 2024-07-11
       type: buy
-      units: 11.482
-      currency: EUR
-      nav: 1633.14841
+      gross_amount: null
+      fees_amount: null
       net_amount: 18751.81
-    - date: '2024-03-31'
+      units: 11.482
+    - date: 2024-03-31
       type: fee
-      units: -0.064
-      currency: EUR
-      nav: 1610.15625
+      gross_amount: null
+      fees_amount: null
       net_amount: -103.05
-    - date: '2023-12-31'
-      type: fee
-      units: -0.065
-      currency: EUR
-      nav: 1601.84615
-      net_amount: -104.12
-    - date: '2023-09-30'
-      type: fee
-      units: -0.066
-      currency: EUR
-      nav: 1540.45455
-      net_amount: -101.67
-    - date: '2023-06-30'
-      type: fee
-      units: -0.065
-      currency: EUR
-      nav: 1526.76923
-      net_amount: -99.24
-    - date: '2023-03-31'
-      type: fee
       units: -0.064
-      currency: EUR
-      nav: 1525.0
-      net_amount: -97.6
-    - date: '2022-12-31'
+    - date: 2023-12-31
       type: fee
-      units: -0.027
-      currency: EUR
-      nav: 1465.55556
+      gross_amount: null
+      fees_amount: null
+      net_amount: -104.12
+      units: -0.065
+    - date: 2023-09-30
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -101.67
+      units: -0.066
+    - date: 2023-06-30
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -99.24
+      units: -0.065
+    - date: 2023-03-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -97.6
+      units: -0.064
+    - date: 2022-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
       net_amount: -39.57
-    - date: '2022-11-24'
+      units: -0.027
+    - date: 2022-11-24
       type: buy
-      units: 27.168
-      currency: EUR
-      nav: 1472.99838
+      gross_amount: null
+      fees_amount: null
       net_amount: 40018.42
+      units: 27.168
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -168.63
+      units: -0.09471
+    - date: 2025-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 756.62
+      units: 0.424959
 - position_id: pos_swiss_008
   asset_id: uc_eleva_absolute_return_europe_a2
   holder_type: company
@@ -734,87 +820,100 @@ positions:
   investment:
     subscription_date: '2022-11-24'
     invested_amount: 0.0
-    units_held: 561.1551159999999
+    units_held: 568.315863
     purchase_nav: 121.49699708308547
+    purchase_nav_source: manual
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 77.627788
-      currency: EUR
-      nav: 134.95
+      gross_amount: null
+      fees_amount: null
       net_amount: 10475.87
-    - date: '2025-09-30'
+      units: 77.627788
+    - date: 2025-09-30
       type: fee
-      units: -1.172326
-      currency: EUR
-      nav: 133.01761
+      gross_amount: null
+      fees_amount: null
       net_amount: -155.94
-    - date: '2025-06-30'
+      units: -1.172326
+    - date: 2025-06-30
       type: fee
-      units: -1.162391
-      currency: EUR
-      nav: 130.6015
+      gross_amount: null
+      fees_amount: null
       net_amount: -151.81
-    - date: '2025-03-31'
+      units: -1.162391
+    - date: 2025-03-31
       type: fee
-      units: -1.15237
-      currency: EUR
-      nav: 127.84086
+      gross_amount: null
+      fees_amount: null
       net_amount: -147.32
-    - date: '2024-12-31'
+      units: -1.15237
+    - date: 2024-12-31
       type: fee
-      units: -1.177585
-      currency: EUR
-      nav: 130.02886
+      gross_amount: null
+      fees_amount: null
       net_amount: -153.12
-    - date: '2024-07-11'
+      units: -1.177585
+    - date: 2024-07-11
       type: buy
-      units: 146.521
-      currency: EUR
-      nav: 127.98036
+      gross_amount: null
+      fees_amount: null
       net_amount: 18751.81
-    - date: '2024-03-31'
+      units: 146.521
+    - date: 2024-03-31
       type: fee
-      units: -0.82
-      currency: EUR
-      nav: 126.26829
+      gross_amount: null
+      fees_amount: null
       net_amount: -103.54
-    - date: '2023-12-31'
+      units: -0.82
+    - date: 2023-12-31
       type: fee
-      units: -0.834
-      currency: EUR
-      nav: 120.97122
+      gross_amount: null
+      fees_amount: null
       net_amount: -100.89
-    - date: '2023-09-30'
+      units: -0.834
+    - date: 2023-09-30
       type: fee
-      units: -0.836
-      currency: EUR
-      nav: 118.37321
+      gross_amount: null
+      fees_amount: null
       net_amount: -98.96
-    - date: '2023-06-30'
+      units: -0.836
+    - date: 2023-06-30
       type: fee
-      units: -0.829
-      currency: EUR
-      nav: 120.08444
+      gross_amount: null
+      fees_amount: null
       net_amount: -99.55
-    - date: '2023-03-31'
+      units: -0.829
+    - date: 2023-03-31
       type: fee
-      units: -0.822
-      currency: EUR
-      nav: 118.86861
+      gross_amount: null
+      fees_amount: null
       net_amount: -97.71
-    - date: '2022-12-31'
+      units: -0.822
+    - date: 2022-12-31
       type: fee
-      units: -0.338
-      currency: EUR
-      nav: 115.85799
+      gross_amount: null
+      fees_amount: null
       net_amount: -39.16
-    - date: '2022-11-24'
+      units: -0.338
+    - date: 2022-11-24
       type: buy
-      units: 346.15
-      currency: EUR
-      nav: 115.61005
+      gross_amount: null
+      fees_amount: null
       net_amount: 40018.42
+      units: 346.15
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -164.86
+      units: -1.208449
+    - date: 2025-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 1141.73
+      units: 8.369196
 - position_id: pos_swiss_009
   asset_id: uc_ivo_fixed_income_short_duration_sri_r
   holder_type: company
@@ -825,45 +924,58 @@ positions:
   investment:
     subscription_date: '2022-11-24'
     invested_amount: 0.0
-    units_held: 595.659307
+    units_held: 602.220474
     purchase_nav: 118.16799514669455
+    purchase_nav_source: manual
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 82.286309
-      currency: EUR
-      nav: 127.31
+      gross_amount: null
+      fees_amount: null
       net_amount: 10475.87
-    - date: '2025-09-30'
+      units: 82.286309
+    - date: 2025-09-30
       type: fee
-      units: -1.247051
-      currency: EUR
-      nav: 126.73096
+      gross_amount: null
+      fees_amount: null
       net_amount: -158.04
-    - date: '2025-06-30'
+      units: -1.247051
+    - date: 2025-06-30
       type: fee
-      units: -1.236483
-      currency: EUR
-      nav: 123.77042
+      gross_amount: null
+      fees_amount: null
       net_amount: -153.04
-    - date: '2025-03-31'
+      units: -1.236483
+    - date: 2025-03-31
       type: fee
-      units: -1.225823
-      currency: EUR
-      nav: 122.16278
+      gross_amount: null
+      fees_amount: null
       net_amount: -149.75
-    - date: '2024-12-31'
+      units: -1.225823
+    - date: 2024-12-31
       type: fee
-      units: -1.252645
-      currency: EUR
-      nav: 120.57686
+      gross_amount: null
+      fees_amount: null
       net_amount: -151.04
-    - date: '2024-07-11'
+      units: -1.252645
+    - date: 2024-07-11
       type: buy
-      units: 518.335
-      currency: EUR
-      nav: 116.70003
+      gross_amount: null
+      fees_amount: null
       net_amount: 60489.71
+      units: 518.335
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -164.23
+      units: -1.285332
+    - date: 2025-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 1002.55
+      units: 7.846499
 - position_id: pos_swiss_010
   asset_id: uc_dnca_invest_alpha_bonds_b_eur
   holder_type: company
@@ -874,69 +986,82 @@ positions:
   investment:
     subscription_date: '2022-11-24'
     invested_amount: 0.0
-    units_held: 592.799665
+    units_held: 595.16784
     purchase_nav: 119.71300077329029
+    purchase_nav_source: manual
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 82.047854
-      currency: EUR
-      nav: 127.68
+      gross_amount: null
+      fees_amount: null
       net_amount: 10475.87
-    - date: '2025-09-30'
+      units: 82.047854
+    - date: 2025-09-30
       type: fee
-      units: -1.238553
-      currency: EUR
-      nav: 127.04339
+      gross_amount: null
+      fees_amount: null
       net_amount: -157.35
-    - date: '2025-06-30'
+      units: -1.238553
+    - date: 2025-06-30
       type: fee
-      units: -1.228057
-      currency: EUR
-      nav: 126.0121
+      gross_amount: null
+      fees_amount: null
       net_amount: -154.75
-    - date: '2025-03-31'
+      units: -1.228057
+    - date: 2025-03-31
       type: fee
-      units: -1.21747
-      currency: EUR
-      nav: 124.10983
+      gross_amount: null
+      fees_amount: null
       net_amount: -151.1
-    - date: '2024-12-31'
+      units: -1.21747
+    - date: 2024-12-31
       type: fee
-      units: -1.244109
-      currency: EUR
-      nav: 122.11953
+      gross_amount: null
+      fees_amount: null
       net_amount: -151.93
-    - date: '2024-07-11'
+      units: -1.244109
+    - date: 2024-07-11
       type: buy
-      units: 189.233
-      currency: EUR
-      nav: 121.46978
+      gross_amount: null
+      fees_amount: null
       net_amount: 22986.09
-    - date: '2024-03-31'
+      units: 189.233
+    - date: 2024-03-31
       type: fee
-      units: -0.784
-      currency: EUR
-      nav: 119.8852
+      gross_amount: null
+      fees_amount: null
       net_amount: -93.99
-    - date: '2023-12-31'
+      units: -0.784
+    - date: 2023-12-31
       type: fee
-      units: -0.797
-      currency: EUR
-      nav: 117.77917
+      gross_amount: null
+      fees_amount: null
       net_amount: -93.87
-    - date: '2023-09-30'
+      units: -0.797
+    - date: 2023-09-30
       type: fee
-      units: -0.147
-      currency: EUR
-      nav: 116.46259
+      gross_amount: null
+      fees_amount: null
       net_amount: -17.12
-    - date: '2023-09-13'
+      units: -0.147
+    - date: 2023-09-13
       type: buy
-      units: 328.175
-      currency: EUR
-      nav: 116.65986
+      gross_amount: null
+      fees_amount: null
       net_amount: 38284.85
+      units: 328.175
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -163.24
+      units: -1.276735
+    - date: 2025-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 466.04
+      units: 3.64491
 - position_id: pos_swiss_011
   asset_id: uc_dnca_flexibonds_c_eur
   holder_type: company
@@ -947,15 +1072,28 @@ positions:
   investment:
     subscription_date: '2022-11-24'
     invested_amount: 0.0
-    units_held: 470.369222
+    units_held: 474.793965
     purchase_nav: 105.79000308349903
+    purchase_nav_source: manual
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 470.369222
-      currency: EUR
-      nav: 105.79
+      gross_amount: null
+      fees_amount: null
       net_amount: 49760.36
+      units: 470.369222
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -25.04
+      units: -0.236132
+    - date: 2025-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 494.29
+      units: 4.660875
 - position_id: pos_swiss_012
   asset_id: uc_dynastrat_c
   holder_type: company
@@ -966,15 +1104,28 @@ positions:
   investment:
     subscription_date: '2025-12-12'
     invested_amount: 0.0
-    units_held: 431.8559
+    units_held: 448.256468
     purchase_nav: 109.16000759712976
+    purchase_nav_source: manual
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: buy
-      units: 431.8559
-      currency: EUR
-      nav: 109.16
+      gross_amount: null
+      fees_amount: null
       net_amount: 47141.39
+      units: 431.8559
+    - date: 2025-12-31
+      type: fee
+      gross_amount: null
+      fees_amount: null
+      net_amount: -23.88
+      units: -0.216798
+    - date: 2025-12-31
+      type: other
+      gross_amount: null
+      fees_amount: null
+      net_amount: 1830.4
+      units: 16.617366
 - position_id: pos_swiss_013
   asset_id: uc_swisslife_short_term_euro_p1
   holder_type: company
@@ -987,84 +1138,84 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2025-12-12'
+    - date: 2025-12-12
       type: sell
-      units: -829.019275
-      currency: EUR
-      nav: 106.295
+      gross_amount: null
+      fees_amount: null
       net_amount: -87934.29
-    - date: '2025-12-12'
+      units: -829.019275
+    - date: 2025-12-12
       type: fee
-      units: -0.66649
-      currency: EUR
-      nav: 106.28812
+      gross_amount: null
+      fees_amount: null
       net_amount: -70.84
-    - date: '2025-11-14'
+      units: -0.66649
+    - date: 2025-11-14
       type: buy
-      units: 804.04968
-      currency: EUR
-      nav: 106.159
+      gross_amount: null
+      fees_amount: null
       net_amount: 85357.11
-    - date: '2025-09-30'
+      units: 804.04968
+    - date: 2025-09-30
       type: fee
-      units: -0.022349
-      currency: EUR
-      nav: 106.04739
+      gross_amount: null
+      fees_amount: null
       net_amount: -2.37
-    - date: '2025-09-30'
+      units: -0.022349
+    - date: 2025-09-30
       type: buy
-      units: 0.022349
-      currency: EUR
-      nav: 106.04739
+      gross_amount: null
+      fees_amount: null
       net_amount: 2.37
-    - date: '2025-08-28'
+      units: 0.022349
+    - date: 2025-08-28
       type: buy
-      units: 25.636085
-      currency: EUR
-      nav: 105.772
+      gross_amount: null
+      fees_amount: null
       net_amount: 2711.58
-    - date: '2025-02-04'
+      units: 25.636085
+    - date: 2025-02-04
       type: sell
-      units: -2084.997788
-      currency: EUR
-      nav: 104.604
+      gross_amount: null
+      fees_amount: null
       net_amount: -218099.11
-    - date: '2025-02-04'
+      units: -2084.997788
+    - date: 2025-02-04
       type: fee
-      units: -1.764049
-      currency: EUR
-      nav: 104.60595
+      gross_amount: null
+      fees_amount: null
       net_amount: -184.53
-    - date: '2025-01-03'
+      units: -1.764049
+    - date: 2025-01-03
       type: buy
-      units: 2086.761837
-      currency: EUR
-      nav: 104.374
+      gross_amount: null
+      fees_amount: null
       net_amount: 217803.68
-    - date: '2024-10-16'
+      units: 2086.761837
+    - date: 2024-10-16
       type: sell
-      units: -781.148
-      currency: EUR
-      nav: 103.71402
+      gross_amount: null
+      fees_amount: null
       net_amount: -80986.0
-    - date: '2024-10-16'
+      units: -781.148
+    - date: 2024-10-16
       type: fee
-      units: -3.757
-      currency: EUR
-      nav: 103.72105
+      gross_amount: null
+      fees_amount: null
       net_amount: -389.68
-    - date: '2024-07-11'
+      units: -3.757
+    - date: 2024-07-11
       type: sell
-      units: -1177.358
-      currency: EUR
-      nav: 102.755
+      gross_amount: null
+      fees_amount: null
       net_amount: -120979.42
-    - date: '2024-06-07'
+      units: -1177.358
+    - date: 2024-06-07
       type: buy
-      units: 1962.263
-      currency: EUR
-      nav: 102.44202
+      gross_amount: null
+      fees_amount: null
       net_amount: 201018.18
+      units: 1962.263
 - position_id: pos_swiss_014
   asset_id: struct_d_rendement_bouygues_div_fix_170_oct_2024
   holder_type: company
@@ -1077,60 +1228,60 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2025-11-14'
+    - date: 2025-11-14
       type: tax
-      units: -80.147524
-      currency: EUR
-      nav: 1064.99996
+      gross_amount: null
+      fees_amount: null
       net_amount: -85357.11
-    - date: '2025-11-14'
+      units: -80.147524
+    - date: 2025-11-14
       type: fee
-      units: -0.676418
-      currency: EUR
-      nav: 1064.99314
+      gross_amount: null
+      fees_amount: null
       net_amount: -720.38
-    - date: '2025-09-30'
+      units: -0.676418
+    - date: 2025-09-30
       type: fee
-      units: -0.195341
-      currency: EUR
-      nav: 1043.81462
+      gross_amount: null
+      fees_amount: null
       net_amount: -203.9
-    - date: '2025-09-30'
+      units: -0.195341
+    - date: 2025-09-30
       type: buy
-      units: 0.195341
-      currency: EUR
-      nav: 1043.81462
+      gross_amount: null
+      fees_amount: null
       net_amount: 203.9
-    - date: '2025-06-30'
+      units: 0.195341
+    - date: 2025-06-30
       type: fee
-      units: -0.193686
-      currency: EUR
-      nav: 1037.50507
+      gross_amount: null
+      fees_amount: null
       net_amount: -200.95
-    - date: '2025-06-30'
+      units: -0.193686
+    - date: 2025-06-30
       type: buy
-      units: 0.193686
-      currency: EUR
-      nav: 1037.50507
+      gross_amount: null
+      fees_amount: null
       net_amount: 200.95
-    - date: '2025-03-31'
+      units: 0.193686
+    - date: 2025-03-31
       type: fee
-      units: -0.192016
-      currency: EUR
-      nav: 1029.91417
+      gross_amount: null
+      fees_amount: null
       net_amount: -197.76
-    - date: '2024-12-31'
+      units: -0.192016
+    - date: 2024-12-31
       type: fee
-      units: -0.162059
-      currency: EUR
-      nav: 944.10352
+      gross_amount: null
+      fees_amount: null
       net_amount: -153.0
-    - date: '2024-10-16'
+      units: -0.162059
+    - date: 2024-10-16
       type: buy
-      units: 80.986
-      currency: EUR
-      nav: 1000.0
+      gross_amount: null
+      fees_amount: null
       net_amount: 80986.0
+      units: 80.986
 - position_id: pos_swiss_015
   asset_id: struct_d_coupon_kg_credit_agricole_decrement_mai_2023
   holder_type: company
@@ -1143,42 +1294,42 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2024-06-07'
+    - date: 2024-06-07
       type: tax
-      units: -190.539
-      currency: EUR
-      nav: 1054.99756
+      gross_amount: null
+      fees_amount: null
       net_amount: -201018.18
-    - date: '2024-06-07'
+      units: -190.539
+    - date: 2024-06-07
       type: fee
-      units: -0.8
-      currency: EUR
-      nav: 1055.2
+      gross_amount: null
+      fees_amount: null
       net_amount: -844.16
-    - date: '2023-12-31'
+      units: -0.8
+    - date: 2023-12-31
       type: fee
-      units: -0.466
-      currency: EUR
-      nav: 1017.53219
+      gross_amount: null
+      fees_amount: null
       net_amount: -474.17
-    - date: '2023-09-30'
+      units: -0.466
+    - date: 2023-09-30
       type: fee
-      units: -0.467
-      currency: EUR
-      nav: 986.83084
+      gross_amount: null
+      fees_amount: null
       net_amount: -460.85
-    - date: '2023-06-30'
+      units: -0.467
+    - date: 2023-06-30
       type: fee
-      units: -0.356
-      currency: EUR
-      nav: 1009.57865
+      gross_amount: null
+      fees_amount: null
       net_amount: -359.41
-    - date: '2023-04-21'
+      units: -0.356
+    - date: 2023-04-21
       type: buy
-      units: 192.627
-      currency: EUR
-      nav: 1000.00239
+      gross_amount: null
+      fees_amount: null
       net_amount: 192627.46
+      units: 192.627
 - position_id: pos_swiss_016
   asset_id: uc_sci_cap_sante
   holder_type: company
@@ -1191,30 +1342,30 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-11-21'
+    - date: 2023-11-21
       type: sell
-      units: -1839.939
-      currency: EUR
-      nav: 113.28998
+      gross_amount: null
+      fees_amount: null
       net_amount: -208446.65
-    - date: '2023-11-21'
+      units: -1839.939
+    - date: 2023-11-21
       type: fee
-      units: -14.058
-      currency: EUR
-      nav: 113.28923
+      gross_amount: null
+      fees_amount: null
       net_amount: -1592.62
-    - date: '2023-03-31'
+      units: -14.058
+    - date: 2023-03-31
       type: fee
-      units: -2.595
-      currency: EUR
-      nav: 107.39499
+      gross_amount: null
+      fees_amount: null
       net_amount: -278.69
-    - date: '2023-02-06'
+      units: -2.595
+    - date: 2023-02-06
       type: buy
-      units: 1853.997
-      currency: EUR
-      nav: 106.87997
+      gross_amount: null
+      fees_amount: null
       net_amount: 198155.15
+      units: 1853.997
 - position_id: pos_swiss_017
   asset_id: uc_tikehau_short_duration_r_eur_acc
   holder_type: company
@@ -1227,24 +1378,24 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-12-06'
+    - date: 2023-12-06
       type: sell
-      units: -1713.52
-      currency: EUR
-      nav: 122.32
+      gross_amount: null
+      fees_amount: null
       net_amount: -209597.77
-    - date: '2023-12-06'
+      units: -1713.52
+    - date: 2023-12-06
       type: fee
-      units: -0.679
-      currency: EUR
-      nav: 122.40059
+      gross_amount: null
+      fees_amount: null
       net_amount: -83.11
-    - date: '2023-11-21'
+      units: -0.679
+    - date: 2023-11-21
       type: buy
-      units: 1714.199
-      currency: EUR
-      nav: 121.60003
+      gross_amount: null
+      fees_amount: null
       net_amount: 208446.65
+      units: 1714.199
 - position_id: pos_swiss_018
   asset_id: uc_ruffer_sicav_total_return_international_oi_eur_cap
   holder_type: company
@@ -1257,30 +1408,30 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-09-13'
+    - date: 2023-09-13
       type: sell
-      units: -24588.07
-      currency: EUR
-      nav: 1.472
+      gross_amount: null
+      fees_amount: null
       net_amount: -36114.18
-    - date: '2023-09-13'
+      units: -24588.07
+    - date: 2023-09-13
       type: fee
-      units: -166.919
-      currency: EUR
-      nav: 1.47197
+      gross_amount: null
+      fees_amount: null
       net_amount: -245.7
-    - date: '2022-12-31'
+      units: -166.919
+    - date: 2022-12-31
       type: fee
-      units: -24.219
-      currency: EUR
-      nav: 1.62104
+      gross_amount: null
+      fees_amount: null
       net_amount: -39.26
-    - date: '2022-11-24'
+      units: -24.219
+    - date: 2022-11-24
       type: buy
-      units: 24779.207
-      currency: EUR
-      nav: 1.615
+      gross_amount: null
+      fees_amount: null
       net_amount: 40018.42
+      units: 24779.207
 - position_id: pos_swiss_019
   asset_id: uc_lazard_patrimoine_sri_rc_eur
   holder_type: company
@@ -1293,30 +1444,30 @@ positions:
     invested_amount: 0.0
     units_held: 5.684341886080802e-14
     lots:
-    - date: '2023-09-13'
+    - date: 2023-09-13
       type: sell
-      units: -308.234
-      currency: EUR
-      nav: 121.90985
+      gross_amount: null
+      fees_amount: null
       net_amount: -37494.26
-    - date: '2023-09-13'
+      units: -308.234
+    - date: 2023-09-13
       type: fee
-      units: -2.092
-      currency: EUR
-      nav: 121.93595
+      gross_amount: null
+      fees_amount: null
       net_amount: -255.09
-    - date: '2022-12-31'
+      units: -2.092
+    - date: 2022-12-31
       type: fee
-      units: -0.304
-      currency: EUR
-      nav: 126.44737
+      gross_amount: null
+      fees_amount: null
       net_amount: -38.44
-    - date: '2022-11-24'
+      units: -0.304
+    - date: 2022-11-24
       type: buy
-      units: 310.63
-      currency: EUR
-      nav: 128.82986
+      gross_amount: null
+      fees_amount: null
       net_amount: 40018.42
+      units: 310.63
 - position_id: pos_swiss_020
   asset_id: uc_echiquier_allocation_flexible_b
   holder_type: company
@@ -1329,30 +1480,30 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-09-13'
+    - date: 2023-09-13
       type: sell
-      units: -362.613
-      currency: EUR
-      nav: 107.34996
+      gross_amount: null
+      fees_amount: null
       net_amount: -38841.03
-    - date: '2023-09-13'
+      units: -362.613
+    - date: 2023-09-13
       type: fee
-      units: -2.462
-      currency: EUR
-      nav: 107.3355
+      gross_amount: null
+      fees_amount: null
       net_amount: -264.26
-    - date: '2022-12-31'
+      units: -2.462
+    - date: 2022-12-31
       type: fee
-      units: -0.357
-      currency: EUR
-      nav: 108.76751
+      gross_amount: null
+      fees_amount: null
       net_amount: -38.83
-    - date: '2022-11-24'
+      units: -0.357
+    - date: 2022-11-24
       type: buy
-      units: 365.432
-      currency: EUR
-      nav: 109.5099
+      gross_amount: null
+      fees_amount: null
       net_amount: 40018.42
+      units: 365.432
 - position_id: pos_swiss_021
   asset_id: uc_pictet_tr_atlas_p_eur_acc
   holder_type: company
@@ -1365,30 +1516,30 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-09-13'
+    - date: 2023-09-13
       type: sell
-      units: -343.956
-      currency: EUR
-      nav: 118.56005
+      gross_amount: null
+      fees_amount: null
       net_amount: -40689.91
-    - date: '2023-09-13'
+      units: -343.956
+    - date: 2023-09-13
       type: fee
-      units: -2.335
-      currency: EUR
-      nav: 118.56103
+      gross_amount: null
+      fees_amount: null
       net_amount: -276.84
-    - date: '2022-12-31'
+      units: -2.335
+    - date: 2022-12-31
       type: fee
-      units: -0.339
-      currency: EUR
-      nav: 115.75221
+      gross_amount: null
+      fees_amount: null
       net_amount: -39.24
-    - date: '2022-11-24'
+      units: -0.339
+    - date: 2022-11-24
       type: buy
-      units: 346.63
-      currency: EUR
-      nav: 115.44996
+      gross_amount: null
+      fees_amount: null
       net_amount: 40018.42
+      units: 346.63
 - position_id: pos_swiss_022
   asset_id: uc_sci_primonial_capimmo
   holder_type: company
@@ -1401,30 +1552,30 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-04-21'
+    - date: 2023-04-21
       type: sell
-      units: -668.456
-      currency: EUR
-      nav: 288.79021
+      gross_amount: null
+      fees_amount: null
       net_amount: -192627.46
-    - date: '2023-04-21'
+      units: -668.456
+    - date: 2023-04-21
       type: fee
-      units: -1.964
-      currency: EUR
-      nav: 288.76782
+      gross_amount: null
+      fees_amount: null
       net_amount: -567.14
-    - date: '2022-12-31'
+      units: -1.964
+    - date: 2022-12-31
       type: fee
-      units: -0.656
-      currency: EUR
-      nav: 293.41463
+      gross_amount: null
+      fees_amount: null
       net_amount: -192.48
-    - date: '2022-11-24'
+      units: -0.656
+    - date: 2022-11-24
       type: buy
-      units: 671.076
-      currency: EUR
-      nav: 298.16611
+      gross_amount: null
+      fees_amount: null
       net_amount: 200092.12
+      units: 671.076
 - position_id: pos_swiss_023
   asset_id: uc_sc_pythagore
   holder_type: company
@@ -1437,30 +1588,30 @@ positions:
     invested_amount: 0.0
     units_held: 0.0
     lots:
-    - date: '2023-02-06'
+    - date: 2023-02-06
       type: sell
-      units: -1885.396
-      currency: EUR
-      nav: 105.10002
+      gross_amount: null
+      fees_amount: null
       net_amount: -198155.15
-    - date: '2023-02-06'
+      units: -1885.396
+    - date: 2023-02-06
       type: fee
-      units: -1.845
-      currency: EUR
-      nav: 105.07317
+      gross_amount: null
+      fees_amount: null
       net_amount: -193.86
-    - date: '2022-12-31'
+      units: -1.845
+    - date: 2022-12-31
       type: fee
-      units: -1.846
-      currency: EUR
-      nav: 105.95883
+      gross_amount: null
+      fees_amount: null
       net_amount: -195.6
-    - date: '2022-11-24'
+      units: -1.846
+    - date: 2022-11-24
       type: buy
-      units: 1889.087
-      currency: EUR
-      nav: 105.92001
+      gross_amount: null
+      fees_amount: null
       net_amount: 200092.11
+      units: 1889.087
 - position_id: pos_swiss_024
   asset_id: uc_swisslife_money_market_euro_p
   holder_type: company
@@ -1470,25 +1621,24 @@ positions:
     contract_name: SwissLife Capi Stratégic Premium
   investment:
     subscription_date: '2022-11-09'
-    invested_amount: 640000.0
+    invested_amount: 0.0
     units_held: 9.094947017729282e-13
     lots:
-    - date: '2022-11-24'
+    - date: 2022-11-24
       type: sell
-      units: -5960.999
-      currency: EUR
-      nav: 107.414
+      gross_amount: null
+      fees_amount: null
       net_amount: -640294.75
-    - date: '2022-11-24'
+      units: -5960.999
+    - date: 2022-11-24
       type: fee
-      units: -2.364
-      currency: EUR
-      nav: 107.39425
+      gross_amount: null
+      fees_amount: null
       net_amount: -253.88
-    - date: '2022-11-09'
+      units: -2.364
+    - date: 2022-11-09
       type: buy
-      units: 5963.363
-      currency: EUR
-      nav: 107.32199
+      gross_amount: null
+      fees_amount: null
       net_amount: 640000.0
-      external: true
+      units: 5963.363

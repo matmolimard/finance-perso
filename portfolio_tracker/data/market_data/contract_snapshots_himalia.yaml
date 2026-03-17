@@ -1,0 +1,37 @@
+# Snapshots officiels du contrat HIMALIA (Generali Vie)
+# Source : relevés de situation annuels Generali
+# Ces valeurs font foi pour le calcul de performance — ne pas modifier manuellement.
+
+contract_name: "HIMALIA"
+contract_id: "83914927"
+
+# Versements et retraits cumulés depuis l'origine (données officielles du relevé)
+versements_total: 190000.00   # Total versé depuis l'origine (état de situation 26/02/2026)
+retraits_total: 0.00
+
+# Flux externes par année (versements/retraits réels hors arbitrages internes)
+# Utilisés pour calculer la performance hors flux année par année.
+flux_externes_par_annee:
+  2023: 140000.00   # Versement initial 06/12/2023
+  2024: 0.00
+  2025: 50000.00    # Versement libre 04/09/2025
+
+snapshots:
+  - date: 2023-12-31
+    total_value: 140104.77
+    uc_value: 91000.00
+    euro_fund_value: 49104.77
+    source: "Relevé de situation au 31/12/2023 (reçu le 19/02/2024)"
+
+  - date: 2024-12-31
+    total_value: 143829.32
+    uc_value: 92652.26
+    euro_fund_value: 51177.06
+    source: "Relevé de situation au 31/12/2024 (reçu le 28/02/2025)"
+
+  # Relevé 31/12/2025 non encore reçu — proxy : état de situation au 26/02/2026
+  # À remplacer par la valeur officielle dès réception du relevé annuel.
+  - date: 2025-12-31
+    total_value: 201232.35
+    actual_snapshot_date: 2026-02-26
+    source: "État de situation au 26/02/2026 (proxy — relevé officiel 31/12/2025 à venir)"

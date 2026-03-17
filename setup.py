@@ -30,7 +30,10 @@ setup(
         "dev": [
             "pytest>=7.4.0",
             "pytest-cov>=4.1.0",
-        ]
+        ],
+        "charts": [
+            "plotext>=5.2.0",
+        ],
     },
     entry_points={
         "console_scripts": [

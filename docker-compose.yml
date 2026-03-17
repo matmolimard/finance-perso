@@ -1,0 +1,14 @@
+services:
+  portfolio-tracker:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    image: portfolio-tracker:latest
+    container_name: portfolio-tracker
+    working_dir: /app
+    env_file:
+      - .env
+    volumes:
+      # Persist and edit business data directly from host.
+      - ./portfolio_tracker/data:/app/portfolio_tracker/data
+    command: ["--help"]
