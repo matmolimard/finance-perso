@@ -15,6 +15,7 @@ help:
 	@echo "  make install          - Installe le package en mode développement (recommandé)"
 	@echo "  make install-charts   - Comme install + plotext (graphiques dans make history)"
 	@echo "  make setup            - Alias pour make install"
+	@echo "  (Debian/Ubuntu: apt install python3-venv si création du venv échoue)"
 	@echo ""
 	@echo "📊 Consultation:"
 	@echo "  make alerts           - Affiche les alertes"
@@ -60,21 +61,31 @@ help:
 	@echo "  make clean             - Nettoie les fichiers temporaires"
 	@echo "  make help              - Affiche cette aide"
 
-# Installation
-install:
-	$(PYTHON) -m pip install -e ".[dev]"
+# Créer le venv si absent (compatible PEP 668 / Debian externally-managed-environment)
+.venv/bin/python:
+	@echo "Création du virtualenv .venv..."
+	python3 -m venv .venv
+	@echo "✓ Virtualenv créé"
+
+# Installation (utilise le venv pour éviter externally-managed-environment)
+install: .venv/bin/python
+	.venv/bin/python -m pip install -e ".[dev]"
 	@echo "✓ Installation complète terminée"
 
 # Installation avec graphiques terminal (plotext pour make history)
-install-charts:
-	$(PYTHON) -m pip install -e ".[dev,charts]"
+install-charts: .venv/bin/python
+	.venv/bin/python -m pip install -e ".[dev,charts]"
 	@echo "✓ Installation terminée (avec plotext pour les graphiques history)"
 
 # Alias pour compatibilité
 install-dev: install
 	@echo "✓ Installation complète terminée"
 
-setup: install
+# Setup autonome : crée le venv si besoin puis installe (évite tout pip système)
+setup:
+	@test -f .venv/bin/python || (echo "Création du virtualenv .venv..." && python3 -m venv .venv)
+	.venv/bin/python -m pip install -e ".[dev]"
+	@echo "✓ Installation complète terminée"
 
 # Consultation
 alerts:
