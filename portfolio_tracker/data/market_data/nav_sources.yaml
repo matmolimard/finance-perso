@@ -114,3 +114,98 @@ nav_sources:
     headless: false
     morningstar_secid: "F00000ZWKY"  # historique via Morningstar (FR0013301629)
 
+  # SCI Capimmo / Praemia Reim France (FR0014004GX5) - historique uniquement
+  uc_sci_primonial_capimmo:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=0P0001XVJK"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/0P0001XVJK/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false
+
+  # SCI Cap Santé (FR0014009IF7) - historique uniquement
+  uc_sci_cap_sante:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=0P0001XVJL"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/0P0001XVJL/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false
+
+  # Tikehau Short Duration R EUR Acc (LU1585265066) - historique uniquement
+  uc_tikehau_short_duration_r_eur_acc:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=0P0001KJDD"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/0P0001KJDD/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false
+
+  # Ruffer SICAV Total Return International OI EUR Cap (LU2252564898) - historique uniquement
+  uc_ruffer_sicav_total_return_international_oi_eur_cap:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=0P0001LVO4"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/0P0001LVO4/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false
+
+  # Lazard Patrimoine SRI RC EUR (FR0012355139) - historique uniquement
+  uc_lazard_patrimoine_sri_rc_eur:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=0P0001572S"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/0P0001572S/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false
+
+  # Echiquier Allocation Flexible B (FR0013433505) - historique uniquement
+  uc_echiquier_allocation_flexible_b:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=0P0001INWJ"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/0P0001INWJ/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false
+
+  # Pictet TR-Atlas P EUR Acc (LU1433232854) - historique uniquement
+  uc_pictet_tr_atlas_p_eur_acc:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=0P00019A9Z"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/0P00019A9Z/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false
+
+  # Swiss Life Funds (F) ESG Money Market Euro P (FR0010540385) - historique uniquement
+  uc_swisslife_money_market_euro_p:
+    kind: url_csv
+    url: "https://www.boursorama.com/bourse/action/graph/ws/download?length=7300&period=-1&symbol=MP-189449"
+    source_url: "https://www.boursorama.com/bourse/opcvm/cours/MP-189449/"
+    delimiter: "\t"
+    date_column: "date"
+    value_column: "clot"
+    date_format: "%d/%m/%Y %H:%M"
+    currency: "EUR"
+    headless: false

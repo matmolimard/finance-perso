@@ -1,0 +1,161 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio Tracker V2 - Données de marché</title>
+    <link rel="stylesheet" href="/static/v2.css">
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+  </head>
+  <body>
+    <div id="v2-loader" class="v2-loader is-hidden" aria-hidden="true">
+      <div class="v2-loader-card">
+        <div class="spinner"></div>
+        <strong>Chargement des données de marché</strong>
+        <p>Préparation des séries UC et sous-jacents…</p>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a class="burger back-link" href="/" aria-label="Retour">←</a>
+      <div class="topbar-copy">
+        <span class="eyebrow">Portfolio Tracker V2</span>
+        <h1>Données de marché</h1>
+      </div>
+    </header>
+
+    <main class="v2-page">
+      <section class="metrics-grid" id="market-summary"></section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Mises à jour</span>
+            <h2>Actions de synchronisation</h2>
+          </div>
+          <p class="section-copy">Déclenche les mises à jour UC, sous-jacents et backfill historique depuis l’interface.</p>
+        </div>
+        <div class="action-row">
+          <button id="market-update-uc" class="primary-button" type="button">Mettre à jour les UC</button>
+          <button id="market-update-underlyings" class="ghost-button" type="button">Mettre à jour les sous-jacents</button>
+          <button id="market-backfill" class="ghost-button" type="button">Backfill 3 ans</button>
+        </div>
+        <pre id="market-action-output" class="action-output"></pre>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Graphique</span>
+            <h2>Visualisation des séries</h2>
+          </div>
+          <p class="section-copy">Clique sur une valeur pour charger le graphique et choisis la période affichée.</p>
+        </div>
+        <div class="filters-grid">
+          <label class="field">
+            <span>Période</span>
+            <select id="market-period-select">
+              <option value="1m">1 mois</option>
+              <option value="3m">3 mois</option>
+              <option value="ytd">1er janvier</option>
+              <option value="1y" selected>1 an</option>
+              <option value="5y">5 ans</option>
+              <option value="purchase" hidden>Date d'achat</option>
+              <option value="max">Max</option>
+              <option value="custom">Personnalisée</option>
+            </select>
+          </label>
+          <label class="field">
+            <span>Série sélectionnée</span>
+            <select id="market-series-select">
+              <option value="">Choisir une série</option>
+            </select>
+          </label>
+          <div class="field checkbox-field">
+            <span>&nbsp;</span>
+            <label class="checkbox-inline">
+              <input id="market-include-former" type="checkbox" checked>
+              <span>Inclure les produits quittés</span>
+            </label>
+          </div>
+          <div class="field checkbox-field">
+            <span>&nbsp;</span>
+            <label class="checkbox-inline">
+              <input id="market-include-future" type="checkbox" checked>
+              <span>Inclure les produits futurs</span>
+            </label>
+          </div>
+          <label class="field">
+            <span>Date de début</span>
+            <input id="market-date-from" type="date">
+          </label>
+          <label class="field">
+            <span>Date de fin</span>
+            <input id="market-date-to" type="date">
+          </label>
+          <div class="field field-end">
+            <span>&nbsp;</span>
+            <button id="market-apply-range" class="ghost-button" type="button">Appliquer</button>
+          </div>
+        </div>
+        <div id="market-series-meta" class="series-meta"></div>
+        <div class="chart-panel">
+          <canvas id="market-chart" height="120"></canvas>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">UC</span>
+            <h2>Unités de compte</h2>
+          </div>
+          <p class="section-copy">Dernières VL disponibles et accès rapide à la courbe.</p>
+        </div>
+        <div id="market-uc-table"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Sous-jacents</span>
+            <h2>Produits structurés</h2>
+          </div>
+          <p class="section-copy">Indices et sous-jacents utilisés dans les structurés actifs.</p>
+        </div>
+        <div id="market-underlyings-table"></div>
+      </section>
+    </main>
+
+    <template id="v2-empty">
+      <div class="empty-state">Aucune donnée disponible.</div>
+    </template>
+
+    <div id="market-url-modal" class="modal-shell is-hidden" aria-hidden="true">
+      <div class="modal-backdrop" data-close-market-url-modal="true"></div>
+      <section class="modal-card" role="dialog" aria-modal="true" aria-labelledby="market-url-modal-title">
+        <div class="modal-head">
+          <div>
+            <span class="section-kicker">Source</span>
+            <h2 id="market-url-modal-title">Modifier l’URL</h2>
+          </div>
+          <button id="market-url-cancel-top" class="ghost-button inline-button" type="button">Fermer</button>
+        </div>
+        <p id="market-url-modal-copy" class="section-copy">Renseigne l’URL utilisée pour cette série.</p>
+        <form id="market-url-form" class="modal-form">
+          <label class="field">
+            <span>URL source</span>
+            <input id="market-url-input" name="url" type="url" placeholder="https://..." autocomplete="url">
+          </label>
+          <p class="field-help">Tu peux laisser vide pour retirer l’URL enregistrée.</p>
+          <div class="action-row">
+            <button id="market-url-save" class="primary-button" type="submit">Enregistrer</button>
+            <button id="market-url-cancel" class="ghost-button" type="button">Annuler</button>
+          </div>
+        </form>
+      </section>
+    </div>
+
+    <script src="/static/v2-market.js"></script>
+  </body>
+</html>
