@@ -1,6 +1,6 @@
 # Notes Quantalys des fonds
 # Source: https://www.quantalys.com
-# Dernière mise à jour: 2026-03-12
+# Dernière mise à jour: 2026-03-24
 
 ratings:
 - isin: FR0010174144
@@ -11,10 +11,10 @@ ratings:
   notes: Note globale Quantalys
 - isin: FR0010233726
   name: Generali Trésorerie ISR B
-  quantalys_rating: 3
-  quantalys_category: Monétaire
-  last_update: '2025-12-28'
-  notes: Note globale Quantalys (historique)
+  quantalys_rating: 5
+  quantalys_category: null
+  last_update: '2026-03-24'
+  notes: Note globale Quantalys
 - isin: FR0011347236
   name: Stratégie & Conviction
   quantalys_rating: 1

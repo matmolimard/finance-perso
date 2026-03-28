@@ -52,14 +52,15 @@ Vous devriez voir :
 ### Étape 2 : Exploration (20 min)
 1. Tester les commandes CLI :
    ```bash
+   python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data global
    python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data status
-   python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data wrapper
    python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data alerts
    ```
 
 2. Examiner les données d'exemple :
    - `portfolio_tracker/data/assets.yaml`
    - `portfolio_tracker/data/positions.yaml`
+   - `portfolio_tracker/data/.portfolio_tracker.sqlite`
    - `portfolio_tracker/data/market_data/`
 
 ### Étape 3 : Adaptation (30 min)
@@ -78,17 +79,22 @@ Vous devriez voir :
 
 4. Lancer :
    ```bash
-   python3 -m portfolio_tracker.cli status
+   python3 -m portfolio_tracker.cli global
    ```
 
 ## 🚀 Commandes Essentielles
 
 ```bash
 # Vue d'ensemble
+python3 -m portfolio_tracker.cli global
+
+# Alias compatible
 python3 -m portfolio_tracker.cli status
 
-# Par enveloppe (AV / contrat capi)
-python3 -m portfolio_tracker.cli wrapper
+# Vues spécialisées
+python3 -m portfolio_tracker.cli uc
+python3 -m portfolio_tracker.cli structured
+python3 -m portfolio_tracker.cli fonds-euro
 
 # Par type d'actif
 python3 -m portfolio_tracker.cli type
@@ -134,10 +140,11 @@ finance-perso/
 3. **Mark-to-Market** → UC cotées
 4. **Hybrid** → UC illiquides
 
-### Données YAML
-Tout est en fichiers texte versionnables :
+### Données locales
+Le projet reste local et versionnable :
 - `assets.yaml` → Définition des actifs
-- `positions.yaml` → Vos détentions
+- `positions.yaml` → Snapshot lisible des positions
+- `.portfolio_tracker.sqlite` → Ledger opérationnel des mouvements
 - `market_data/*.yaml` → VL, taux, événements
 
 ## ❓ Questions Fréquentes
@@ -152,10 +159,10 @@ Tout est en fichiers texte versionnables :
 ✅ Oui ! Le projet est extensible. Voir `PROJECT_OVERVIEW.md`
 
 ### Les données sont-elles sécurisées ?
-✅ Tout est local sur votre machine. Pas de cloud, pas d'API externe.
+✅ Tout est local sur votre machine. Pas de cloud, pas d'abonnement payant requis.
 
 ### Puis-je versionner mes données ?
-✅ Oui ! Les fichiers YAML sont faits pour Git.
+✅ Oui ! Les snapshots YAML et les données de marché sont faits pour Git.
 
 ## 🎁 Ce qui est Inclus
 
@@ -204,8 +211,6 @@ Le projet est **100% fonctionnel** et **prêt à l'emploi**.
 
 *Projet Portfolio Tracker v0.1.0*  
 *Généré le 24 décembre 2024*
-
-
 
 
 

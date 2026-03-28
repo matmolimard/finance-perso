@@ -1,7 +1,7 @@
 underlying_id: euronext_fr:FRIX00000185-XPAR
 source: euronext
 identifier: FRIX00000185-XPAR
-last_updated: '2026-03-17T20:35:26'
+last_updated: '2026-03-28T12:28:26'
 history:
 - date: '2023-12-27'
   value: 34.093
@@ -1137,5 +1137,21 @@ history:
   value: 49.868
 - date: '2026-03-17'
   value: 50.042
+- date: '2026-03-18'
+  value: 50.395
+- date: '2026-03-19'
+  value: 48.871
+- date: '2026-03-20'
+  value: 48.4
+- date: '2026-03-23'
+  value: 48.902
+- date: '2026-03-24'
+  value: 49.156
+- date: '2026-03-25'
+  value: 49.667
+- date: '2026-03-26'
+  value: 48.918
+- date: '2026-03-27'
+  value: 48.507
 url: https://live.euronext.com/fr/product/indices/FRIX00000185-XPAR
 notes: Euronext G Bouygues 261021 GR Decrement 1.7 (SGBD)

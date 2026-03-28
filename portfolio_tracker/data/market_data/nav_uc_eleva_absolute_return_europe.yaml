@@ -2983,3 +2983,35 @@ nav_history:
   value: 151.49
   currency: EUR
   source: morningstar
+- date: '2026-03-16'
+  value: 151.93
+  currency: EUR
+  source: morningstar
+- date: '2026-03-17'
+  value: 152.16
+  currency: EUR
+  source: morningstar
+- date: '2026-03-18'
+  value: 152.18
+  currency: EUR
+  source: morningstar
+- date: '2026-03-19'
+  value: 151.14
+  currency: EUR
+  source: morningstar
+- date: '2026-03-20'
+  value: 150.0
+  currency: EUR
+  source: morningstar
+- date: '2026-03-23'
+  value: 150.69
+  currency: EUR
+  source: morningstar
+- date: '2026-03-24'
+  value: 151.2
+  currency: EUR
+  source: morningstar
+- date: '2026-03-25'
+  value: 152.03
+  currency: EUR
+  source: html_regex

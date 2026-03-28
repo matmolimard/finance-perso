@@ -7,7 +7,7 @@
 pip install -r requirements.txt
 
 # 2. Tester l'installation avec les données d'exemple
-python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data status
+python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data global
 ```
 
 ## Sortie Attendue
@@ -44,6 +44,8 @@ cp portfolio_tracker/data/positions.yaml data/
 ### 3. Éditer avec vos données
 
 Éditer `data/assets.yaml` et `data/positions.yaml` avec vos actifs et positions réels.
+Ensuite, les commandes métier alimenteront automatiquement `data/.portfolio_tracker.sqlite` et réexporteront `positions.yaml`.
+Si vous retouchez manuellement les lots dans `positions.yaml`, relancez `python3 -m portfolio_tracker.cli rebuild-ledger`.
 
 ### 4. Ajouter les données de marché
 
@@ -56,20 +58,25 @@ Créer les fichiers dans `data/market_data/` selon vos besoins :
 ### 5. Lancer
 
 ```bash
-python3 -m portfolio_tracker.cli status
+python3 -m portfolio_tracker.cli global
 ```
 
 ## Commandes Utiles
 
 ```bash
 # Vue d'ensemble
-python3 -m portfolio_tracker.cli status
+python3 -m portfolio_tracker.cli global
 
-# Par enveloppe
-python3 -m portfolio_tracker.cli wrapper
+# Alias compatible
+python3 -m portfolio_tracker.cli status
 
 # Par type d'actif
 python3 -m portfolio_tracker.cli type
+
+# Vues spécialisées
+python3 -m portfolio_tracker.cli uc
+python3 -m portfolio_tracker.cli structured
+python3 -m portfolio_tracker.cli fonds-euro
 
 # Alertes
 python3 -m portfolio_tracker.cli alerts
@@ -88,7 +95,8 @@ Voici la structure minimale pour démarrer :
 ```
 data/
 ├── assets.yaml          # Vos actifs
-├── positions.yaml       # Vos positions
+├── positions.yaml       # Snapshot lisible des positions
+├── .portfolio_tracker.sqlite  # Ledger local des mouvements
 └── market_data/         # Données de marché
     ├── nav_*.yaml      # VL pour UC cotées
     ├── fonds_euro_*.yaml  # Taux pour fonds euros
@@ -149,8 +157,6 @@ En cas de problème, vérifiez :
 1. Version de Python : `python3 --version` (doit être ≥ 3.11)
 2. Dépendances installées : `pip list | grep -E "pyyaml|pandas"`
 3. Structure des fichiers YAML (indentation, syntaxe)
-
-
 
 
 

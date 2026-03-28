@@ -91,7 +91,7 @@ class InvestmentSchema(BaseModel):
     units_held: Optional[Decimal] = Field(None, ge=0)
     purchase_nav: Optional[Decimal] = Field(None, gt=0)
     purchase_nav_currency: str = Field("EUR", pattern=r'^[A-Z]{3}$')
-    purchase_nav_source: Optional[str] = Field(None, pattern=r'^(manual|derived|nav_history)$')
+    purchase_nav_source: Optional[str] = Field(None, pattern=r'^(manual|derived|nav_history|lots|unknown)$')
     lots: List[LotSchema] = Field(default_factory=list)
     
     @model_validator(mode='after')
@@ -107,8 +107,8 @@ class InvestmentSchema(BaseModel):
                         external_buy_total += amount
             
             # NOTE: La validation de cohérence entre invested_amount et lots est désactivée
-            # car le calcul du capital investi est maintenant géré par LotClassifier dans cli.py.
-            # Le schéma accepte invested_amount tel quel, la logique de calcul étant centralisée ailleurs.
+            # car le calcul du capital investi est maintenant géré par la couche domaine
+            # (classification + projection), pas directement par le schéma.
             pass
         
         if self.purchase_nav is not None and self.purchase_nav_source is None:
@@ -155,4 +155,3 @@ class ValuationEventSchema(BaseModel):
     metadata: Dict[str, Any] = Field(default_factory=dict)
     
     model_config = {"frozen": False}
-

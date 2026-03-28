@@ -9,7 +9,9 @@ Suivre des actifs financiers détenus en **assurance vie** et **contrat de capit
 - Fonds euros (opaques)
 - Unités de compte cotées ou peu liquides
 
-L'outil est **indépendant des assureurs**, lisible, extensible, et repose sur des fichiers YAML versionnables.
+L'outil est **indépendant des assureurs**, lisible, extensible, et repose sur un stockage **100% local et gratuit** :
+- des fichiers YAML versionnables pour la configuration et les snapshots lisibles
+- un ledger SQLite local pour les mouvements normalisés et les projections métier
 
 ## 📋 Prérequis
 
@@ -41,23 +43,32 @@ make docker-history VALUE=bdl_rempart
 
 Guide complet serveur: `DEPLOY_SERVER.md`
 
+Architecture mouvements / valorisation renforcée: `docs/movements_valuation_architecture.md`
+
 ## 🏗️ Architecture
 
 ```
 portfolio_tracker/
-├── data/                       # Données versionnables (YAML)
+├── data/                       # Données locales
 │   ├── assets.yaml            # Définition des actifs
-│   ├── positions.yaml         # Positions détenues
+│   ├── positions.yaml         # Snapshot lisible/exporté des positions
+│   ├── .portfolio_tracker.sqlite  # Ledger SQLite local des mouvements
 │   └── market_data/           # Données de marché horodatées
 │       ├── nav_*.yaml         # Valeurs liquidatives
 │       ├── rates_*.yaml       # Taux et indices
 │       ├── fonds_euro_*.yaml  # Taux déclarés fonds euros
 │       └── events_*.yaml      # Événements produits structurés
 │
-├── core/                       # Classes de base
+├── core/                       # Classes de base et chargement
 │   ├── asset.py               # Définition des actifs
 │   ├── position.py            # Détention des actifs
 │   └── portfolio.py           # Gestion du portefeuille
+│
+├── domain/                     # Coeur métier mouvements / projections / ledger
+│   ├── movements.py           # Normalisation des mouvements
+│   ├── projection.py          # Projection économique d'une position
+│   ├── analytics.py           # Calculs métier partagés
+│   └── ledger.py              # Ledger SQLite local
 │
 ├── valuation/                  # Moteurs de valorisation
 │   ├── base.py                # Interface commune
@@ -105,16 +116,28 @@ Chaque type d'actif utilise un moteur spécifique :
 ### Interface CLI
 
 ```bash
-# État global du portefeuille
+# Vue globale du portefeuille
+python -m portfolio_tracker.cli global
+
+# Alias de compatibilité
 python -m portfolio_tracker.cli status
 
-# État par enveloppe (assurance vie / contrat de capitalisation)
-python -m portfolio_tracker.cli wrapper
-python -m portfolio_tracker.cli wrapper --type assurance_vie
+# Payload JSON pour une future web view
+python -m portfolio_tracker.cli web-payload
+python -m portfolio_tracker.cli web-payload --output /tmp/portfolio-web.json
+
+# Petite app web locale
+python -m portfolio_tracker.cli web
+python -m portfolio_tracker.cli web --host 127.0.0.1 --port 8765
 
 # État par type d'actif
 python -m portfolio_tracker.cli type
 python -m portfolio_tracker.cli type --type structured_product
+
+# Vues spécialisées
+python -m portfolio_tracker.cli uc
+python -m portfolio_tracker.cli structured
+python -m portfolio_tracker.cli fonds-euro
 
 # Vérifier les alertes
 python -m portfolio_tracker.cli alerts
@@ -170,7 +193,7 @@ assets:
 
 ### positions.yaml
 
-Définit les positions détenues :
+Définit les positions détenues et sert de snapshot lisible/exportable :
 
 ```yaml
 positions:
@@ -186,6 +209,15 @@ positions:
       invested_amount: 30000.0
       units_held: 750.0
 ```
+
+### `.portfolio_tracker.sqlite`
+
+Le ledger SQLite local stocke les mouvements normalisés et sert de source prioritaire dès qu'il existe.
+
+- Les commandes métier écrivent d'abord dans SQLite
+- `positions.yaml` est ensuite exporté comme snapshot versionnable
+- `Portfolio(...)` recharge automatiquement les lots depuis SQLite s'il est déjà présent
+- Si vous modifiez manuellement `positions.yaml`, utilisez `python -m portfolio_tracker.cli rebuild-ledger`
 
 ### market_data/
 
@@ -368,9 +400,9 @@ pytest --cov=portfolio_tracker --cov-report=html
 ## 📦 Exemple de Flux
 
 1. **Saisie** : Ajouter un actif dans `assets.yaml`
-2. **Saisie** : Ajouter une position dans `positions.yaml`
+2. **Saisie** : Ajouter une position initiale dans `positions.yaml`
 3. **Mise à jour** : Mettre à jour les données de marché dans `market_data/`
-4. **Consultation** : Lancer `python -m portfolio_tracker.cli status`
+4. **Consultation** : Lancer `python -m portfolio_tracker.cli global`
 5. **Alertes** : Vérifier `python -m portfolio_tracker.cli alerts`
 
 ## 🤝 Contribution
@@ -389,9 +421,3 @@ Ce projet est un outil personnel de gestion patrimoniale.
 ## ⚠️ Avertissement
 
 Cet outil est fourni à titre informatif. Il ne constitue en aucun cas un conseil en investissement. Les valorisations sont indicatives et peuvent contenir des erreurs. Vérifiez toujours vos positions avec vos relevés officiels.
-
-
-
-
-
-

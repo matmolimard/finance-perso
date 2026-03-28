@@ -46,6 +46,14 @@ Thumbs.db
 # Logs
 *.log
 logs/
+*.sqlite
+*.sqlite3
+*.sqlite-shm
+*.sqlite-wal
+.portfolio_tracker.sqlite
+**/.portfolio_tracker.sqlite
+**/.portfolio_tracker.sqlite-shm
+**/.portfolio_tracker.sqlite-wal
 
 # Environment variables
 .env
@@ -54,8 +62,6 @@ logs/
 # data/
 # !data/assets.yaml.example
 # !data/positions.yaml.example
-
-
 
 
 

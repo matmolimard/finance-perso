@@ -11,7 +11,10 @@ python -m portfolio_tracker.cli --help
 ### 2. Consulter l'état global
 
 ```bash
+python -m portfolio_tracker.cli global
 python -m portfolio_tracker.cli status
+python -m portfolio_tracker.cli web-payload
+python -m portfolio_tracker.cli web
 ```
 
 Sortie attendue :
@@ -29,20 +32,7 @@ PORTFOLIO TRACKER - État Global
 ✓ 6 positions valorisées
 ```
 
-### 3. Consulter par enveloppe
-
-```bash
-# Toutes les enveloppes
-python -m portfolio_tracker.cli wrapper
-
-# Uniquement assurance vie
-python -m portfolio_tracker.cli wrapper --type assurance_vie
-
-# Uniquement contrat de capitalisation
-python -m portfolio_tracker.cli wrapper --type contrat_de_capitalisation
-```
-
-### 4. Consulter par type d'actif
+### 3. Consulter par type d'actif
 
 ```bash
 # Tous les types
@@ -59,6 +49,14 @@ python -m portfolio_tracker.cli type --type uc_fund
 
 # Uniquement UC illiquides
 python -m portfolio_tracker.cli type --type uc_illiquid
+```
+
+### 4. Consulter les vues spécialisées
+
+```bash
+python -m portfolio_tracker.cli uc
+python -m portfolio_tracker.cli structured
+python -m portfolio_tracker.cli fonds-euro
 ```
 
 ### 5. Vérifier les alertes
@@ -102,6 +100,19 @@ Pour activer le headless, installer Playwright (optionnel):
 pip install playwright
 python -m playwright install chromium
 ```
+
+### Source de vérité des mouvements
+
+Depuis la migration du coeur métier :
+- `assets.yaml` reste le fichier de configuration des actifs
+- `positions.yaml` reste un snapshot lisible et versionnable
+- `data/.portfolio_tracker.sqlite` devient la source opérationnelle des mouvements normalisés
+
+En pratique :
+- les commandes qui modifient des lots alimentent SQLite
+- `positions.yaml` est réexporté automatiquement après chaque modification
+- le chargement programmatique de `Portfolio(...)` relit SQLite s'il existe déjà
+- après une édition manuelle de `positions.yaml`, utilisez `python -m portfolio_tracker.cli rebuild-ledger`
 
 ### 6quater. Tâche quotidienne - enregistrer la VL du jour des UC
 
@@ -239,7 +250,7 @@ python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data import-moveme
 **Avantages :**
 - ✅ **Détection automatique des doublons** : les lots déjà importés sont ignorés
 - ✅ **Import incrémental** : option `--since` pour n'importer que les nouveaux mouvements
-- ✅ **Dry-run par défaut** : teste d'abord sans modifier `positions.yaml` (ajouter `--apply` pour appliquer)
+- ✅ **Dry-run par défaut** : teste d'abord sans modifier le snapshot `positions.yaml` (ajouter `--apply` pour appliquer)
 - ✅ **Tous types d'actifs** : `--all-assets` pour importer UC, structurés, fonds euro
 - ✅ **Recalcul automatique** : `units_held` est recalculé à partir de la somme des lots
 - ✅ **Multi-wrappers** : fonctionne pour Generali HIMALIA, Swiss Life, et tout autre wrapper
@@ -273,7 +284,7 @@ python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data import-moveme
      --apply
    ```
 
-5. **Vérifier** avec `status` ou `wrapper`
+5. **Vérifier** avec `global`, `status`, `uc`, `structured` ou `fonds-euro`
 
 **Note :** L'ancienne commande `import-himalia-movements` fonctionne toujours (alias pour compatibilité). La commande `import-movements` est générique et fonctionne pour tous les wrappers.
 
@@ -358,7 +369,7 @@ assets:
       asset_class: "mixed"
 ```
 
-### Étape 2 : Créer une position dans positions.yaml
+### Étape 2 : Créer une position initiale dans positions.yaml
 
 ```yaml
 positions:
@@ -393,7 +404,7 @@ nav_history:
 ### Étape 4 : Vérifier
 
 ```bash
-python -m portfolio_tracker.cli status
+python -m portfolio_tracker.cli global
 ```
 
 ## Mise à Jour des Données de Marché
@@ -454,7 +465,7 @@ events:
 ```bash
 # 1. Mettre à jour les données de marché (VL récentes)
 # 2. Consulter l'état global
-python -m portfolio_tracker.cli status
+python -m portfolio_tracker.cli global
 
 # 3. Vérifier les alertes
 python -m portfolio_tracker.cli alerts
@@ -476,14 +487,16 @@ python -m portfolio_tracker.cli alerts --severity warning
 # Éditer data/market_data/events_[asset_id].yaml
 ```
 
-### Scénario 3 : Comparaison Assurance Vie vs Contrat de Capitalisation
+### Scénario 3 : Comparaison via la vue globale
 
 ```bash
-# Assurance vie
-python -m portfolio_tracker.cli wrapper --type assurance_vie
+# Vue consolidée
+python -m portfolio_tracker.cli global
 
-# Contrat de capitalisation
-python -m portfolio_tracker.cli wrapper --type contrat_de_capitalisation
+# Puis zoom métier
+python -m portfolio_tracker.cli uc
+python -m portfolio_tracker.cli fonds-euro
+python -m portfolio_tracker.cli structured
 ```
 
 ### Scénario 4 : Analyse par Classe d'Actifs
@@ -629,6 +642,3 @@ Mettre à jour le fichier de VL avec une valeur plus récente.
 3. **Vérifier avec les relevés** : Comparer régulièrement avec les relevés officiels de vos assureurs
 4. **Sauvegarder** : Faire des backups réguliers du dossier `data/`
 5. **Consulter les alertes** : Vérifier quotidiennement ou hebdomadairement les alertes
-
-
-

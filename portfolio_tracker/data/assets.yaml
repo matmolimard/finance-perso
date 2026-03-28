@@ -49,7 +49,7 @@ assets:
       underlying_id: "euronext_fr:FRIX00000185-XPAR"
       # Date de constatation initiale (strike) issue de la brochure
       initial_observation_date: "2025-02-27"
-      # documentation: "product_brochure/..."  # à ajouter quand la brochure sera disponible
+      documentation: "product_brochure/BROCHURE D REND BOUYGUES DIV FIX  1,70 € FEV 25 - FR1459AB5562.pdf"
 
   # D RENDEMENT E12M MARS 2026 - Société Générale (EURIBOR 12M, coupon 3,5% si ≤2,50%, autocall si ≤1,85%)
   - asset_id: struct_d_rendement_e12m_mar_2026
@@ -218,7 +218,7 @@ assets:
       underlying_id: "euronext_fr:FRIX00001324-XPAR"
       # Date de constatation initiale (strike) issue de la brochure
       initial_observation_date: "2023-10-20"
-      documentation: "product_brochure/Brochure D COUPON KG ENI 0.91 Octobre 2023.pdf"
+      documentation: "product_brochure/Brochure D COUPON KG ENI 0.91 Octobre 2023 - FR001400HJD9.pdf"
 
   # UC / fonds (Swiss Life)
   - asset_id: uc_dynastrat_c
@@ -364,5 +364,4 @@ assets:
     metadata:
       fund_type: "money_market"
       status: "historical"  # vendu le 24/11/2022 (arbitrage automatique)
-
 

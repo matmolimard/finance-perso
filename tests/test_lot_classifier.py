@@ -12,7 +12,7 @@ Couvre :
 import pytest
 from datetime import date
 
-from portfolio_tracker.lot_classifier import LotClassifier, LotCategory, ClassifiedLot
+from portfolio_tracker.domain import LotClassifier, LotCategory, ClassifiedLot
 
 
 def make_lot(

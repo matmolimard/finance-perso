@@ -11,5 +11,7 @@ COPY portfolio_tracker /app/portfolio_tracker
 RUN pip install --no-cache-dir -U pip && \
     pip install --no-cache-dir -e .
 
+EXPOSE 8765
+
 ENTRYPOINT ["portfolio-tracker", "--data-dir", "/app/portfolio_tracker/data"]
-CMD ["--help"]
+CMD ["web", "--host", "0.0.0.0", "--port", "8765"]

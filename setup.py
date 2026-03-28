@@ -16,6 +16,10 @@ setup(
     long_description=long_description,
     long_description_content_type="text/markdown",
     packages=find_packages(),
+    include_package_data=True,
+    package_data={
+        "portfolio_tracker.web": ["static/*"],
+    },
     python_requires=">=3.9",
     install_requires=[
         "pyyaml>=6.0",
@@ -24,6 +28,8 @@ setup(
         "pydantic>=2.0.0",
         "python-dateutil>=2.8.2",
         "httpx>=0.24.0",
+        "pypdf>=4.0.0",
+        "pdfplumber>=0.11.0",
         "python-dotenv>=1.0.0",
     ],
     extras_require={
@@ -37,7 +43,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "portfolio-tracker=portfolio_tracker.cli:main",
+            "portfolio-tracker=portfolio_tracker.v2.cli:main",
         ],
     },
     classifiers=[
@@ -50,9 +56,6 @@ setup(
         "Programming Language :: Python :: 3.12",
     ],
 )
-
-
-
 
 
 

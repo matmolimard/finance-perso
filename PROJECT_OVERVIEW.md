@@ -11,7 +11,7 @@ Le projet **Portfolio Tracker** a été entièrement généré et est **pleineme
 ✅ 4 moteurs de valorisation implémentés  
 ✅ Système d'alertes configurable  
 ✅ Interface CLI complète  
-✅ Données YAML versionnables  
+✅ Données locales versionnables + ledger SQLite local  
 ✅ Exemples fonctionnels inclus  
 ✅ Documentation exhaustive  
 
@@ -44,8 +44,15 @@ finance-perso/
 │   │
 │   ├── data/                  # Données d'exemple
 │   │   ├── assets.yaml        # 6 actifs exemples
-│   │   ├── positions.yaml     # 6 positions exemples
+│   │   ├── positions.yaml     # Snapshot lisible des positions
+│   │   ├── .portfolio_tracker.sqlite  # Ledger local des mouvements
 │   │   └── market_data/       # Données de marché
+│   │
+│   ├── domain/                # Mouvements / projections / analytics / ledger
+│   │   ├── movements.py
+│   │   ├── projection.py
+│   │   ├── analytics.py
+│   │   └── ledger.py
 │   │
 │   ├── cli.py                 # Interface ligne de commande
 │   └── main.py                # Point d'entrée principal
@@ -106,9 +113,12 @@ Notificateurs :
 ### Interface CLI
 
 Commandes disponibles :
-- `status` : État global
-- `wrapper` : Vue par enveloppe
+- `global` : Vue globale
+- `status` : Alias de compatibilité pour `global`
+- `web-payload` : Payload JSON réutilisable pour une future vue web
+- `web` : Petite interface web locale sans login
 - `type` : Vue par type d'actif
+- `uc` / `structured` / `fonds-euro` : vues spécialisées
 - `alerts` : Vérification des alertes
 - `list-assets` : Liste des actifs
 - `list-positions` : Liste des positions
@@ -158,7 +168,7 @@ mkdir -p data/market_data
 # - data/market_data/*.yaml
 
 # 3. Lancer
-python3 -m portfolio_tracker.cli status
+python3 -m portfolio_tracker.cli global
 ```
 
 ## 📚 Documentation
@@ -209,13 +219,17 @@ Le projet a été testé avec succès :
 
 **Avantage :** Extensible sans refactor massif.
 
-### 3. Données YAML Versionnables
+### 3. Données locales versionnables et robustes
 
 **Pourquoi ?** 
 - Lisible par un humain
 - Versionnable avec Git
-- Pas de base de données à maintenir
+- Pas de service externe à maintenir
 - Commentaires possibles
+
+**Évolution :**
+- `assets.yaml` et `positions.yaml` restent lisibles
+- le coeur mouvements/valorisation s'appuie maintenant sur un ledger SQLite local gratuit
 
 ### 4. Acceptation de l'Opacité
 
@@ -328,10 +342,6 @@ Le projet **Portfolio Tracker** est **complet et fonctionnel**. Tous les objecti
 
 *Généré le : 24 décembre 2024*  
 *Version : 0.1.0*
-
-
-
-
 
 
 

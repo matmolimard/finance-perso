@@ -9,6 +9,7 @@
 | Pas de framework web | ✅ | CLI pur Python |
 | Pas de trading | ✅ | Suivi patrimonial uniquement |
 | Pas de scraping | ✅ | Saisie manuelle des données |
+| Pas d'abonnement payant requis | ✅ | Tout est local (YAML + SQLite) |
 | Acceptation opacité fonds euros | ✅ | Moteur déclaratif sans extrapolation |
 | Code lisible et documenté | ✅ | Docstrings, typage, commentaires |
 
@@ -30,10 +31,11 @@
 | `uc_fund` | `mark_to_market` | ✅ | ✅ |
 | `uc_illiquid` | `hybrid` | ✅ | ✅ |
 
-### ✅ Format des Données (YAML)
+### ✅ Format des Données Locales
 
 - [x] `data/assets.yaml` - Définition des actifs
-- [x] `data/positions.yaml` - Définition des détentions
+- [x] `data/positions.yaml` - Snapshot lisible des détentions
+- [x] `data/.portfolio_tracker.sqlite` - Ledger local des mouvements normalisés
 - [x] `data/market_data/` - Stockage horodaté
   - [x] Taux (CMS, indices)
   - [x] VL UC
@@ -114,9 +116,10 @@
 ✅ Implémenté dans `cli.py`
 
 **Commandes :**
-- [x] `status` - État global du portefeuille
-- [x] `wrapper` - État par enveloppe
+- [x] `global` - État global du portefeuille
+- [x] `status` - Alias de compatibilité
 - [x] `type` - État par type d'actif
+- [x] `uc` / `structured` / `fonds-euro` - Vues spécialisées
 - [x] `alerts` - Liste des alertes
 - [x] `list-assets` - Liste tous les actifs
 - [x] `list-positions` - Liste toutes les positions
@@ -143,15 +146,15 @@ python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data status
 ✓ 6 positions valorisées
 ```
 
-### Test 2 : Vue par Enveloppe
+### Test 2 : Vue globale détaillée
 
 ```bash
-python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data wrapper
+python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data global
 ```
 
 **Résultat :** ✅ PASS
-- Assurance Vie : 218,525.00 € (+6.60%)
-- Contrat de Capitalisation : 202,750.00 € (+1.38%)
+- Vue consolidée par fonds euros, UC, structurés
+- Récapitulatif final par portefeuille et par type
 
 ### Test 3 : Vue par Type d'Actif
 
@@ -336,7 +339,7 @@ Le projet **Portfolio Tracker** est **100% conforme** au cahier des charges et *
 
 # Ou commande par commande
 python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data status
-python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data wrapper
+python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data global
 python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data alerts
 ```
 
@@ -345,8 +348,6 @@ python3 -m portfolio_tracker.cli --data-dir portfolio_tracker/data alerts
 **Projet validé le : 24 décembre 2024**  
 **Statut : ✅ PRODUCTION READY**  
 **Version : 0.1.0**
-
-
 
 
 

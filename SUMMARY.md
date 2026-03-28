@@ -79,9 +79,12 @@ pip install -r requirements.txt
 ### ✅ Interface CLI Complète
 
 ```bash
-status          # Vue d'ensemble
-wrapper         # Par enveloppe
+global          # Vue d'ensemble
+status          # Alias compatible
 type            # Par type d'actif
+uc              # Vue UC
+structured      # Vue produits structurés
+fonds-euro      # Vue fonds euros
 alerts          # Alertes
 list-assets     # Liste actifs
 list-positions  # Liste positions
@@ -101,7 +104,7 @@ list-positions  # Liste positions
 
 - **Python 3.11+**
 - **Architecture modulaire** (4 modules)
-- **Données YAML** (versionnables)
+- **Données locales** : YAML lisible + ledger SQLite local
 - **Tests intégrés** (pytest)
 - **Documentation complète** (docstrings)
 
@@ -126,9 +129,9 @@ Les fonds euros sont opaques : on stocke les taux déclarés, **sans extrapolati
 
 1. Copier `portfolio_tracker/data/` vers `data/`
 2. Éditer `data/assets.yaml` avec vos actifs
-3. Éditer `data/positions.yaml` avec vos positions
+3. Éditer `data/positions.yaml` avec vos positions de départ
 4. Ajouter les données de marché dans `data/market_data/`
-5. Lancer : `python3 -m portfolio_tracker.cli status`
+5. Lancer : `python3 -m portfolio_tracker.cli global`
 
 ### Structure Minimale
 
@@ -136,6 +139,7 @@ Les fonds euros sont opaques : on stocke les taux déclarés, **sans extrapolati
 data/
 ├── assets.yaml
 ├── positions.yaml
+├── .portfolio_tracker.sqlite
 └── market_data/
     ├── nav_*.yaml
     ├── fonds_euro_*.yaml
@@ -156,7 +160,8 @@ data/
 - ✅ **Modulaire** - Facile à étendre
 - ✅ **Documenté** - 15 pages de doc
 - ✅ **Lisible** - Code clair et commenté
-- ✅ **Versionnable** - Données en YAML
+- ✅ **Versionnable** - Snapshots YAML et données de marché
+- ✅ **Solide** - Ledger SQLite local pour les mouvements
 - ✅ **Indépendant** - Pas de framework complexe
 - ✅ **Réaliste** - Données d'exemple concrètes
 
@@ -212,7 +217,7 @@ Volontairement hors périmètre :
 
 1. Créer vos fichiers `data/assets.yaml` et `data/positions.yaml`
 2. Ajouter vos données de marché
-3. Lancer vos premières analyses
+3. Lancer vos premières analyses avec `python3 -m portfolio_tracker.cli global`
 
 ### Moyen Terme
 
@@ -284,8 +289,6 @@ Le projet inclut également :
 **Statut : ✅ PRODUCTION READY**
 
 **Bon suivi patrimonial ! 📊💰**
-
-
 
 
 

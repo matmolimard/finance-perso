@@ -2728,9 +2728,9 @@ nav_history:
   currency: EUR
   source: morningstar
 - date: '2025-12-12'
-  value: 109.16000759712976
+  value: 109.16
   currency: EUR
-  source: purchase_nav
+  source: morningstar
 - date: '2025-12-15'
   value: 109.21
   currency: EUR
@@ -2974,4 +2974,40 @@ nav_history:
 - date: '2026-03-12'
   value: 109.64
   currency: EUR
-  source: html_regex
+  source: morningstar
+- date: '2026-03-13'
+  value: 109.25
+  currency: EUR
+  source: morningstar
+- date: '2026-03-16'
+  value: 109.56
+  currency: EUR
+  source: morningstar
+- date: '2026-03-17'
+  value: 109.94
+  currency: EUR
+  source: morningstar
+- date: '2026-03-18'
+  value: 109.68
+  currency: EUR
+  source: morningstar
+- date: '2026-03-19'
+  value: 108.02
+  currency: EUR
+  source: morningstar
+- date: '2026-03-20'
+  value: 106.79
+  currency: EUR
+  source: morningstar
+- date: '2026-03-23'
+  value: 107.15
+  currency: EUR
+  source: morningstar
+- date: '2026-03-24'
+  value: 107.36
+  currency: EUR
+  source: morningstar
+- date: '2026-03-25'
+  value: 108.58
+  currency: EUR
+  source: morningstar

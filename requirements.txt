@@ -11,6 +11,8 @@ python-dateutil>=2.8.2
 
 # HTTP client for OpenRouter API
 httpx>=0.24.0
+pypdf>=4.0.0
+pdfplumber>=0.11.0
 
 # Environment variables from .env file
 python-dotenv>=1.0.0
@@ -24,4 +26,3 @@ python-dotenv>=1.0.0
 # Development
 pytest>=7.4.0
 pytest-cov>=4.1.0
-
