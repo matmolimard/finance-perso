@@ -1,0 +1,198 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio Tracker V2 - Support</title>
+    <link rel="stylesheet" href="/static/v2.css">
+  </head>
+  <body>
+    <div id="v2-loader" class="v2-loader is-hidden" aria-hidden="true">
+      <div class="v2-loader-card">
+        <div class="spinner"></div>
+        <strong>Chargement du support</strong>
+        <p>Récupération de la fiche produit, des documents et de la valorisation…</p>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a id="support-back" class="burger back-link" href="/" aria-label="Retour">←</a>
+      <div class="topbar-copy">
+        <span class="eyebrow">Support V2</span>
+        <h1 id="support-title">Chargement…</h1>
+      </div>
+      <div class="topbar-actions">
+        <a id="support-contract-link" class="ghost-button" href="/">Voir le contrat</a>
+      </div>
+    </header>
+
+    <main class="v2-page">
+      <section class="metrics-grid" id="support-overview"></section>
+
+      <section class="two-columns">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Position</span>
+              <h2>Contexte de détention</h2>
+            </div>
+            <p class="section-copy">Informations de la position, de l’enveloppe et de l’investissement.</p>
+          </div>
+          <div id="support-position"></div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Documents</span>
+              <h2>Documents liés</h2>
+            </div>
+            <p class="section-copy">GED support et contrat, y compris brochures si disponibles.</p>
+          </div>
+          <div id="support-documents"></div>
+        </section>
+      </section>
+
+      <section class="two-columns">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Fiche produit</span>
+              <h2>Règles éditables</h2>
+            </div>
+            <p class="section-copy">Compléter manuellement la fiche produit structuré sans réécrire encore l’historique complet.</p>
+          </div>
+          <form id="structured-rule-form" class="stack-form">
+            <div class="filters-grid">
+              <label class="field">
+                <span>Nom affiché</span>
+                <input id="rule-display-name" type="text">
+              </label>
+              <label class="field">
+                <span>ISIN</span>
+                <input id="rule-isin" type="text">
+              </label>
+              <label class="field">
+                <span>Source de règle</span>
+                <select id="rule-source-mode">
+                  <option value="document_derived">document_derived</option>
+                  <option value="manual">manual</option>
+                  <option value="mixed">mixed</option>
+                </select>
+              </label>
+              <label class="field">
+                <span>Mode coupon</span>
+                <select id="rule-coupon-payment-mode">
+                  <option value="unknown">unknown</option>
+                  <option value="periodic_distributed">periodic_distributed</option>
+                  <option value="periodic_reinvested">periodic_reinvested</option>
+                  <option value="in_fine">in_fine</option>
+                  <option value="none">none</option>
+                </select>
+              </label>
+            </div>
+            <label class="field">
+              <span>Fréquence</span>
+              <input id="rule-coupon-frequency" type="text">
+            </label>
+            <label class="field">
+              <span>Règle coupon</span>
+              <textarea id="rule-coupon-summary" rows="3"></textarea>
+            </label>
+            <label class="field">
+              <span>Règle autocall</span>
+              <textarea id="rule-autocall-summary" rows="3"></textarea>
+            </label>
+            <label class="field">
+              <span>Règle capital</span>
+              <textarea id="rule-capital-summary" rows="3"></textarea>
+            </label>
+            <label class="field">
+              <span>Notes</span>
+              <textarea id="rule-notes" rows="3"></textarea>
+            </label>
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Enregistrer la fiche produit</button>
+            </div>
+          </form>
+        </section>
+
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Validation</span>
+              <h2>Événements ambigus</h2>
+            </div>
+            <p class="section-copy">Validation simple des coupons, observations et paiements attendus.</p>
+          </div>
+          <div id="support-event-validations"></div>
+        </section>
+      </section>
+
+      <section class="two-columns">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Règle structurée</span>
+              <h2>Complétude et dates clés</h2>
+            </div>
+            <p class="section-copy">Présence de la brochure, fichier d’événements et calendrier attendu.</p>
+          </div>
+          <div id="support-structured-summary"></div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Calendrier</span>
+              <h2>Événements attendus</h2>
+            </div>
+            <p class="section-copy">Calendrier issu du fichier d’événements existant lorsqu’il est disponible.</p>
+          </div>
+          <div id="support-expected-events"></div>
+        </section>
+      </section>
+
+      <section class="two-columns">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Valorisation</span>
+              <h2>Détail courant</h2>
+            </div>
+            <p class="section-copy">Lecture actuelle de la position selon le moteur v1 réutilisé par la V2.</p>
+          </div>
+          <div id="support-current"></div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Snapshots</span>
+              <h2>Historique officiel du contrat</h2>
+            </div>
+            <p class="section-copy">Points de vérité annuels disponibles pour contextualiser le support.</p>
+          </div>
+          <div id="support-snapshots"></div>
+        </section>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Lots</span>
+            <h2>Historique local de position</h2>
+          </div>
+          <p class="section-copy">Lots actuellement stockés pour la position, sans édition libre en phase 1.</p>
+        </div>
+        <div id="support-lots"></div>
+      </section>
+    </main>
+
+    <template id="v2-empty">
+      <div class="empty-state">Aucune donnée disponible.</div>
+    </template>
+
+    <script src="/static/v2-support.js"></script>
+  </body>
+</html>

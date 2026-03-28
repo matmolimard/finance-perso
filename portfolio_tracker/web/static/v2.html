@@ -1,0 +1,118 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio Tracker V2</title>
+    <link rel="stylesheet" href="/static/v2.css">
+  </head>
+  <body>
+    <div id="v2-loader" class="v2-loader is-hidden" aria-hidden="true">
+      <div class="v2-loader-card">
+        <div class="spinner"></div>
+        <strong>Chargement de la V2</strong>
+        <p>Import des documents, snapshots et synthèse des contrats…</p>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <button class="burger" type="button" aria-label="Menu">☰</button>
+      <div class="topbar-copy">
+        <span class="eyebrow">Portfolio Tracker V2</span>
+        <h1>Pilotage patrimonial documenté</h1>
+      </div>
+      <div class="topbar-actions">
+        <a class="ghost-button" href="/market">Données de marché</a>
+        <a class="ghost-button" href="/ged">GED</a>
+        <button id="v2-bootstrap" class="primary-button" type="button">Importer les données</button>
+      </div>
+    </header>
+
+    <main class="v2-page">
+      <section class="hero-card">
+        <div>
+          <p class="hero-kicker">Phase 1</p>
+          <h2>Base officielle + pilotage courant</h2>
+          <p class="hero-copy">
+            La V2 s’appuie sur les relevés assureur, la GED locale et les règles métier validées.
+            Cette première version importe les documents, les snapshots officiels et affiche les contrats avec leurs valeurs actuelles.
+          </p>
+        </div>
+        <dl id="v2-import-summary" class="summary-inline"></dl>
+      </section>
+
+      <section class="metrics-grid" id="v2-overview"></section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Contrats</span>
+            <h2>Vue portefeuille V2</h2>
+          </div>
+          <p class="section-copy">Valeurs actuelles, base officielle et progression depuis l’ouverture.</p>
+        </div>
+        <div id="v2-contracts" class="contracts-grid"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Snapshots</span>
+            <h2>Historique officiel</h2>
+          </div>
+          <p class="section-copy">Points de vérité importés depuis les relevés assureur.</p>
+        </div>
+        <div id="v2-snapshots"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Documents</span>
+            <h2>GED indexée</h2>
+          </div>
+          <p class="section-copy">Liste centralisée des relevés, courriers et brochures importés.</p>
+        </div>
+        <div class="inline-filters">
+          <label class="field">
+            <span>Contrat</span>
+            <select id="v2-documents-contract"></select>
+          </label>
+          <label class="field">
+            <span>Type</span>
+            <select id="v2-documents-type"></select>
+          </label>
+        </div>
+        <div id="v2-documents" class="scroll-panel"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Structurés</span>
+            <h2>Synthèse opérationnelle</h2>
+          </div>
+          <p class="section-copy">Vue de pilotage des produits structurés: prochaine observation, remboursement potentiel, coupon et scénarios.</p>
+        </div>
+        <div id="v2-structured-summary" class="scroll-panel"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Structurés</span>
+            <h2>Complétude documentaire</h2>
+          </div>
+          <p class="section-copy">Brochures et fichiers d’événements disponibles pour les supports suivis.</p>
+        </div>
+        <div id="v2-structured" class="scroll-panel"></div>
+      </section>
+    </main>
+
+    <template id="v2-empty">
+      <div class="empty-state">Aucune donnée disponible.</div>
+    </template>
+
+    <script src="/static/v2.js"></script>
+  </body>
+</html>

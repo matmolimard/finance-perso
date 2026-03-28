@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio Tracker V2 - GED</title>
+    <link rel="stylesheet" href="/static/v2.css">
+  </head>
+  <body>
+    <div id="v2-loader" class="v2-loader is-hidden" aria-hidden="true">
+      <div class="v2-loader-card">
+        <div class="spinner"></div>
+        <strong>Chargement de la GED</strong>
+        <p>Indexation et filtrage des documents V2…</p>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a class="burger back-link" href="/" aria-label="Retour">←</a>
+      <div class="topbar-copy">
+        <span class="eyebrow">Portfolio Tracker V2</span>
+        <h1>GED filtrable</h1>
+      </div>
+      <div class="topbar-actions">
+        <a class="ghost-button" href="/">Retour portefeuille</a>
+      </div>
+    </header>
+
+    <main class="v2-page">
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Filtres</span>
+            <h2>Navigation documentaire</h2>
+          </div>
+          <p class="section-copy">Filtrer les documents par contrat, type, année et statut.</p>
+        </div>
+        <div class="filters-grid">
+          <label class="field">
+            <span>Contrat</span>
+            <select id="ged-contract"></select>
+          </label>
+          <label class="field">
+            <span>Type</span>
+            <select id="ged-type"></select>
+          </label>
+          <label class="field">
+            <span>Année</span>
+            <select id="ged-year"></select>
+          </label>
+          <label class="field">
+            <span>Statut</span>
+            <select id="ged-status"></select>
+          </label>
+        </div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Documents</span>
+            <h2>Liste GED</h2>
+          </div>
+          <p class="section-copy">Vue liste unique des relevés, courriers et brochures importés.</p>
+        </div>
+        <div id="ged-documents"></div>
+      </section>
+    </main>
+
+    <template id="v2-empty">
+      <div class="empty-state">Aucune donnée disponible.</div>
+    </template>
+
+    <script src="/static/v2-ged.js"></script>
+  </body>
+</html>

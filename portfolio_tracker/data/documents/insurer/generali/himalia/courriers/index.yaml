@@ -1,0 +1,99 @@
+documents:
+  - document_id: himalia_courrier_avenant_2023_12_06
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2023-12-06"
+    status: archived
+    filepath: documents/insurer/generali/himalia/courriers/2023-12-06_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 6 décembre 2023.pdf"
+    sha256: "8370d76291a690d8bf085d6f2f9431fc4ec5e0e480950708a9daeb899f54ef31"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2023_12_08
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2023-12-08"
+    status: archived
+    filepath: documents/insurer/generali/himalia/courriers/2023-12-08_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 8 décembre 2023.pdf"
+    sha256: "dfd3de9fb806c0bff78f992889dc6fecdb7eeee0273384166cf540dcf92dffd9"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2025_01_09
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2025-01-09"
+    status: archived
+    filepath: documents/insurer/generali/himalia/courriers/2025-01-09_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 9 janvier 2025.pdf"
+    sha256: "640c4a9fda5146570abb66b947893229d38076790d0135e230bcd6d62f14b956"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2025_02_04
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2025-02-04"
+    status: archived
+    filepath: documents/insurer/generali/himalia/courriers/2025-02-04_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 4 février 2025.pdf"
+    sha256: "6a13504731fd072386b52d42af9983f08e1c57611cab06765441dd53a6cb25e8"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2025_09_02
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2025-09-02"
+    status: archived
+    filepath: documents/insurer/generali/himalia/courriers/2025-09-02_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 2 septembre 2025.pdf"
+    sha256: "447e6fe25693522e13dba46b20d53d67e4c446559b97a984f76e0fe3b262c82c"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2025_09_09
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2025-09-09"
+    status: archived
+    filepath: documents/insurer/generali/himalia/courriers/2025-09-09_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 9 septembre 2025.pdf"
+    sha256: "6442277369a8735b10268f3008bddaa65f70e24834d73133b65d683e620dfedd"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2026_02_19
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2026-02-19"
+    status: active
+    filepath: documents/insurer/generali/himalia/courriers/2026-02-19_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 19 février 2026.pdf"
+    sha256: "63fe3e3f623b4013d3d276e81584c8cf2477bd45c2745ac76405ebc45f4ffa65"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2026_02_28
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2026-02-28"
+    status: active
+    filepath: documents/insurer/generali/himalia/courriers/2026-02-28_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 28 février 2026.pdf"
+    sha256: "70433a80e5ead593876d9f17d665a56b535cb69d24de02bfb60a799df5d7467f"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."
+
+  - document_id: himalia_courrier_avenant_2026_03_04
+    document_type: insurer_letter
+    insurer: Generali
+    contract_name: HIMALIA
+    document_date: "2026-03-04"
+    status: active
+    filepath: documents/insurer/generali/himalia/courriers/2026-03-04_avenant_himalia.pdf
+    original_filename: "Himalia - avenant - 4 mars 2026.pdf"
+    sha256: "60e3ea9266437f810029b5578bd52644e9735bd90fa6a9aafe53b9ead8984c43"
+    notes: "Courrier Himalia. Nature exacte a qualifier apres lecture (avenant, arbitrage ou conditions)."

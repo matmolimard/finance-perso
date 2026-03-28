@@ -1,0 +1,48 @@
+documents:
+  - document_id: swisslife_releve_situation_2023_02_24
+    document_type: insurer_statement
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    statement_date: "2023-02-24"
+    coverage_year: 2022
+    status: archived
+    filepath: documents/insurer/swisslife/releves/2023-02-24_releve_situation_swisslife.pdf
+    original_filename: "SwissLife - Relevé de situation- 24 février 2023.pdf"
+    sha256: "70f3ee8b60c10655d16855c439eae4a10c340b95cfdc451e88f3b5fd1e2dac5a"
+    notes: "Releve de situation SwissLife recu en fevrier 2023."
+
+  - document_id: swisslife_releve_situation_2024_02_23
+    document_type: insurer_statement
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    statement_date: "2024-02-23"
+    coverage_year: 2023
+    status: archived
+    filepath: documents/insurer/swisslife/releves/2024-02-23_releve_situation_swisslife.pdf
+    original_filename: "SwissLife - Relevé de situation-  23 février 2024.pdf"
+    sha256: "3336331d4a08138b1879a177cc095650d819fe56b8fddcf920af02cc6e1f8b42"
+    notes: "Releve de situation SwissLife recu en fevrier 2024."
+
+  - document_id: swisslife_releve_situation_2025_02_21
+    document_type: insurer_statement
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    statement_date: "2025-02-21"
+    coverage_year: 2024
+    status: archived
+    filepath: documents/insurer/swisslife/releves/2025-02-21_releve_situation_swisslife.pdf
+    original_filename: "SwissLife - Relevé de situation-  21 février 2025.pdf"
+    sha256: "70d1d3b054c889d80e2eee6ad69f8b4657e7464c24832ff93108242f03bfe06b"
+    notes: "Releve de situation SwissLife recu en fevrier 2025."
+
+  - document_id: swisslife_releve_situation_2026_02_20
+    document_type: insurer_statement
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    statement_date: "2026-02-20"
+    coverage_year: 2025
+    status: active
+    filepath: documents/insurer/swisslife/releves/2026-02-20_releve_situation_swisslife.pdf
+    original_filename: "SwissLife - Relevé de situation-  20 février 2026.pdf"
+    sha256: "b9c732c4d25912ef83ddae6988ef9a799e2cc879ef14b26514942ad961ca5c98"
+    notes: "Releve de situation SwissLife recu en fevrier 2026."

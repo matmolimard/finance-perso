@@ -1,0 +1,59 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio Tracker V2 - Document</title>
+    <link rel="stylesheet" href="/static/v2.css">
+  </head>
+  <body>
+    <div id="v2-loader" class="v2-loader is-hidden" aria-hidden="true">
+      <div class="v2-loader-card">
+        <div class="spinner"></div>
+        <strong>Chargement du document</strong>
+        <p>Préparation de la visionneuse PDF…</p>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a class="burger back-link" href="/ged" aria-label="Retour">←</a>
+      <div class="topbar-copy">
+        <span class="eyebrow">Document V2</span>
+        <h1 id="document-title">Chargement…</h1>
+      </div>
+      <div class="topbar-actions">
+        <a id="document-open-raw" class="ghost-button" href="#">Ouvrir le PDF brut</a>
+      </div>
+    </header>
+
+    <main class="v2-page">
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Métadonnées</span>
+            <h2>Document GED</h2>
+          </div>
+          <p class="section-copy">Document ouvert depuis la GED V2 avec son contexte contractuel.</p>
+        </div>
+        <div id="document-meta"></div>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Visionneuse</span>
+            <h2>PDF</h2>
+          </div>
+          <p class="section-copy">Le PDF est affiché dans la page. Si le navigateur bloque l’aperçu, le lien brut reste disponible.</p>
+        </div>
+        <iframe id="document-frame" class="pdf-frame" title="PDF"></iframe>
+      </section>
+    </main>
+
+    <template id="v2-empty">
+      <div class="empty-state">Aucune donnée disponible.</div>
+    </template>
+
+    <script src="/static/v2-document.js"></script>
+  </body>
+</html>

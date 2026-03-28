@@ -1,0 +1,36 @@
+documents:
+  - document_id: himalia_releve_situation_2024_02_19
+    document_type: insurer_statement
+    insurer: Generali
+    contract_name: HIMALIA
+    statement_date: "2024-02-19"
+    coverage_year: 2023
+    status: archived
+    filepath: documents/insurer/generali/himalia/releves/2024-02-19_releve_situation_himalia.pdf
+    original_filename: "Himalia - Relevé de situation- 19 février 2024.pdf"
+    sha256: "11e8c253478429d3b0ff5877ea8fba6e3cb07d955016ac8681378382c7d8713e"
+    notes: "Releve de situation HIMALIA recu en fevrier 2024."
+
+  - document_id: himalia_releve_situation_2025_02_28
+    document_type: insurer_statement
+    insurer: Generali
+    contract_name: HIMALIA
+    statement_date: "2025-02-28"
+    coverage_year: 2024
+    status: archived
+    filepath: documents/insurer/generali/himalia/releves/2025-02-28_releve_situation_himalia.pdf
+    original_filename: "Himalia - Relevé de situation- 28 février 2025.pdf"
+    sha256: "f6b9c354883e5a97e0c9e89e2c8649d20fc3949d6ddb9b48e66f6cee37d248d8"
+    notes: "Releve de situation HIMALIA recu en fevrier 2025."
+
+  - document_id: himalia_releve_situation_2026_02_28
+    document_type: insurer_statement
+    insurer: Generali
+    contract_name: HIMALIA
+    statement_date: "2026-02-28"
+    coverage_year: 2025
+    status: active
+    filepath: documents/insurer/generali/himalia/releves/2026-02-28_releve_situation_himalia.pdf
+    original_filename: "Himalia - Relevé de situation- 28 février 2026.pdf"
+    sha256: "bab816d0be73e8dd7ef2f1f3417b30ed400ab19ee4e6153956aad738948a6f78"
+    notes: "Releve de situation HIMALIA recu en fevrier 2026."

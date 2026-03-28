@@ -1,0 +1,154 @@
+documents:
+  - document_id: swisslife_arbitrage_2022_12_02
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2022-12-02"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2022-12-02_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 2 décembre 2022.pdf"
+    sha256: "6f7a61390ad3ddcdd841155a7c3cf8601941e364273916bb7ace87d475da1c9e"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2023_02_16
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2023-02-16"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2023-02-16_arbitrage_swisslife_2.pdf
+    original_filename: "SwissLife - ARBITRAGE-2 - 16 février 2023.pdf"
+    sha256: "3e69243b6a036b0b6adef456f6908eeaaf6fe1612d27af3a6081899b4c1bea7f"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2023_05_02
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2023-05-02"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2023-05-02_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 2 mai 2023.pdf"
+    sha256: "d8afb91140fbfb3a05ad9b46aad4e2ce951d73ae0da1f992a8d0979e632276a6"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2023_09_22
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2023-09-22"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2023-09-22_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 22 septembre 2023.pdf"
+    sha256: "138497a128da2a4898b0dca77c4798b969466c6a65e487e11e491ea0c74f8ab2"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2023_11_23
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2023-11-23"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2023-11-23_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 23 novembre 2023.pdf"
+    sha256: "1bb0ed0e914e96c041f939a81777c1ada1b00f501c1f67677d470802d3b433aa"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2024_06_11
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2024-06-11"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2024-06-11_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 11 juin 2024.pdf"
+    sha256: "c9628b487ae9bbef1b58683ff7b2d0811397f103e13060bde7759908d8cebec6"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2024_07_16
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2024-07-16"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2024-07-16_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 16 juillet 2024.pdf"
+    sha256: "6bfd5591b7535beaa29c5bee8e224797975b3024625efe4ca98fc84a7066b1a2"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2024_10_18
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2024-10-18"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2024-10-18_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 18 octobre 2024.pdf"
+    sha256: "4ff70c95b462595fd561635f5e06eb85104838690bcb66944e6cc7fee7808e9c"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2025_01_07
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2025-01-07"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2025-01-07_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 7 janvier 2025.pdf"
+    sha256: "d2e2aba9b9ae4b1344bbdb93214d0915660a31907c229ae992e70ee87abdd19a"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2025_02_06
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2025-02-06"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2025-02-06_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 6 février 2025.pdf"
+    sha256: "c161503b561221a0e697801aaec021193c6d4735fc294eb1a2370f31f1716d30"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2025_11_18
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2025-11-18"
+    status: active
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2025-11-18_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE - 18 novembre 2025.pdf"
+    sha256: "585b346695d230ed04fc43b4713a4a324ad5a96d15b5e2b4c4301937001729a2"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_arbitrage_2025_12_18
+    document_type: arbitration_letter
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2025-12-18"
+    status: active
+    filepath: documents/insurer/swisslife/courriers/arbitrages/2025-12-18_arbitrage_swisslife.pdf
+    original_filename: "SwissLife - ARBITRAGE -18 décembre 2025.pdf"
+    sha256: "8146e9b01ea57a4a4cbdefa5ce190d064b01e02bdd04d46cf9d9a3cc5e04aa2e"
+    notes: "Courrier d'arbitrage SwissLife."
+
+  - document_id: swisslife_dispositions_particulieres_2022_11_24
+    document_type: contract_document
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2022-11-24"
+    status: archived
+    filepath: documents/insurer/swisslife/courriers/contractuel/2022-11-24_dispositions_particulieres_swisslife.pdf
+    original_filename: "SwissLife - DISPOSITIONS PARTICULIERES - 24 novembre 2022.pdf"
+    sha256: "50a63e8826ecbd6b5ff6b82a41ff93941cf7d4fe0dd8fd3a06e1ebe882c67f38"
+    notes: "Document contractuel SwissLife."
+
+  - document_id: swisslife_garanties_options_financieres_2026_03_16
+    document_type: contract_document
+    insurer: SwissLife
+    contract_name: SwissLife Capi Stratégic Premium
+    document_date: "2026-03-16"
+    status: active
+    filepath: documents/insurer/swisslife/courriers/contractuel/2026-03-16_garanties_options_financieres_swisslife.pdf
+    original_filename: "SwissLife - GARANTIES ET OPTIONS FINANCIèRES - 16 mars 2026.pdf"
+    sha256: "6ed6864119ddd9c410879d4ba1c602f3b8c65962e5bd432a9a359150775a2bef"
+    notes: "Document contractuel SwissLife."

@@ -1,0 +1,117 @@
+<!doctype html>
+<html lang="fr">
+  <head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Portfolio Tracker V2 - Contrat</title>
+    <link rel="stylesheet" href="/static/v2.css">
+  </head>
+  <body>
+    <div id="v2-loader" class="v2-loader is-hidden" aria-hidden="true">
+      <div class="v2-loader-card">
+        <div class="spinner"></div>
+        <strong>Chargement du contrat</strong>
+        <p>Récupération des snapshots, positions et documents…</p>
+      </div>
+    </div>
+
+    <header class="topbar">
+      <a class="burger back-link" href="/" aria-label="Retour">←</a>
+      <div class="topbar-copy">
+        <span class="eyebrow">Contrat V2</span>
+        <h1 id="contract-title">Chargement…</h1>
+      </div>
+      <div class="topbar-actions">
+        <a class="ghost-button" href="/">Retour portefeuille</a>
+      </div>
+    </header>
+
+    <main class="v2-page">
+      <section class="metrics-grid" id="contract-overview"></section>
+
+      <section class="two-columns">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Fonds euro</span>
+              <h2>Pilotage année en cours</h2>
+            </div>
+            <p class="section-copy">Taux de pilotage et estimation intra-annuelle du fonds euro pour ce contrat.</p>
+          </div>
+          <form id="pilotage-form" class="stack-form">
+            <div class="filters-grid">
+              <label class="field">
+                <span>Taux annuel</span>
+                <input id="pilotage-rate" type="number" step="0.0001" min="0">
+              </label>
+              <label class="field">
+                <span>Date de référence</span>
+                <input id="pilotage-date" type="date">
+              </label>
+            </div>
+            <label class="field">
+              <span>Notes</span>
+              <textarea id="pilotage-notes" rows="3"></textarea>
+            </label>
+            <div class="form-actions">
+              <button class="primary-button" type="submit">Enregistrer le pilotage</button>
+            </div>
+          </form>
+          <div id="pilotage-summary"></div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Validation</span>
+              <h2>Courriers et arbitrages</h2>
+            </div>
+            <p class="section-copy">Validation simple des documents ambigus avant traitement métier plus fin.</p>
+          </div>
+          <div id="contract-doc-validations"></div>
+        </section>
+      </section>
+
+      <section class="two-columns">
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Snapshots</span>
+              <h2>Historique officiel</h2>
+            </div>
+            <p class="section-copy">Valeurs officielles au 31/12 et écart avec le pilotage courant.</p>
+          </div>
+          <div id="contract-snapshots"></div>
+        </section>
+
+        <section class="section-card">
+          <div class="section-head">
+            <div>
+              <span class="section-kicker">Documents</span>
+              <h2>GED du contrat</h2>
+            </div>
+            <p class="section-copy">Liste des relevés, arbitrages et documents contractuels liés au contrat.</p>
+          </div>
+          <div id="contract-documents"></div>
+        </section>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
+            <span class="section-kicker">Supports</span>
+            <h2>Positions actives du contrat</h2>
+          </div>
+          <p class="section-copy">Chaque ligne ouvre une fiche support V2 détaillée.</p>
+        </div>
+        <div id="contract-positions"></div>
+      </section>
+    </main>
+
+    <template id="v2-empty">
+      <div class="empty-state">Aucune donnée disponible.</div>
+    </template>
+
+    <script src="/static/v2-contract.js"></script>
+  </body>
+</html>
