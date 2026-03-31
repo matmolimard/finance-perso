@@ -1,154 +1,77 @@
-# Makefile pour Portfolio Tracker
-# Variables
-# Utilise le venv si disponible, sinon python3 système
+# Portfolio Tracker — Makefile aligné sur la CLI V2
 PYTHON := $(shell if [ -f .venv/bin/python ]; then echo .venv/bin/python; else echo python3; fi)
 DATA_DIR := portfolio_tracker/data
 MODULE := portfolio_tracker.cli
 
-.PHONY: help install install-dev install-charts setup alerts uc structured fonds-euro global contract-performance perf demo update-navs update-underlyings backfill-market-history advice advice-dry-run history docker-build docker-run docker-global docker-update-navs docker-history test tests test-cov lint clean
+.PHONY: help install install-dev setup global structured web web-payload bootstrap demo update-navs update-underlyings backfill-market-history manual-movement-add manual-movement-list manual-movement-delete pdf-contract-audit himalia-setup-session himalia-scrape swisslife-scrape docker-build docker-run docker-global docker-update-navs test test-cov lint clean
 
-# Commande par défaut
 help:
-	@echo "Portfolio Tracker - Commandes disponibles:"
+	@echo "Portfolio Tracker (CLI V2)"
 	@echo ""
-	@echo "📦 Installation:"
-	@echo "  make install          - Installe le package en mode développement (recommandé)"
-	@echo "  make install-charts   - Comme install + plotext (graphiques dans make history)"
-	@echo "  make setup            - Alias pour make install"
-	@echo "  (Debian/Ubuntu: apt install python3-venv si création du venv échoue)"
+	@echo "Installation:"
+	@echo "  make install / make setup  — venv + pip install -e \".[dev]\""
 	@echo ""
-	@echo "📊 Consultation:"
-	@echo "  make alerts           - Affiche les alertes"
-	@echo "  make uc               - Vue performance des unités de compte"
-	@echo "  make structured       - Vue des produits structurés"
-	@echo "  make fonds-euro       - Vue des fonds euros"
-	@echo "  make global           - Vue globale (fonds euros + UC + structurés + récapitulatif)"
-	@echo "  make global PORTFOLIO=HIMAL - Vue globale filtrée par portefeuille (ex: HIMAL, Swiss)"
-	@echo "  make contract-performance - Performance du contrat Swiss Life année par année"
-	@echo "  make perf             - Alias pour make contract-performance"
-	@echo "  make history                 - Historique : menu pour choisir la série (NAV UC, sous-jacent, taux)"
-	@echo "  make history ALL=1            - Historique + graphe pour toutes les séries"
-	@echo "  make history ALL=1 FROM=2026-03-01 TO=2026-03-15  - Toutes les séries avec filtre de date"
-	@echo "  make history VALUE=bdl_rempart  - Historique d'une valeur donnée"
-	@echo "  make history CHART_TYPE=bar  - Diagramme à bâtons au lieu de la courbe"
-	@echo "  make history CHART_MARKER=braille CHART_COLOR=blue  - Courbe fine (dot/sd/braille), couleur"
-	@echo "  make demo             - Lance la démonstration complète"
+	@echo "Consultation:"
+	@echo "  make global       — synthèse texte"
+	@echo "  make structured   — produits structurés"
+	@echo "  make web          — http://127.0.0.1:8765"
+	@echo "  make web-payload  — JSON dashboard"
+	@echo "  make bootstrap    — JSON bootstrap données"
+	@echo "  make demo         — run_example.sh"
 	@echo ""
-	@echo "🤖 Conseils IA:"
-	@echo "  make advice           - Analyse tous les profils et génère des recommandations IA"
-	@echo "  make advice PROFILE=HIMALIA   - Recommandations pour un profil spécifique"
-	@echo "  make advice PROFILE=HIMALIA INTERACTIVE=1   - Mode conversationnel après les recommandations"
-	@echo "  make advice-dry-run   - Teste le prompt sans appeler l'API (ex: make advice-dry-run PROFILE=HIMALIA)"
+	@echo "Données marché:"
+	@echo "  make update-navs"
+	@echo "  make update-underlyings"
+	@echo "  make backfill-market-history [YEARS=3]  (sans YEARS = historique complet, optionnel: HEADLESS=1)"
+	@echo "  make manual-movement-list [CONTRACT=...]"
+	@echo "  make manual-movement-add CONTRACT=... ASSET=... DATE=... TYPE=... KIND=... AMOUNT=... REASON=..."
+	@echo "  make manual-movement-delete ID=..."
+	@echo "  make pdf-contract-audit CONTRACT=... [YEAR=2025]"
+	@echo "  make himalia-setup-session [OUTPUT=...] [TIMEOUT_MS=300000]"
+	@echo "  make himalia-scrape [CONTRACT_ID=222387113] [STORAGE_STATE=...] [USER_DATA_DIR=...] [OUTPUT=...]"
+	@echo "  make swisslife-scrape [CONTRACT_ID=5542AHD34] [HEADED=1] [OUTPUT=...]"
 	@echo ""
-	@echo "🔄 Mise à jour des données:"
-	@echo "  make update-navs      - Met à jour les VL quotidiennes des UC"
-	@echo "  make update-underlyings - Met à jour les séries de sous-jacents"
-	@echo "  make backfill-market-history YEARS=3 - Tente de récupérer 3 ans d'historique UC + sous-jacents"
+	@echo "Docker:"
+	@echo "  make docker-build"
+	@echo "  make docker-run ARGS='global'"
+	@echo "  make docker-global"
+	@echo "  make docker-update-navs"
 	@echo ""
-	@echo "🐳 Docker:"
-	@echo "  make docker-build     - Build l'image Docker locale"
-	@echo "  make docker-run ARGS='global' - Lance une commande CLI dans Docker"
-	@echo "  make docker-global    - Vue globale via Docker"
-	@echo "  make docker-update-navs - update-uc-navs via Docker"
-	@echo "  make docker-history VALUE=bdl_rempart - historique via Docker"
-	@echo ""
-	@echo "🧪 Tests et qualité:"
-	@echo "  make test             - Lance les tests avec pytest"
-	@echo "  make test-cov         - Tests avec couverture de code"
-	@echo "  make lint             - Vérification du code (si configuré)"
-	@echo ""
-	@echo "🧹 Utilitaires:"
-	@echo "  make clean             - Nettoie les fichiers temporaires"
-	@echo "  make help              - Affiche cette aide"
+	@echo "Qualité:"
+	@echo "  make test / make test-cov / make clean"
 
-# Créer le venv si absent (compatible PEP 668 / Debian externally-managed-environment)
 .venv/bin/python:
 	@echo "Création du virtualenv .venv..."
 	python3 -m venv .venv
-	@echo "✓ Virtualenv créé"
 
-# Installation (utilise le venv pour éviter externally-managed-environment)
 install: .venv/bin/python
 	.venv/bin/python -m pip install -e ".[dev]"
-	@echo "✓ Installation complète terminée"
 
-# Installation avec graphiques terminal (plotext pour make history)
-install-charts: .venv/bin/python
-	.venv/bin/python -m pip install -e ".[dev,charts]"
-	@echo "✓ Installation terminée (avec plotext pour les graphiques history)"
-
-# Alias pour compatibilité
 install-dev: install
-	@echo "✓ Installation complète terminée"
 
-# Setup autonome : crée le venv si besoin puis installe (évite tout pip système)
 setup:
-	@test -f .venv/bin/python || (echo "Création du virtualenv .venv..." && python3 -m venv .venv)
+	@test -f .venv/bin/python || (python3 -m venv .venv)
 	.venv/bin/python -m pip install -e ".[dev]"
-	@echo "✓ Installation complète terminée"
 
-# Consultation
-alerts:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) alerts
-
-uc:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) uc
+global:
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) global
 
 structured:
 	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) structured
 
-fonds-euro:
-	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) fonds-euro
+web:
+	@lsof -ti tcp:8765 | xargs kill -9 2>/dev/null || true
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) web
 
-global:
-	@if [ -z "$(PORTFOLIO)" ]; then \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) global; \
-	else \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) global --portfolio $(PORTFOLIO); \
-	fi
+web-payload:
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) web-payload
 
-contract-performance:
-	@if [ -z "$(CONTRACT)" ]; then \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) contract-performance; \
-	else \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) contract-performance --contract "$(CONTRACT)"; \
-	fi
-
-history:
-	@$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) history \
-		$(if $(VALUE),$(VALUE),) \
-		$(if $(FROM),--from $(FROM),) \
-		$(if $(TO),--to $(TO),) \
-		$(if $(NO_CHART),--no-chart,) \
-		$(if $(ALL),--all,) \
-		$(if $(CHART_TYPE),--chart-type $(CHART_TYPE),) \
-		$(if $(CHART_MARKER),--chart-marker $(CHART_MARKER),) \
-		$(if $(CHART_COLOR),--chart-color $(CHART_COLOR),)
-
-# Alias court pour contract-performance
-perf: contract-performance
+bootstrap:
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) bootstrap
 
 demo:
 	@bash run_example.sh
 
-# Conseils IA
-advice:
-	@if [ -z "$(PROFILE)" ]; then \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --all $(if $(INTERACTIVE),--interactive,); \
-	else \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --profile $(PROFILE) $(if $(INTERACTIVE),--interactive,); \
-	fi
-
-advice-dry-run:
-	@if [ -z "$(PROFILE)" ]; then \
-		echo "⚠️  Mode dry-run sans profil spécifié (tous les profils)"; \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --all --dry-run; \
-	else \
-		echo "⚠️  Mode dry-run pour le profil: $(PROFILE)"; \
-		$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) advice --profile $(PROFILE) --dry-run; \
-	fi
-
-# Mise à jour des données
 update-navs:
 	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) update-uc-navs
 
@@ -157,17 +80,70 @@ update-underlyings:
 
 backfill-market-history:
 	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) backfill-market-history \
-		--years $(if $(YEARS),$(YEARS),3) \
+		$(if $(YEARS),--years $(YEARS),) \
 		$(if $(HEADLESS),--headless,)
 
-# Docker
+manual-movement-list:
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) manual-movement-list \
+		$(if $(CONTRACT),--contract "$(CONTRACT)",)
+
+manual-movement-add:
+	@if [ -z "$(CONTRACT)" ] || [ -z "$(ASSET)" ] || [ -z "$(DATE)" ] || [ -z "$(TYPE)" ] || [ -z "$(KIND)" ] || [ -z "$(AMOUNT)" ] || [ -z "$(REASON)" ]; then \
+		echo "Usage: make manual-movement-add CONTRACT=... ASSET=... DATE=YYYY-MM-DD TYPE=buy|sell|fee|tax|other KIND=external_contribution|internal_capitalization|withdrawal|fee|tax|other AMOUNT=... REASON=... [POSITION=...] [UNITS=...] [NAV=...] [EXTERNAL=1|INTERNAL=1] [DOCUMENT_ID=...] [NOTES=...]"; \
+		exit 1; \
+	fi
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) manual-movement-add \
+		--contract "$(CONTRACT)" \
+		--asset-id "$(ASSET)" \
+		$(if $(POSITION),--position-id "$(POSITION)",) \
+		--date "$(DATE)" \
+		--type "$(TYPE)" \
+		--kind "$(KIND)" \
+		--amount "$(AMOUNT)" \
+		$(if $(UNITS),--units "$(UNITS)",) \
+		$(if $(NAV),--nav "$(NAV)",) \
+		$(if $(EXTERNAL),--external,) \
+		$(if $(INTERNAL),--internal,) \
+		$(if $(DOCUMENT_ID),--document-id "$(DOCUMENT_ID)",) \
+		--reason "$(REASON)" \
+		$(if $(NOTES),--notes "$(NOTES)",)
+
+manual-movement-delete:
+	@if [ -z "$(ID)" ]; then \
+		echo "Usage: make manual-movement-delete ID=manual_xxx"; \
+		exit 1; \
+	fi
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) manual-movement-delete --id "$(ID)"
+
+pdf-contract-audit:
+	@if [ -z "$(CONTRACT)" ]; then \
+		echo "Usage: make pdf-contract-audit CONTRACT=... [YEAR=2025]"; \
+		exit 1; \
+	fi
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) pdf-contract-audit \
+		--contract "$(CONTRACT)" \
+		$(if $(YEAR),--year "$(YEAR)",)
+
+himalia-scrape:
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) himalia-scrape \
+		$(if $(CONTRACT_ID),--contract-id "$(CONTRACT_ID)",) \
+		$(if $(STORAGE_STATE),--storage-state "$(STORAGE_STATE)",) \
+		$(if $(USER_DATA_DIR),--user-data-dir "$(USER_DATA_DIR)",) \
+		$(if $(OUTPUT),--output "$(OUTPUT)",) \
+		$(if $(HEADED),--headed,)
+
+swisslife-scrape:
+	$(PYTHON) -m $(MODULE) --data-dir $(DATA_DIR) swisslife-scrape \
+		$(if $(CONTRACT_ID),--contract-id "$(CONTRACT_ID)",) \
+		$(if $(HEADED),--headed,) \
+		$(if $(OUTPUT),--output "$(OUTPUT)",)
+
 docker-build:
 	docker compose build
 
 docker-run:
 	@if [ -z "$(ARGS)" ]; then \
 		echo "Usage: make docker-run ARGS='global'"; \
-		echo "Ex:    make docker-run ARGS='history bdl_rempart --from 2026-01-01'"; \
 		exit 1; \
 	fi
 	docker compose run --rm portfolio-tracker $(ARGS)
@@ -178,40 +154,18 @@ docker-global:
 docker-update-navs:
 	docker compose run --rm portfolio-tracker update-uc-navs
 
-docker-history:
-	@if [ -z "$(VALUE)" ]; then \
-		echo "Usage: make docker-history VALUE=<terme>"; \
-		echo "Ex:    make docker-history VALUE=CMS_EUR FROM=2026-01-01"; \
-		exit 1; \
-	fi
-	docker compose run --rm portfolio-tracker history $(VALUE) \
-		$(if $(FROM),--from $(FROM),) \
-		$(if $(TO),--to $(TO),) \
-		$(if $(NO_CHART),--no-chart,)
-
-# Tests
 test:
 	$(PYTHON) -m pytest
-
-tests:
-	$(PYTHON) -m pytest tests/test_structured_products_features.py tests/test_cli_commands.py tests/test_fees_display.py tests/test_uc_view_features.py -v
-	@echo "✓ Tests des fonctionnalités structurées, commandes CLI, affichage des frais et vue UC exécutés"
 
 test-cov:
 	$(PYTHON) -m pytest --cov=portfolio_tracker --cov-report=term-missing
 
 lint:
-	@echo "⚠ Linting non configuré pour le moment"
-	@echo "Vous pouvez ajouter flake8, black, pylint, etc."
+	@echo "Linting non configuré (ajouter ruff/flake8 si besoin)"
 
-# Nettoyage
 clean:
 	find . -type d -name "__pycache__" -exec rm -r {} + 2>/dev/null || true
 	find . -type f -name "*.pyc" -delete
-	find . -type f -name "*.pyo" -delete
 	find . -type f -name ".coverage" -delete
 	find . -type d -name "*.egg-info" -exec rm -r {} + 2>/dev/null || true
 	find . -type d -name ".pytest_cache" -exec rm -r {} + 2>/dev/null || true
-	find . -type d -name ".mypy_cache" -exec rm -r {} + 2>/dev/null || true
-	@echo "✓ Nettoyage terminé"
-

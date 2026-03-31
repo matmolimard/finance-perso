@@ -93,15 +93,49 @@ function renderOverview() {
   `;
 }
 
+function snapshotStatusOptions(current) {
+  return ["proposed", "validated", "rejected"]
+    .map((value) => `<option value="${value}" ${current === value ? "selected" : ""}>${value}</option>`)
+    .join("");
+}
+
 function renderSnapshots() {
-  document.querySelector("#contract-snapshots").innerHTML = tableFromRows(state.payload.snapshots, [
-    ["reference_date", "Réf."],
-    ["statement_date", "Relevé"],
-    ["official_total_value", "Total", (value) => euro(value)],
-    ["official_uc_value", "UC", (value) => euro(value)],
-    ["official_fonds_euro_value", "Fonds euro", (value) => euro(value)],
-    ["official_euro_interest_net", "Intérêts euro", (value) => euro(value)],
-  ]);
+  const rows = state.payload.snapshots;
+  if (!rows.length) {
+    document.querySelector("#contract-snapshots").innerHTML = document.querySelector("#v2-empty").innerHTML;
+    return;
+  }
+  const head = `<tr>
+    <th>Réf.</th><th>Relevé</th><th>Statut</th>
+    <th>Total</th><th>UC (officiel)</th><th>Structurés (officiel)</th>
+    <th>Structurés (modèle)</th><th>Écart modèle/officiel</th>
+    <th>Fonds euro (officiel)</th><th>Intérêts euro</th><th></th>
+  </tr>`;
+  const body = rows.map((row) => {
+    const statusClass = row.status === "validated" ? "ok" : row.status === "rejected" ? "negative" : "warning";
+    const gapCell = typeof row.structured_model_gap_value === "number"
+      ? `<span class="${row.structured_model_gap_value >= 0 ? "positive" : "negative"}">${euro(row.structured_model_gap_value)}${typeof row.structured_model_gap_pct === "number" ? ` · ${percent(row.structured_model_gap_pct)}` : ""}</span>`
+      : "N/A";
+    return `<tr>
+      <td>${esc(row.reference_date)}</td>
+      <td>${esc(row.statement_date)}</td>
+      <td><span class="pill ${statusClass}">${esc(row.status)}</span></td>
+      <td>${euro(row.official_total_value)}</td>
+      <td>${euro(row.official_uc_value)}</td>
+      <td>${euro(row.official_structured_value)}</td>
+      <td>${euro(row.model_structured_value)}</td>
+      <td>${gapCell}</td>
+      <td>${euro(row.official_fonds_euro_value)}</td>
+      <td>${euro(row.official_euro_interest_net)}</td>
+      <td>
+        <select class="mini-select snapshot-validation-status" data-snapshot-id="${esc(row.snapshot_id)}">
+          ${snapshotStatusOptions(row.status)}
+        </select>
+        <button class="ghost-button inline-button snapshot-validation-save" data-snapshot-id="${esc(row.snapshot_id)}" type="button">Sauver</button>
+      </td>
+    </tr>`;
+  }).join("");
+  document.querySelector("#contract-snapshots").innerHTML = `<table><thead>${head}</thead><tbody>${body}</tbody></table>`;
 }
 
 function renderDocuments() {
@@ -138,17 +172,22 @@ function renderPilotage() {
 }
 
 function documentValidationOptions(current) {
+  const suggested = current === "pending" ? "confirmed" : current;
   return ["pending", "confirmed", "rejected"]
-    .map((value) => `<option value="${value}" ${current === value ? "selected" : ""}>${value}</option>`)
+    .map((value) => `<option value="${value}" ${suggested === value ? "selected" : ""}>${value}</option>`)
     .join("");
 }
 
 function renderDocumentValidations() {
+  const pendingCount = state.payload.documents.filter((d) => !d.validation_status || d.validation_status === "pending").length;
+  const bulkBtn = pendingCount > 0
+    ? `<div style="margin-bottom:8px"><button class="primary-button inline-button" id="confirm-all-docs" type="button">Tout confirmer (${pendingCount})</button></div>`
+    : "";
   const rows = state.payload.documents.map((row) => `
     <tr>
       <td>${esc(row.document_date)}</td>
       <td><span class="pill">${esc(row.document_type)}</span></td>
-      <td>${esc(row.original_filename)}</td>
+      <td><a class="table-link" href="/documents/${encodeURIComponent(row.document_id)}" target="_blank">${esc(row.original_filename)}</a></td>
       <td>
         <select class="mini-select doc-validation-status" data-document-id="${esc(row.document_id)}">
           ${documentValidationOptions(row.validation_status || "pending")}
@@ -161,8 +200,21 @@ function renderDocumentValidations() {
     </tr>
   `).join("");
   document.querySelector("#contract-doc-validations").innerHTML = rows
-    ? `<table><thead><tr><th>Date</th><th>Type</th><th>Document</th><th>Statut</th><th>Notes</th><th></th></tr></thead><tbody>${rows}</tbody></table>`
+    ? `${bulkBtn}<table><thead><tr><th>Date</th><th>Type</th><th>Document</th><th>Statut</th><th>Notes</th><th></th></tr></thead><tbody>${rows}</tbody></table>`
     : document.querySelector("#v2-empty").innerHTML;
+}
+
+async function confirmAllPendingDocuments() {
+  const pending = state.payload.documents.filter((d) => !d.validation_status || d.validation_status === "pending");
+  for (const doc of pending) {
+    const response = await fetch(`/api/documents/${encodeURIComponent(doc.document_id)}/validate`, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({ validation_status: "confirmed", notes: doc.validation_notes || "" }),
+    });
+    if (!response.ok) throw new Error(`Erreur validation document (${response.status})`);
+  }
+  await fetchContract();
 }
 
 function renderPositions() {
@@ -216,6 +268,19 @@ async function savePilotage(event) {
   await fetchContract();
 }
 
+async function saveSnapshotValidation(snapshotId) {
+  const status = document.querySelector(`.snapshot-validation-status[data-snapshot-id="${CSS.escape(snapshotId)}"]`).value;
+  const response = await fetch(`/api/snapshots/${encodeURIComponent(snapshotId)}/validate`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify({ status }),
+  });
+  if (!response.ok) {
+    throw new Error(`Erreur validation snapshot (${response.status})`);
+  }
+  await fetchContract();
+}
+
 async function saveDocumentValidation(documentId) {
   const status = document.querySelector(`.doc-validation-status[data-document-id="${CSS.escape(documentId)}"]`).value;
   const notes = document.querySelector(`.doc-validation-notes[data-document-id="${CSS.escape(documentId)}"]`).value;
@@ -235,10 +300,22 @@ document.querySelector("#pilotage-form").addEventListener("submit", (event) => {
 });
 
 document.addEventListener("click", (event) => {
-  if (!(event.target instanceof HTMLElement) || !event.target.matches(".doc-validation-save")) return;
-  const documentId = event.target.dataset.documentId;
-  if (!documentId) return;
-  withLoader(() => saveDocumentValidation(documentId)).catch((error) => window.alert(error.message));
+  if (!(event.target instanceof HTMLElement)) return;
+  if (event.target.matches("#confirm-all-docs")) {
+    withLoader(confirmAllPendingDocuments).catch((error) => window.alert(error.message));
+    return;
+  }
+  if (event.target.matches(".doc-validation-save")) {
+    const documentId = event.target.dataset.documentId;
+    if (!documentId) return;
+    withLoader(() => saveDocumentValidation(documentId)).catch((error) => window.alert(error.message));
+    return;
+  }
+  if (event.target.matches(".snapshot-validation-save")) {
+    const snapshotId = event.target.dataset.snapshotId;
+    if (!snapshotId) return;
+    withLoader(() => saveSnapshotValidation(snapshotId)).catch((error) => window.alert(error.message));
+  }
 });
 
 withLoader(fetchContract).catch((error) => window.alert(error.message));

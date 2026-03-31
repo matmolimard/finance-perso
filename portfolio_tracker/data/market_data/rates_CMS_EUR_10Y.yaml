@@ -1,7 +1,7 @@
 identifier: CMS_EUR_10Y
 source: ecb
 units: pct
-last_updated: '2026-03-28T12:28:30'
+last_updated: '2026-03-30T18:22:10'
 history:
 - date: '2004-09-06'
   value: 4.20921992630835
@@ -11028,6 +11028,6 @@ history:
 - date: '2026-03-26'
   value: 3.0944162751
 - date: '2026-03-27'
-  value: 3.162
+  value: 3.1504113416
 url: https://fr.investing.com/rates-bonds/eur-10-years-irs-interest-rate-swap
 notes: Taux CMS EUR 10 ans (Interest Rate Swap) - Investing.com

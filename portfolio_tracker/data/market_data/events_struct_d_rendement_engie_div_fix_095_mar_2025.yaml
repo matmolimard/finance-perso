@@ -4,6 +4,13 @@
 # events: événements réellement constatés (paiements)
 # expected_events: calendrier/conditions attendues (issu de la brochure)
 
+asset_metadata:
+  period_months: 6
+  coupon_label: "0,95 EUR"
+  underlying_id: "solactive:DE000SL0MLE8"
+  initial_observation_date: "2025-03-19"
+  documentation: "product_brochure/BROCHURE D RENDEMENT ENGIE DIVIDENDE F IXE 0.95€ MARS 2025 - FR001400UQP1.pdf"
+
 events: []
 expected_events:
 - type: autocall_observation
@@ -183,5 +190,4 @@ expected_events:
   description: Échéance (paiement)
   metadata:
     final_observation_date: '2035-03-19'
-
 

@@ -7,6 +7,15 @@
 # Dates d'Évaluation Semestrielle: 31/03/2027 ... 01/10/2035
 # Date d'Évaluation Finale: 31/03/2036 ; Date d'Échéance: 15/04/2036
 
+asset_metadata:
+  period_months: 6
+  coupon_label: "6% par semestre (12% par an)"
+  underlying_id: "iEdge_TotalEnergies_SE_Decrement_296_EUR_GTR_Series_3"
+  underlying_label: "iEdge TotalEnergies SE Decrement 2.96 EUR GTR Series 3®"
+  underlying_bloomberg: "IDTTE3 Index"
+  initial_observation_date: "2026-03-31"
+  documentation: "product_brochure/TotalEnergies_12pct_Mars_2026-FR0014014T52.pdf"
+
 events: []
 expected_events:
 - type: maturity_observation

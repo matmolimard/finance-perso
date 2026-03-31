@@ -3,6 +3,16 @@
 # events: événements réellement constatés (paiements)
 # expected_events: calendrier/conditions attendues (issu de la brochure)
 
+asset_metadata:
+  period_months: 6
+  underlying: CMS_EUR_10Y
+  coupon_rate: 5.0
+  coupon_condition_threshold: 3.20
+  autocall_condition_threshold: 2.20
+  maturity_years: 12.25
+  cms_past_coupons_confirmed_paid: true
+  documentation: "product_brochure/BROCHURE D RENDEMENT DISTRIBUTION  FEVRIER 2025 - FR001400TBR1.pdf"
+
 events:
 - type: coupon
   date: '2025-08-28'
@@ -481,5 +491,4 @@ expected_events:
   metadata:
     final_observation_date: '2037-02-23'
     payment_date: '2037-03-02'
-
 

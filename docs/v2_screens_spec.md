@@ -6,10 +6,10 @@ Statut: brouillon a valider
 Ce document decrit les ecrans minimums de la V2 phase 1.
 Il complete :
 
-- [RULES.md](/Users/mathieu/Documents/Developpement/finance-perso/RULES.md)
-- [v2_global_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_global_spec.md)
-- [v2_functional_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_functional_spec.md)
-- [v2_data_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_data_spec.md)
+- [README.md — règles métier](../README.md)
+- [v2_global_spec.md](v2_global_spec.md)
+- [v2_functional_spec.md](v2_functional_spec.md)
+- [v2_data_spec.md](v2_data_spec.md)
 
 ## 1. Principes UX retenus
 

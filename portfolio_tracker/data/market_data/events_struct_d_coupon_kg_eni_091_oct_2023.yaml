@@ -4,6 +4,13 @@
 # events: événements réellement constatés (paiements)
 # expected_events: calendrier/conditions attendues (issu de la brochure)
 
+asset_metadata:
+  period_months: 6
+  coupon_label: "0,91 EUR"
+  underlying_id: "euronext_fr:FRIX00001324-XPAR"
+  initial_observation_date: "2023-10-20"
+  documentation: "product_brochure/Brochure D COUPON KG ENI 0.91 Octobre 2023 - FR001400HJD9.pdf"
+
 events: []
 expected_events:
 - type: autocall_observation
@@ -206,5 +213,4 @@ expected_events:
   description: Échéance (paiement)
   metadata:
     final_observation_date: '2033-10-20'
-
 

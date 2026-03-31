@@ -1,7 +1,7 @@
 underlying_id: euronext_fr:FRIX00001324-XPAR
 source: euronext
 identifier: FRIX00001324-XPAR
-last_updated: '2026-03-28T12:28:26'
+last_updated: '2026-03-30T18:22:07'
 history:
 - date: '2023-12-27'
   value: 15.32
@@ -1153,5 +1153,7 @@ history:
   value: 23.677
 - date: '2026-03-27'
   value: 23.96
+- date: '2026-03-30'
+  value: 24.584
 url: https://live.euronext.com/fr/product/indices/FRIX00001324-XPAR
 notes: Euronext G Eni SPA 010622 GR Decrement 0.91 (SGEID)

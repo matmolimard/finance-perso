@@ -1,56 +1,24 @@
 #!/bin/bash
+# Démonstration minimale — CLI V2
 
-# Script de démonstration du Portfolio Tracker
-# Utilise les données d'exemple fournies
+set -e
+DATA_DIR="portfolio_tracker/data"
 
 echo "========================================================================"
-echo "Portfolio Tracker - Démonstration"
+echo "Portfolio Tracker — démonstration (CLI V2)"
 echo "========================================================================"
 echo ""
 
-DATA_DIR="portfolio_tracker/data"
-
-echo "📊 1. État global du portefeuille"
+echo "1. Synthèse (global / status)"
 echo "------------------------------------------------------------------------"
 python3 -m portfolio_tracker.cli --data-dir "$DATA_DIR" status
 echo ""
 
-echo ""
-echo "📁 2. Vue par enveloppe"
+echo "2. Produits structurés"
 echo "------------------------------------------------------------------------"
-python3 -m portfolio_tracker.cli --data-dir "$DATA_DIR" wrapper
+python3 -m portfolio_tracker.cli --data-dir "$DATA_DIR" structured
 echo ""
 
-echo ""
-echo "📂 3. Vue par type d'actif"
-echo "------------------------------------------------------------------------"
-python3 -m portfolio_tracker.cli --data-dir "$DATA_DIR" type
-echo ""
-
-echo ""
-echo "🔔 4. Alertes"
-echo "------------------------------------------------------------------------"
-python3 -m portfolio_tracker.cli --data-dir "$DATA_DIR" alerts
-echo ""
-
-echo ""
 echo "========================================================================"
-echo "Démonstration terminée"
+echo "Terminé. Suite : make web  ou  voir README.md"
 echo "========================================================================"
-echo ""
-echo "Pour plus d'informations :"
-echo "  - README.md : Documentation complète"
-echo "  - USAGE.md : Guide d'utilisation détaillé"
-echo "  - QUICKSTART.md : Démarrage rapide avec vos données"
-echo ""
-
-
-
-
-
-
-
-
-
-
-

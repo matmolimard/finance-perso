@@ -4,6 +4,17 @@
 # events: événements réellement constatés (paiements)
 # expected_events: calendrier/conditions attendues (issu de la brochure)
 
+asset_metadata:
+  period_months: 6
+  underlying_id: "iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50"
+  underlying_label: "iEdge Transatlantic Luxury Goods & Services 10 EW Decrement 50 Points GTR®"
+  underlying_bloomberg: "LUXGSTDG Index"
+  initial_observation_dates: ["2025-05-16", "2025-12-19"]
+  initial_observation_date: "2025-12-19"
+  initial_level: 821.38
+  emission_date: "2025-07-30"
+  documentation: "product_brochure/BC D RENDEMENT LUXE DÉCEMBRE 2025 - FR00140101H2.pdf"
+
 events: []
 expected_events:
 - type: autocall_observation
@@ -216,5 +227,4 @@ expected_events:
   description: Échéance (paiement)
   metadata:
     final_observation_date: '2035-12-19'
-
 

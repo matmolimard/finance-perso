@@ -779,7 +779,7 @@ document.querySelector("#market-update-underlyings").addEventListener("click", (
 });
 
 document.querySelector("#market-backfill").addEventListener("click", () => {
-  withLoader(() => triggerAction("/api/market/actions/backfill", { years: 3 })).catch((error) => window.alert(error.message));
+  withLoader(() => triggerAction("/api/market/actions/backfill")).catch((error) => window.alert(error.message));
 });
 
 document.querySelector("#market-apply-range").addEventListener("click", () => {

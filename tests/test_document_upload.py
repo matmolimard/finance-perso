@@ -7,7 +7,7 @@ from urllib.request import Request, urlopen
 import pytest
 import yaml
 
-from portfolio_tracker.v2.document_ingest import ingest_uploaded_document
+from portfolio_tracker.document_ingest import ingest_uploaded_document
 from portfolio_tracker.web import create_server
 
 

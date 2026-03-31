@@ -9063,3 +9063,7 @@ nav_history:
   value: 140.97
   currency: EUR
   source: url_csv
+- date: '2026-03-26'
+  value: 140.72
+  currency: EUR
+  source: url_csv

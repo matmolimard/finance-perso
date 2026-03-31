@@ -5,7 +5,7 @@ from urllib.request import urlopen
 import pytest
 
 from portfolio_tracker.web import create_server
-from portfolio_tracker.web.app import STATIC_DIR
+from portfolio_tracker.web.app import STATIC_DIR, _format_market_action_output, _market_action_http_status
 
 
 def test_v2_only_static_assets_exist():
@@ -79,3 +79,23 @@ def test_v2_document_endpoints_work():
         server.shutdown()
         server.server_close()
         thread.join(timeout=5)
+
+
+def test_market_action_partial_success_returns_http_200_and_human_output():
+    result = {
+        "ok": False,
+        "period": {"mode": "full", "years": None},
+        "uc_results": [{"asset_id": "uc_a", "status": "ok", "message": "ok"}],
+        "underlyings": {
+            "results": [
+                {"underlying_id": "idx_a", "status": "ok", "message": "ok"},
+                {"underlying_id": "idx_b", "status": "error", "message": "source indisponible"},
+            ]
+        },
+    }
+
+    output = _format_market_action_output("backfill-market-history", result)
+
+    assert _market_action_http_status(result) == 200
+    assert "Backfill marché complet terminé." in output
+    assert "idx_b" in output

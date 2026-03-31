@@ -7,8 +7,8 @@ Ce document formalise la specification fonctionnelle de la V2.
 Il doit etre valide avant l'implementation.
 
 Documents lies:
-- [RULES.md](/Users/mathieu/Documents/Developpement/finance-perso/RULES.md)
-- [v2_global_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_global_spec.md)
+- [README.md — règles métier](../README.md)
+- [v2_global_spec.md](v2_global_spec.md)
 
 ## 1. Objectif
 

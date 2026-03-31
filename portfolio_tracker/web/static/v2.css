@@ -16,6 +16,10 @@
   box-sizing: border-box;
 }
 
+.is-hidden {
+  display: none !important;
+}
+
 body {
   margin: 0;
   font-family: "Helvetica Neue", "Segoe UI", sans-serif;
@@ -392,6 +396,12 @@ body {
   border-right: none;
 }
 
+.cs-item--full {
+  flex: 0 0 100%;
+  border-right: none;
+  border-top: 1px solid var(--border);
+}
+
 .cs-item > span {
   color: var(--muted);
   font-size: 0.74rem;
@@ -486,6 +496,20 @@ th {
   border-radius: 18px;
   background: rgba(255, 255, 255, 0.7);
   color: var(--muted);
+}
+
+#ged-upload-result.is-hidden {
+  display: none;
+}
+
+#ged-upload-result.success {
+  color: var(--green);
+  background: rgba(24, 128, 56, 0.1);
+}
+
+#ged-upload-result.error {
+  color: var(--red);
+  background: rgba(180, 35, 24, 0.1);
 }
 
 .v2-loader {

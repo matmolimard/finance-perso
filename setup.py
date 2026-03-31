@@ -30,6 +30,7 @@ setup(
         "httpx>=0.24.0",
         "pypdf>=4.0.0",
         "pdfplumber>=0.11.0",
+        "playwright>=1.52.0",
         "python-dotenv>=1.0.0",
     ],
     extras_require={
@@ -43,7 +44,7 @@ setup(
     },
     entry_points={
         "console_scripts": [
-            "portfolio-tracker=portfolio_tracker.v2.cli:main",
+            "portfolio-tracker=portfolio_tracker.cli:main",
         ],
     },
     classifiers=[
@@ -56,7 +57,6 @@ setup(
         "Programming Language :: Python :: 3.12",
     ],
 )
-
 
 
 

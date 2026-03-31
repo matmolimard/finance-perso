@@ -30,6 +30,54 @@
       <section class="section-card">
         <div class="section-head">
           <div>
+            <span class="section-kicker">Import</span>
+            <h2>Ajouter un document à la GED</h2>
+          </div>
+          <p class="section-copy">Importer un PDF directement depuis l'interface web.</p>
+        </div>
+        <form id="ged-upload-form" class="stack-form">
+          <div class="filters-grid">
+            <label class="field">
+              <span>Fichier PDF</span>
+              <input id="ged-upload-file" name="file" type="file" accept="application/pdf" required>
+            </label>
+            <label class="field">
+              <span>Contrat (optionnel)</span>
+              <select id="ged-upload-contract" name="contract_name">
+                <option value="">Auto</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Assureur (optionnel)</span>
+              <input id="ged-upload-insurer" name="insurer" type="text" placeholder="Generali, SwissLife...">
+            </label>
+            <label class="field">
+              <span>Date document (optionnel)</span>
+              <input id="ged-upload-date" name="document_date" type="date">
+            </label>
+            <label class="field">
+              <span>Statut</span>
+              <select id="ged-upload-status" name="status">
+                <option value="">active (défaut)</option>
+                <option value="active">active</option>
+                <option value="archived">archived</option>
+              </select>
+            </label>
+            <label class="field">
+              <span>Notes (optionnel)</span>
+              <input id="ged-upload-notes" name="notes" type="text" placeholder="Commentaire d'import">
+            </label>
+          </div>
+          <div class="form-actions">
+            <button type="submit" class="primary-button">Importer</button>
+          </div>
+          <div id="ged-upload-result" class="empty-state is-hidden" aria-live="polite"></div>
+        </form>
+      </section>
+
+      <section class="section-card">
+        <div class="section-head">
+          <div>
             <span class="section-kicker">Filtres</span>
             <h2>Navigation documentaire</h2>
           </div>

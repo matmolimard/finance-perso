@@ -7,11 +7,11 @@ Ce document decrit comment implementer la V2 phase 1 sans casser la V1.
 
 Il complete :
 
-- [v2_global_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_global_spec.md)
-- [v2_functional_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_functional_spec.md)
-- [v2_data_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_data_spec.md)
-- [v2_screens_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_screens_spec.md)
-- [v2_workflows_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_workflows_spec.md)
+- [v2_global_spec.md](v2_global_spec.md)
+- [v2_functional_spec.md](v2_functional_spec.md)
+- [v2_data_spec.md](v2_data_spec.md)
+- [v2_screens_spec.md](v2_screens_spec.md)
+- [v2_workflows_spec.md](v2_workflows_spec.md)
 
 ## 1. Strategie generale
 

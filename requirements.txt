@@ -13,6 +13,9 @@ python-dateutil>=2.8.2
 httpx>=0.24.0
 pypdf>=4.0.0
 pdfplumber>=0.11.0
+playwright>=1.52.0
+# 2.2.2 a un bug de syntaxe (recaptcha_v2.py) lors de l'installation
+python3-anticaptcha==2.2.1
 
 # Environment variables from .env file
 python-dotenv>=1.0.0

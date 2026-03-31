@@ -122,6 +122,13 @@ class PositionProjectionService:
             else:
                 other_total += mv.cash_amount
 
+        # Detect position fully exited via internal transfer (external=False sell lots → OTHER category)
+        if has_unit_movements and abs(open_units) < 0.01 and close_date is None and realized_exit_value is None:
+            for mv in reversed(filtered):
+                if mv.raw_lot_type in ("sell", "other") and mv.cash_amount < 0 and mv.external is False:
+                    close_date = mv.effective_date
+                    break
+
         external_capital_remaining = max(0.0, external_total - withdrawals_total - fees_total - taxes_total)
 
         return PositionProjection(

@@ -12,23 +12,30 @@ from pathlib import Path
 from typing import Any, Optional
 from urllib.parse import parse_qs, urlparse
 
-from ..v2.bootstrap import bootstrap_v2_data
-from ..v2.dashboard import build_v2_dashboard_data
-from ..v2.details import build_v2_contract_detail, build_v2_support_detail
-from ..v2.documents import build_v2_document_detail
-from ..v2.document_ingest import ingest_uploaded_document
-from ..v2.ged import build_v2_ged_data
-from ..v2.market_actions import backfill_v2_market_history, update_v2_uc_navs, update_v2_underlyings
-from ..v2.market import build_v2_market_data, load_market_series
-from ..v2.manual import (
+from ..bootstrap import bootstrap_v2_data
+from ..dashboard import build_v2_dashboard_data
+from ..details import build_v2_contract_detail, build_v2_support_detail
+from ..documents import build_v2_document_detail
+from ..document_ingest import ingest_uploaded_document
+from ..ged import build_v2_ged_data
+from ..market_actions import backfill_v2_market_history, update_v2_uc_navs, update_v2_underlyings
+from ..market import build_v2_market_data, load_market_series
+from ..manual import (
     save_document_validation,
     save_fonds_euro_pilotage,
+    save_snapshot_validation,
     save_structured_event_validation,
     save_structured_product_rule,
 )
-from ..v2.manual_market import save_manual_market_point, save_market_source_url
-from ..v2.storage import connect as connect_v2_db
-from ..v2.storage import default_db_path as default_v2_db_path
+from ..manual_market import save_manual_market_point, save_market_source_url
+from ..document_extractors import extract_structured_brochure_suggestions
+from ..arbitration import (
+    apply_arbitration_proposal,
+    build_arbitration_proposal_for_document,
+    save_arbitration_mappings,
+)
+from ..storage import connect as connect_v2_db
+from ..storage import default_db_path as default_v2_db_path
 
 
 STATIC_DIR = Path(__file__).resolve().parent / "static"
@@ -88,6 +95,86 @@ def _parse_multipart_form_data(content_type: str, body: bytes) -> dict[str, Any]
     return form
 
 
+def _market_action_status_counts(rows: list[dict[str, Any]]) -> dict[str, int]:
+    return {
+        "ok": sum(1 for row in rows if str(row.get("status") or "") == "ok"),
+        "skipped": sum(1 for row in rows if str(row.get("status") or "") == "skipped"),
+        "errors": sum(1 for row in rows if str(row.get("status") or "") == "error"),
+    }
+
+
+def _market_action_has_useful_success(result: dict[str, Any]) -> bool:
+    if result.get("ok", False):
+        return True
+    for key in ("results", "uc_results"):
+        rows = result.get(key)
+        if isinstance(rows, list) and any(str(row.get("status") or "") == "ok" for row in rows if isinstance(row, dict)):
+            return True
+    nested = result.get("underlyings")
+    nested_rows = nested.get("results") if isinstance(nested, dict) else None
+    if isinstance(nested_rows, list) and any(str(row.get("status") or "") == "ok" for row in nested_rows if isinstance(row, dict)):
+        return True
+    return False
+
+
+def _market_action_http_status(result: dict[str, Any]) -> int:
+    if result.get("error"):
+        return 400
+    return 200 if _market_action_has_useful_success(result) else 400
+
+
+def _format_market_action_output(command: str, result: dict[str, Any]) -> str:
+    if result.get("error"):
+        return str(result.get("error"))
+
+    if command == "update-uc-navs":
+        summary = result.get("summary") or {}
+        lines = [
+            f"Mise à jour UC terminée: {int(summary.get('ok') or 0)} ok, {int(summary.get('skipped') or 0)} sans mise à jour, {int(summary.get('errors') or 0)} erreur.",
+        ]
+        changed_positions = int(result.get("positions_changed") or 0)
+        if changed_positions:
+            lines.append(f"Positions ajustées: {changed_positions}.")
+        errors = [row for row in (result.get("results") or []) if isinstance(row, dict) and row.get("status") == "error"]
+        if errors:
+            lines.append("Avertissements:")
+            lines.extend(f"- {row.get('asset_id')}: {row.get('message')}" for row in errors[:10])
+        return "\n".join(lines)
+
+    if command == "update-underlyings":
+        summary = result.get("summary") or {}
+        counts = _market_action_status_counts([row for row in (result.get("results") or []) if isinstance(row, dict)])
+        lines = [
+            f"Mise à jour sous-jacents terminée: {counts['ok']} ok, {counts['skipped']} ignoré, {counts['errors']} erreur.",
+            f"Points ajoutés/modifiés: {int(summary.get('changed') or 0)}.",
+        ]
+        errors = [row for row in (result.get("results") or []) if isinstance(row, dict) and row.get("status") == "error"]
+        if errors:
+            lines.append("Avertissements:")
+            lines.extend(f"- {row.get('underlying_id')}: {row.get('message')}" for row in errors[:10])
+        return "\n".join(lines)
+
+    if command == "backfill-market-history":
+        uc_counts = _market_action_status_counts([row for row in (result.get("uc_results") or []) if isinstance(row, dict)])
+        underlyings_payload = result.get("underlyings") if isinstance(result.get("underlyings"), dict) else {}
+        underlying_rows = [row for row in (underlyings_payload.get("results") or []) if isinstance(row, dict)]
+        underlying_counts = _market_action_status_counts(underlying_rows)
+        period = result.get("period") or {}
+        mode = "complet" if period.get("mode") == "full" else f"{period.get('years')} an(s)"
+        lines = [
+            f"Backfill marché {mode} terminé.",
+            f"UC: {uc_counts['ok']} ok, {uc_counts['skipped']} sans historique, {uc_counts['errors']} erreur.",
+            f"Sous-jacents: {underlying_counts['ok']} ok, {underlying_counts['skipped']} ignoré, {underlying_counts['errors']} erreur.",
+        ]
+        warning_rows = [row for row in underlying_rows if row.get("status") == "error"]
+        if warning_rows:
+            lines.append("Avertissements:")
+            lines.extend(f"- {row.get('underlying_id')}: {row.get('message')}" for row in warning_rows[:10])
+        return "\n".join(lines)
+
+    return ""
+
+
 def run_action(data_dir: Path, command: str, params: Optional[dict[str, Any]] = None) -> dict[str, Any]:
     params = params or {}
     if command == "update-uc-navs":
@@ -106,7 +193,7 @@ def run_action(data_dir: Path, command: str, params: Optional[dict[str, Any]] = 
     elif command == "backfill-market-history":
         result = backfill_v2_market_history(
             data_dir,
-            years=int(_optional_int(params.get("years")) or 3),
+            years=_optional_int(params.get("years")),
             headless=_parse_bool(params.get("headless")),
         )
     else:
@@ -116,7 +203,8 @@ def run_action(data_dir: Path, command: str, params: Optional[dict[str, Any]] = 
             "refresh_dashboard": False,
         }
 
-    result["refresh_dashboard"] = result.get("ok", False)
+    result["output"] = _format_market_action_output(command, result)
+    result["refresh_dashboard"] = _market_action_has_useful_success(result)
     return result
 
 
@@ -233,6 +321,16 @@ def _make_handler(data_dir: Path):
                 except KeyError as exc:
                     self._send_json({"ok": False, "error": str(exc)}, status=404)
                 return
+            if parsed.path.startswith("/api/documents/") and parsed.path.endswith("/arbitration-proposal"):
+                document_id = parsed.path.removeprefix("/api/documents/").removesuffix("/arbitration-proposal")
+                try:
+                    payload = build_arbitration_proposal_for_document(data_dir, document_id)
+                    self._send_json(payload)
+                except (KeyError, ValueError) as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=400)
+                except Exception as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=500)
+                return
             if parsed.path.startswith("/api/documents/") and not parsed.path.endswith("/file"):
                 document_id = parsed.path.removeprefix("/api/documents/")
                 try:
@@ -240,6 +338,32 @@ def _make_handler(data_dir: Path):
                     self._send_json(payload)
                 except KeyError:
                     self._send_json({"ok": False, "error": "Document introuvable"}, status=404)
+                return
+            if parsed.path.startswith("/api/documents/") and parsed.path.endswith("/structured-suggestions"):
+                document_id = parsed.path.removeprefix("/api/documents/").removesuffix("/structured-suggestions")
+                try:
+                    with connect_v2_db(default_v2_db_path(data_dir)) as conn:
+                        row = conn.execute(
+                            "SELECT filepath, original_filename, document_type FROM documents WHERE document_id = ?",
+                            (document_id,),
+                        ).fetchone()
+                    if row is None:
+                        self._send_json({"ok": False, "error": "Document introuvable"}, status=404)
+                        return
+                    if str(row["document_type"]) != "structured_brochure":
+                        self._send_json({"ok": False, "error": "Ce document n'est pas une brochure structurée"}, status=400)
+                        return
+                    from ..document_ingest import extract_pdf_text
+                    pdf_path = (data_dir / str(row["filepath"])).resolve()
+                    text, _ = extract_pdf_text(pdf_path)
+                    result = extract_structured_brochure_suggestions(
+                        text, filename=str(row["original_filename"] or ""),
+                    )
+                    result["ok"] = True
+                    result["document_id"] = document_id
+                    self._send_json(result)
+                except Exception as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=500)
                 return
             if parsed.path.startswith("/api/documents/") and parsed.path.endswith("/file"):
                 document_id = parsed.path.removeprefix("/api/documents/").removesuffix("/file")
@@ -361,6 +485,43 @@ def _make_handler(data_dir: Path):
                 except Exception as exc:
                     self._send_json({"ok": False, "error": str(exc)}, status=500)
                 return
+            if parsed.path.startswith("/api/documents/") and parsed.path.endswith("/arbitration-apply"):
+                try:
+                    document_id = parsed.path.removeprefix("/api/documents/").removesuffix("/arbitration-apply")
+                    result = apply_arbitration_proposal(data_dir, document_id)
+                    self._send_json(result)
+                except (KeyError, ValueError) as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=400)
+                except Exception as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=500)
+                return
+            if parsed.path.startswith("/api/documents/") and parsed.path.endswith("/arbitration-map"):
+                try:
+                    length = int(self.headers.get("Content-Length", "0") or "0")
+                    raw_body = self.rfile.read(length) if length else b"{}"
+                    payload = json.loads(raw_body.decode("utf-8") or "{}")
+                    document_id = parsed.path.removeprefix("/api/documents/").removesuffix("/arbitration-map")
+                    mappings = list(payload.get("mappings") or [])
+                    result = save_arbitration_mappings(data_dir, document_id, mappings=mappings)
+                    self._send_json(result)
+                except (KeyError, ValueError) as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=400)
+                except Exception as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=500)
+                return
+            if parsed.path.startswith("/api/snapshots/") and parsed.path.endswith("/validate"):
+                try:
+                    length = int(self.headers.get("Content-Length", "0") or "0")
+                    raw_body = self.rfile.read(length) if length else b"{}"
+                    payload = json.loads(raw_body.decode("utf-8") or "{}")
+                    snapshot_id = parsed.path.removeprefix("/api/snapshots/").removesuffix("/validate")
+                    result = save_snapshot_validation(data_dir, snapshot_id, payload)
+                    self._send_json(result)
+                except (KeyError, ValueError) as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=400)
+                except Exception as exc:
+                    self._send_json({"ok": False, "error": str(exc)}, status=500)
+                return
             if parsed.path.startswith("/api/fonds-euro-pilotage/"):
                 try:
                     length = int(self.headers.get("Content-Length", "0") or "0")
@@ -375,14 +536,14 @@ def _make_handler(data_dir: Path):
             if parsed.path == "/api/market/actions/update-uc-navs":
                 try:
                     result = run_action(data_dir, "update-uc-navs", {"headless": True})
-                    self._send_json(result, status=200 if result.get("ok", False) else 400)
+                    self._send_json(result, status=_market_action_http_status(result))
                 except Exception as exc:
                     self._send_json({"ok": False, "error": str(exc)}, status=500)
                 return
             if parsed.path == "/api/market/actions/update-underlyings":
                 try:
                     result = run_action(data_dir, "update-underlyings", {"headless": True})
-                    self._send_json(result, status=200 if result.get("ok", False) else 400)
+                    self._send_json(result, status=_market_action_http_status(result))
                 except Exception as exc:
                     self._send_json({"ok": False, "error": str(exc)}, status=500)
                 return
@@ -394,9 +555,9 @@ def _make_handler(data_dir: Path):
                     result = run_action(
                         data_dir,
                         "backfill-market-history",
-                        {"years": payload.get("years") or 3, "headless": True},
+                        {"years": payload.get("years"), "headless": True},
                     )
-                    self._send_json(result, status=200 if result.get("ok", False) else 400)
+                    self._send_json(result, status=_market_action_http_status(result))
                 except Exception as exc:
                     self._send_json({"ok": False, "error": str(exc)}, status=500)
                 return

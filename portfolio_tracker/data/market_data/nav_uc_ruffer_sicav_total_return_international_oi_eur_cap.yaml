@@ -1,4 +1,8 @@
 nav_history:
+- date: '2022-11-24'
+  value: 1.615
+  currency: EUR
+  source: purchase_nav
 - date: '2023-10-02'
   value: 1.449
   currency: EUR
@@ -917,5 +921,9 @@ nav_history:
   source: url_csv
 - date: '2026-03-25'
   value: 1.585
+  currency: EUR
+  source: url_csv
+- date: '2026-03-26'
+  value: 1.58
   currency: EUR
   source: url_csv

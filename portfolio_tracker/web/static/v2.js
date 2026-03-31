@@ -149,6 +149,7 @@ function renderContracts() {
             <span>Dernier officiel</span>
             <strong>${latest ? v2Euro(latest.official_total_value) : "N/A"}</strong>
             <small class="${yearProgressClass}">${yearProgressLabel}</small>
+            ${latest ? `<small class="muted">Officiel au ${v2Esc(latest.reference_date)} · modèle aujourd'hui</small>` : ""}
           </div>
           <div class="cs-item">
             <span>Performance</span>
@@ -168,6 +169,13 @@ function renderContracts() {
             <strong>${latest ? v2Euro(latest.official_structured_value) : "N/A"}</strong>
           </div>
           <div class="cs-item">
+            <span>Structurés modèle</span>
+            <strong>${latest ? v2Euro(latest.model_structured_value) : "N/A"}</strong>
+            <small class="${latest && typeof latest.structured_model_gap_value === "number" ? (latest.structured_model_gap_value >= 0 ? "positive" : "negative") : ""}">
+              ${latest && typeof latest.structured_model_gap_value === "number" ? v2SignedEuro(latest.structured_model_gap_value) : ""}
+            </small>
+          </div>
+          <div class="cs-item">
             <span>Fonds euro officiel</span>
             <strong>${latest ? v2Euro(latest.official_fonds_euro_value) : "N/A"}</strong>
           </div>
@@ -176,6 +184,18 @@ function renderContracts() {
             <strong>${card.opening_date ?? "N/A"}</strong>
             <small>${typeof card.months_since_opening === "number" ? `${Math.floor(card.months_since_opening / 12)}a ${card.months_since_opening % 12}m` : ""}</small>
           </div>
+          <div class="cs-item cs-item--full">
+            ${(() => {
+              const r = card.reconciliation;
+              if (!r || r.status === "unavailable") return `<span class="pill warning">Aucun snapshot validé — réconciliation indisponible</span>`;
+              const klass = r.status === "ok" ? "ok" : "warning";
+              const gapText = typeof r.gap_amount === "number" ? ` · écart ${v2SignedEuro(r.gap_amount)}${typeof r.gap_pct === "number" ? ` (${v2Percent(r.gap_pct)})` : ""}` : "";
+              return `<span class="pill ${klass}">Réconcilié au ${v2Esc(r.reference_date)}${gapText}</span>`;
+            })()}
+          </div>
+        </div>
+        <div style="margin-top: 12px; text-align: right;">
+          <a class="primary-button inline-button" href="/contracts/${encodeURIComponent(card.contract_id)}">Gérer ce contrat →</a>
         </div>
       </article>
     `;
@@ -214,6 +234,15 @@ function renderAmountCell(value) {
   return `<div>${v2Euro(value)}</div>`;
 }
 
+function renderGapCell(value, pct) {
+  const klass = typeof value === "number" ? (value >= 0 ? "positive" : "negative") : "";
+  const pctText = typeof pct === "number" ? v2Percent(pct) : (typeof value === "number" && value !== 0 ? "<em>officiel inclus dans UC</em>" : "");
+  return `
+    <div class="${klass}">${typeof value === "number" ? v2SignedEuro(value) : "N/A"}</div>
+    <div class="metric-sub ${klass}">${pctText}</div>
+  `;
+}
+
 function renderExternalFlowsCell(_value, row) {
   const summary = row.annual_flow_summary || {};
   const contributions = Number(summary.external_contributions_total || 0);
@@ -242,9 +271,13 @@ function renderSnapshots() {
         contract_name: contractName,
         reference_date: item.reference_date,
         statement_date: item.statement_date,
+        status: item.status,
         official_total_value: item.official_total_value,
         official_uc_value: item.official_uc_value,
         official_structured_value: item.official_structured_value,
+        model_structured_value: item.model_structured_value,
+        structured_model_gap_value: item.structured_model_gap_value,
+        structured_model_gap_pct: item.structured_model_gap_pct,
         official_fonds_euro_value: item.official_fonds_euro_value,
         annual_flow_summary: item.annual_flow_summary || {},
       });
@@ -254,10 +287,16 @@ function renderSnapshots() {
     ["contract_name", "Contrat"],
     ["reference_date", "Réf."],
     ["statement_date", "Relevé"],
+    ["status", "Statut", (value) => {
+      const klass = value === "validated" ? "ok" : value === "rejected" ? "negative" : "warning";
+      return `<span class="pill ${klass}">${v2Esc(value)}</span>`;
+    }],
     ["official_total_value", "Total fin", (value) => renderAmountCell(value)],
-    ["official_uc_value", "UC pures fin", (value) => renderAmountCell(value)],
+    ["official_uc_value", "UC fin (officiel)", (value) => renderAmountCell(value)],
     ["official_fonds_euro_value", "Fonds euro fin", (value) => renderAmountCell(value)],
-    ["official_structured_value", "Structurés fin", (value) => renderAmountCell(value)],
+    ["official_structured_value", "Structurés fin (officiel)", (value) => renderAmountCell(value)],
+    ["model_structured_value", "Structurés fin (modèle)", (value) => renderAmountCell(value)],
+    ["structured_model_gap_value", "Écart modèle/officiel", (_value, row) => renderGapCell(row.structured_model_gap_value, row.structured_model_gap_pct)],
     ["annual_flow_summary", "Flux externes année", (_value, row) => renderExternalFlowsCell(_value, row)],
     ["annual_flow_summary", "Crédits constatés", (_value, row) => renderAmountCell(row.annual_flow_summary.credited_income_total || 0)],
     ["annual_flow_summary", "Remb. structurés", (_value, row) => renderAmountCell(row.annual_flow_summary.structured_redemptions_total || 0)],

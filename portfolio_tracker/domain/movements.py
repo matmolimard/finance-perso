@@ -83,6 +83,8 @@ class LotClassifier:
             return ClassifiedLot(category, lot_date, abs(float(net_amount)), lot)
 
         if lot_type in ("sell", "other") and net_amount < 0:
+            if lot.get("external") is False:
+                return ClassifiedLot(LotCategory.OTHER, lot_date, abs(float(net_amount)), lot)
             return ClassifiedLot(LotCategory.WITHDRAWAL, lot_date, abs(float(net_amount)), lot)
 
         if lot_type == "fee" and net_amount < 0:

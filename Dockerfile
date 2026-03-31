@@ -9,7 +9,8 @@ WORKDIR /app
 COPY requirements.txt setup.py README.md /app/
 COPY portfolio_tracker /app/portfolio_tracker
 RUN pip install --no-cache-dir -U pip && \
-    pip install --no-cache-dir -e .
+    pip install --no-cache-dir -e . && \
+    python -m playwright install --with-deps chromium
 
 EXPOSE 8765
 

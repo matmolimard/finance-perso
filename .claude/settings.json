@@ -1,7 +1,11 @@
 {
   "permissions": {
     "allow": [
-      "WebSearch"
+      "WebSearch",
+      "Bash(.venv/bin/python -m portfolio_tracker.cli --data-dir portfolio_tracker/data web-payload)",
+      "Bash(python -m pytest tests/ -x -q)",
+      "Bash(source .venv/bin/activate)",
+      "Bash(python -m pytest tests/ --no-header)"
     ]
   }
 }

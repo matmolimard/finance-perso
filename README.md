@@ -1,423 +1,336 @@
 # Portfolio Tracker
 
-Outil Python de suivi patrimonial multi-actifs, orienté long terme, sans logique de trading.
+Outil Python de suivi patrimonial multi-actifs (assurance vie, contrats de capitalisation), orienté long terme, sans logique de trading. L’état opérationnel V2 vit désormais en SQLite sous `portfolio_tracker/data/`, avec encore quelques fichiers YAML de seed et de données marché/documentaires pendant la transition.
 
-## 🎯 Objectif
+**Documentation unique : ce fichier.** Les spécifications détaillées de l’interface V2 et l’architecture mouvements/valorisation restent dans le dossier [`docs/`](docs/) (référence technique).
 
-Suivre des actifs financiers détenus en **assurance vie** et **contrat de capitalisation**, avec un focus particulier sur :
-- Produits structurés
-- Fonds euros (opaques)
-- Unités de compte cotées ou peu liquides
+---
 
-L'outil est **indépendant des assureurs**, lisible, extensible, et repose sur un stockage **100% local et gratuit** :
-- des fichiers YAML versionnables pour la configuration et les snapshots lisibles
-- un ledger SQLite local pour les mouvements normalisés et les projections métier
+## Sommaire
 
-## 📋 Prérequis
+1. [Prérequis et installation](#prérequis-et-installation)
+2. [Démarrage rapide](#démarrage-rapide)
+3. [CLI (V2) et interface web](#cli-v2-et-interface-web)
+4. [Commandes `make`](#commandes-make)
+5. [Docker et déploiement serveur](#docker-et-déploiement-serveur)
+6. [Architecture du code](#architecture-du-code)
+7. [Données (YAML, marché, SQLite)](#données-yaml-marché-sqlite)
+8. [Moteurs de valorisation](#moteurs-de-valorisation)
+9. [Alertes et fraîcheur des données](#alertes-et-fraîcheur-des-données)
+10. [Quantalys et Playwright](#quantalys-et-playwright)
+11. [Règles métier patrimoine](#règles-métier-patrimoine)
+12. [Tests et qualité](#tests-et-qualité)
+13. [Documentation technique (`docs/`)](#documentation-technique-docs)
+14. [GED, snapshots, mouvements et arbitrages](#ged-snapshots-mouvements-et-arbitrages)
+15. [Hors périmètre et avertissement](#hors-périmètre-et-avertissement)
 
-- Python ≥ 3.11
-- pip
+---
 
-## 🚀 Installation
+## Prérequis et installation
+
+- Python ≥ 3.11 recommandé (le dépôt cible 3.9+ pour compatibilité ; le `Dockerfile` utilise 3.12).
+- Git
+
+Recommandé : environnement virtuel géré par le Makefile.
 
 ```bash
-# Cloner le projet
+git clone <URL> finance-perso
 cd finance-perso
-
-# Installer les dépendances
-pip install -r requirements.txt
+make install
 ```
 
-## 🐳 Exécution avec Docker
+Cela crée `.venv/`, installe le package en mode éditable avec les dépendances de développement (`pytest`, etc.).
+
+Alternative :
 
 ```bash
-# Build
-make docker-build
-
-# Vue globale
-make docker-global
-
-# Historique d'une valeur
-make docker-history VALUE=bdl_rempart
+pip install -e ".[dev]"
 ```
 
-Guide complet serveur: `DEPLOY_SERVER.md`
+Point d’entrée console : `portfolio-tracker` (voir `setup.py`) → `portfolio_tracker.cli:main`.  
+Module équivalent : `python -m portfolio_tracker.cli`.
 
-Architecture mouvements / valorisation renforcée: `docs/movements_valuation_architecture.md`
+---
 
-## 🏗️ Architecture
+## Démarrage rapide
+
+```bash
+make demo
+# ou
+./run_example.sh
+```
+
+Puis ouvrir l’interface web locale :
+
+```bash
+make web
+# http://127.0.0.1:8765
+```
+
+Aperçu terminal (synthèse V2) :
+
+```bash
+make global
+make structured
+```
+
+---
+
+## CLI et interface web
+
+Sous-commandes disponibles :
+
+| Commande | Rôle |
+|----------|------|
+| `global` / `status` | Synthèse contrats / valeur / documents (sortie texte) |
+| `structured` | Tableau produits structurés |
+| `web-payload` | JSON pour consommation par la vue web |
+| `bootstrap` | JSON du bootstrap données → SQLite V2 |
+| `web` | Serveur web local (`--host`, `--port`) |
+| `update-uc-navs` | Mise à jour des VL UC (options : `--target-date`, `--set`, `--headless`, …) |
+| `update-underlyings` | Mise à jour des séries de sous-jacents |
+| `backfill-market-history` | Remplissage complet de l’historique marché disponible (ou fenêtre via `--years`) |
+| `manual-movement-add` | Ajoute une intervention manuelle en base pour un cas PDF incomplet |
+| `manual-movement-list` | Liste les interventions manuelles enregistrées en base |
+| `manual-movement-delete` | Supprime une intervention manuelle par identifiant |
+| `pdf-contract-audit` | Audit JSON `PDF only` d’un contrat (snapshots, positions visibles, opérations visibles, corrections manuelles) |
+
+Exemples :
+
+```bash
+portfolio-tracker --data-dir portfolio_tracker/data global
+portfolio-tracker --data-dir portfolio_tracker/data web --port 8765
+python -m portfolio_tracker.cli --data-dir portfolio_tracker/data web-payload
+portfolio-tracker --data-dir portfolio_tracker/data manual-movement-list --contract "SwissLife Capi Stratégic Premium"
+portfolio-tracker --data-dir portfolio_tracker/data pdf-contract-audit --contract HIMALIA --year 2025
+```
+
+La vue web principale est servie par `portfolio_tracker/web/` (fichiers statiques). Endpoints utiles : `POST /api/documents/upload` (GED), `GET/POST` sur arbitrage, validations et marché (voir code dans `portfolio_tracker/web/app.py`).
+
+---
+
+## Commandes `make`
+
+| Cible | Effet |
+|-------|--------|
+| `help` | Aide |
+| `install` / `setup` | Installation dev dans `.venv` |
+| `global` | `global` CLI |
+| `structured` | `structured` CLI |
+| `web` | lance `web` |
+| `web-payload` | JSON dashboard |
+| `bootstrap` | JSON bootstrap |
+| `update-navs` | `update-uc-navs` |
+| `update-underlyings` | `update-underlyings` |
+| `backfill-market-history` | `backfill-market-history` (`HEADLESS=1`, `YEARS=3` optionnel sinon historique complet) |
+| `manual-movement-list` | liste les interventions manuelles stockées en base |
+| `manual-movement-add` | ajoute une intervention manuelle en base |
+| `manual-movement-delete` | supprime une intervention manuelle en base |
+| `pdf-contract-audit` | audit PDF d’un contrat depuis SQLite (`CONTRACT=...`, `YEAR=...`) |
+| `demo` | `run_example.sh` |
+| `docker-build` | image Docker |
+| `docker-run` | `make docker-run ARGS='global'` |
+| `docker-global` | `global` dans le conteneur |
+| `docker-update-navs` | `update-uc-navs` dans le conteneur |
+| `test` / `test-cov` | `pytest` |
+| `clean` | caches Python |
+
+Les interventions manuelles servent uniquement pour les exceptions où les PDF ne suffisent pas à reconstruire un mouvement. Elles sont stockées en SQLite puis réinjectées dans le ledger V2 au prochain `bootstrap`.
+
+La commande `pdf-contract-audit` sert de point d’entrée d’audit `PDF only` côté terminal: elle relit en base les snapshots, lignes de positions visibles et opérations visibles extraites des relevés, afin d’identifier ce qui est déjà couvert sans retourner fouiller dans les YAML legacy.
+
+---
+
+## Docker et déploiement serveur
+
+Build :
+
+```bash
+make docker-build
+```
+
+Le `docker-compose.yml` monte `./portfolio_tracker/data` vers `/app/portfolio_tracker/data` et lance par défaut `web` sur le port 8765 (voir `Dockerfile`).
+
+Exécuter une sous-commande CLI dans le conteneur :
+
+```bash
+make docker-run ARGS='global'
+make docker-run ARGS='update-uc-navs'
+```
+
+**Sur un serveur Linux** (Docker + Git) : cloner le dépôt, copier `env.example` en `.env` si besoin, `make docker-build`, puis planifier par exemple `make docker-update-navs` via cron sur le répertoire du projet.
+
+---
+
+## Architecture du code
 
 ```
 portfolio_tracker/
-├── data/                       # Données locales
-│   ├── assets.yaml            # Définition des actifs
-│   ├── positions.yaml         # Snapshot lisible/exporté des positions
-│   ├── .portfolio_tracker.sqlite  # Ledger SQLite local des mouvements
-│   └── market_data/           # Données de marché horodatées
-│       ├── nav_*.yaml         # Valeurs liquidatives
-│       ├── rates_*.yaml       # Taux et indices
-│       ├── fonds_euro_*.yaml  # Taux déclarés fonds euros
-│       └── events_*.yaml      # Événements produits structurés
-│
-├── core/                       # Classes de base et chargement
-│   ├── asset.py               # Définition des actifs
-│   ├── position.py            # Détention des actifs
-│   └── portfolio.py           # Gestion du portefeuille
-│
-├── domain/                     # Coeur métier mouvements / projections / ledger
-│   ├── movements.py           # Normalisation des mouvements
-│   ├── projection.py          # Projection économique d'une position
-│   ├── analytics.py           # Calculs métier partagés
-│   └── ledger.py              # Ledger SQLite local
-│
-├── valuation/                  # Moteurs de valorisation
-│   ├── base.py                # Interface commune
-│   ├── event_based.py         # Produits structurés
-│   ├── declarative.py         # Fonds euros
-│   ├── mark_to_market.py      # UC cotées
-│   └── hybrid.py              # UC illiquides
-│
-├── market/                     # Données de marché
-│   ├── providers.py           # Interface fournisseurs
-│   ├── rates.py               # Gestion des taux
-│   └── nav.py                 # Gestion des VL
-│
-├── alerts/                     # Système d'alertes
-│   ├── rules.py               # Règles d'alerte
-│   └── notifier.py            # Notifications
-│
-├── cli.py                      # Interface ligne de commande
-└── main.py                     # Point d'entrée principal
+├── cli.py, bootstrap.py, dashboard.py, market.py, reporting.py, ...
+├── domain/       # Lots, mouvements, analytics, projections
+├── web/          # Application web + statiques
+└── data/         # YAML, SQLite, market_data, documents
 ```
 
-## 💡 Concepts Clés
+Détails d’implémentation V2 : [`docs/v2_implementation_plan.md`](docs/v2_implementation_plan.md) et fichiers `docs/v2_*.md`.
 
-### Séparation Asset / Position
+---
 
-**Asset** = Définition financière abstraite d'un actif (ex: un fonds, un produit structuré)
+## Données (YAML, marché, SQLite)
 
-**Position** = Détention réelle de cet actif dans un contexte spécifique (enveloppe, détenteur)
+- le catalogue d’actifs et les positions sont reconstruits en base à partir de `market_data/`, des PDF et des corrections manuelles  
+- `data/market_data/` — NAV, événements structurés, taux, sous-jacents, `nav_sources.yaml`, etc.  
+- Base SQLite V2 — état opérationnel V2 (`bootstrap`, snapshots, arbitrages PDF, corrections manuelles)
 
-➡️ Un même actif peut être détenu dans plusieurs positions.
+Exemples de fichiers marché : `nav_<asset_id>.yaml`, `events_<asset_id>.yaml`, `fonds_euro_<asset_id>.yaml`, `rates_*.yaml`, `underlying_*.yaml`.
 
-### Moteurs de Valorisation
+---
 
-Chaque type d'actif utilise un moteur spécifique :
+## Moteurs de valorisation
 
-| Type d'actif | Moteur | Comportement |
+| Type d’actif | Moteur | Comportement |
 |--------------|--------|--------------|
-| `structured_product` | `event_based` | Identifie les événements (coupons, autocalls) sans mark-to-market |
-| `fonds_euro` | `declarative` | Utilise uniquement les taux déclarés, accepte l'opacité |
-| `uc_fund` | `mark_to_market` | Valorisation simple via VL × nombre de parts |
-| `uc_illiquid` | `hybrid` | Mark-to-market si disponible, sinon estimation |
+| `structured_product` | `event_based` | Coupons / autocalls, pas de mark-to-market théorique |
+| `fonds_euro` | `declarative` | Taux déclarés, opacité acceptée |
+| `uc_fund` | `mark_to_market` | VL × parts |
+| `uc_illiquid` | `hybrid` | VL si dispo, sinon estimation |
 
-## 📝 Utilisation
+---
 
-### Interface CLI
+## Alertes et fraîcheur des données
 
-```bash
-# Vue globale du portefeuille
-python -m portfolio_tracker.cli global
+La logique d’alertes (données obsolètes, observations structurés, etc.) est portée par les services V2 et l’UI ; il n’y a plus de sous-commande `alerts` dédiée sur la CLI réduite. Vérifier les indicateurs dans l’interface web et les exports `web-payload`.
 
-# Alias de compatibilité
-python -m portfolio_tracker.cli status
+---
 
-# Payload JSON pour une future web view
-python -m portfolio_tracker.cli web-payload
-python -m portfolio_tracker.cli web-payload --output /tmp/portfolio-web.json
+## Quantalys et Playwright
 
-# Petite app web locale
-python -m portfolio_tracker.cli web
-python -m portfolio_tracker.cli web --host 127.0.0.1 --port 8765
+Les notations Quantalys (étoiles) et catégories peuvent être enrichies lors des mises à jour de VL. **Playwright** (navigateur headless) est souvent nécessaire car le site Quantalys s’appuie sur du JavaScript.
 
-# État par type d'actif
-python -m portfolio_tracker.cli type
-python -m portfolio_tracker.cli type --type structured_product
-
-# Vues spécialisées
-python -m portfolio_tracker.cli uc
-python -m portfolio_tracker.cli structured
-python -m portfolio_tracker.cli fonds-euro
-
-# Vérifier les alertes
-python -m portfolio_tracker.cli alerts
-python -m portfolio_tracker.cli alerts --severity warning
-
-# Lister les actifs
-python -m portfolio_tracker.cli list-assets
-
-# Lister les positions
-python -m portfolio_tracker.cli list-positions
-```
-
-### Utilisation programmatique
-
-```python
-from pathlib import Path
-from portfolio_tracker.core import Portfolio
-from portfolio_tracker.valuation import MarkToMarketEngine
-
-# Charger le portefeuille
-portfolio = Portfolio(Path("data"))
-
-# Récupérer un actif et ses positions
-asset = portfolio.get_asset("uc_msci_world")
-positions = portfolio.get_positions_by_asset("uc_msci_world")
-
-# Valoriser une position
-engine = MarkToMarketEngine(Path("data"))
-result = engine.valuate(asset, positions[0])
-
-print(f"Valeur: {result.current_value} €")
-print(f"P&L: {result.unrealized_pnl} €")
-```
-
-## 📊 Format des Données
-
-### assets.yaml
-
-Définit les actifs financiers :
-
-```yaml
-assets:
-  - asset_id: uc_msci_world
-    type: uc_fund
-    name: "Amundi MSCI World UCITS ETF"
-    isin: "LU1681043599"
-    valuation_engine: mark_to_market
-    metadata:
-      fund_type: "etf"
-      geographic_zone: "world"
-      asset_class: "equity"
-```
-
-### positions.yaml
-
-Définit les positions détenues et sert de snapshot lisible/exportable :
-
-```yaml
-positions:
-  - position_id: pos_003
-    asset_id: uc_msci_world
-    holder_type: individual
-    wrapper:
-      type: assurance_vie
-      insurer: "Assureur A"
-      contract_name: "Contrat Patrimoine Plus"
-    investment:
-      subscription_date: "2022-06-15"
-      invested_amount: 30000.0
-      units_held: 750.0
-```
-
-### `.portfolio_tracker.sqlite`
-
-Le ledger SQLite local stocke les mouvements normalisés et sert de source prioritaire dès qu'il existe.
-
-- Les commandes métier écrivent d'abord dans SQLite
-- `positions.yaml` est ensuite exporté comme snapshot versionnable
-- `Portfolio(...)` recharge automatiquement les lots depuis SQLite s'il est déjà présent
-- Si vous modifiez manuellement `positions.yaml`, utilisez `python -m portfolio_tracker.cli rebuild-ledger`
-
-### market_data/
-
-Données de marché horodatées :
-
-**nav_[asset_id].yaml** - Valeurs liquidatives :
-```yaml
-nav_history:
-  - date: "2024-12-20"
-    value: 51.8
-    currency: EUR
-```
-
-**fonds_euro_[asset_id].yaml** - Taux déclarés :
-```yaml
-declared_rates:
-  - year: 2024
-    rate: 2.70
-    source: "Lettre aux assurés 2024"
-    date: "2024-11-30"
-```
-
-**events_[asset_id].yaml** - Événements produits structurés :
-```yaml
-events:
-  - type: coupon
-    date: "2024-07-20"
-    amount: 2125.0
-    description: "Coupon semestriel #1"
-```
-
-**rates_[identifier].yaml** - Taux et indices :
-```yaml
-history:
-  - date: "2024-12-20"
-    value: 4950.0
-```
-
-## 🔔 Alertes
-
-Le système inclut des règles d'alerte configurables :
-
-- **DataFreshnessRule** : Alerte si les données de marché sont trop anciennes
-- **StructuredProductObservationRule** : Alerte avant une date d'observation
-- **UnderlyingThresholdRule** : Alerte si un sous-jacent approche d'un seuil
-- **MissingValuationRule** : Alerte si une position ne peut être valorisée
-
-Les alertes peuvent être affichées en console, écrites dans un log, ou envoyées par email.
-
-## ⭐ Notes Quantalys (mise à jour automatique)
-
-Les fonds UC (Unités de Compte) sont automatiquement enrichis avec leurs notes Quantalys (de 1 à 5 étoiles) dans les sorties des commandes `make swisslife` et `make himalia`.
-
-### Exemple d'affichage
-
-```
-✓ Eleva Absolute Return Europe | Quantalys: ⭐⭐⭐⭐ (4/5)
-  Valeur: 6,709.17 € | Investi: 6,483.58 € | P&L: +225.59 € (+3.48%)
-```
-
-### Récupération automatique
-
-Les notes Quantalys sont **récupérées automatiquement** lors de la mise à jour des VL :
-
-```bash
-make update-navs
-```
-
-Cette commande récupère :
-- ✅ Les valeurs liquidatives des fonds
-- ✅ **Les notes Quantalys (1-5 étoiles)**
-- ✅ **Les catégories de fonds**
-
-Tout est automatiquement sauvegardé dans `portfolio_tracker/data/market_data/quantalys_ratings.yaml`.
-
-### Prérequis pour la récupération automatique
-
-**Important** : Playwright doit être installé pour récupérer automatiquement les notes depuis Quantalys.
-
-#### Installation rapide (recommandé)
+Installation rapide :
 
 ```bash
 ./QUICK_INSTALL_QUANTALYS.sh
 ```
 
-#### Installation manuelle
+Ou manuellement :
 
 ```bash
 pip install playwright
 python -m playwright install chromium
 ```
 
-#### Sans Playwright
+Puis utiliser `make update-navs` (appelle `update-uc-navs`). Sans Playwright, les notes peuvent être saisies à la main dans `portfolio_tracker/data/market_data/quantalys_ratings.yaml`.
 
-Si Playwright n'est pas installé :
-- ❌ `make update-navs` ne pourra pas récupérer les notes automatiquement
-- ✅ Les notes peuvent être saisies manuellement dans `quantalys_ratings.yaml`
-- ✅ `make himalia` et `make swisslife` fonctionnent normalement
+---
 
-📖 Documentation complète : voir [QUANTALYS.md](QUANTALYS.md) et [INSTALLATION_PLAYWRIGHT.md](INSTALLATION_PLAYWRIGHT.md)
+## Règles métier patrimoine
 
-## 🎨 Choix de Design
+*Référence métier explicite — à maintenir avec le code et les données.*
 
-### Pourquoi YAML ?
+### 1. Capital investi
 
-- ✅ Lisible par un humain
-- ✅ Versionnable avec Git
-- ✅ Commentaires possibles
-- ✅ Structure hiérarchique claire
-- ✅ Pas de base de données à maintenir
+Le capital investi correspond aux apports externes réels injectés sur les contrats.
 
-### Pourquoi pas de trading ?
+- On raisonne d’abord au niveau **contrat**, pas au niveau position.
+- Un apport externe est un versement provenant de l’extérieur du contrat.
+- Un arbitrage interne ne crée pas de nouveau capital investi.
+- Reinvestissement, coupon recrédité, participation aux bénéfices ou passage par un support monétaire ne doivent pas être comptés comme nouvel apport externe.
 
-Ce n'est **pas** un outil de trading actif, mais un **outil de suivi patrimonial long terme**. Les cas d'usage sont :
-- Suivre la performance d'actifs détenus sur plusieurs années
-- Identifier les dates importantes (observations, échéances)
-- Gérer l'opacité des fonds euros
-- Avoir une vision consolidée multi-enveloppes
+Affichage visé : apports externes cumulés ; éventuellement apports nets si l’on soustrait les rachats réellement sortis ; « coût net encore exposé » seulement si la notion est définie séparément.
 
-### Acceptation de l'opacité des fonds euros
+### 2. Valeur à date
 
-Les fonds euros sont **opaques par nature**. L'outil :
-- ❌ Ne tente **pas** de recalculer les rendements
-- ✅ Stocke les taux déclarés avec leur source
-- ✅ Marque explicitement les rendements inconnus
-- ✅ N'extrapole **jamais**
+**Fonds euro :** figer les positions à partir des rapports annuels ; base au 1er janvier = valeur connue au 31/12 de l’année précédente ; valorisation combine capital au 1er janvier, taux de l’année précédente et plus-value théorique à date. On ne prétend pas recalculer parfaitement le fonds euro ; on s’aligne sur les relevés assureur.
 
-### Pas de scraping assureur
+**UC :** valeur = parts × VL de marché à date ; dernière VL disponible ≤ date de valorisation ; signaler si la VL est trop ancienne.
 
-L'outil ne scrappe **pas** les sites des assureurs pour :
-- Éviter la fragilité (changements de site)
-- Respecter les CGU
-- Garder le contrôle sur les données
-- Permettre la vérification manuelle
+**Produits structurés :** pas de reconstruction d’une VL opaque assureur ; partir de la valeur d’achat, ajouter les coupons théoriques ; pilotage : produit « gagnant » tant qu’il n’y a pas d’information contraire. Cas CMS 10 ans : ne pas supposer les coupons sans validation ; pouvoir déclarer explicitement versement ou non (à croiser avec documentation produit et relevés).
 
-Les données sont **saisies manuellement** à partir des relevés officiels.
+### 3. Rapports assureur
 
-## 🔧 Extensibilité
+Source de vérité pour figer positions à une date : rapports annuels (fonds euro au 31/12, mouvements, coupons, état des structurés).
 
-### Ajouter un nouveau type d'actif
+### 4. Principes d’implémentation
 
-1. Définir le type dans `AssetType` (`core/asset.py`)
-2. Créer un nouveau moteur héritant de `BaseValuationEngine`
-3. Implémenter la méthode `valuate()`
-4. Référencer le moteur dans `ValuationEngine`
+- Séparer apports externes, arbitrages internes, revenus/coupons, frais/taxes, valeur à date.
+- Ne pas sommer des « premiers achats de position » comme apports externes.
+- Privilégier le niveau contrat pour les apports, le niveau position pour la valorisation.
+- Tracer la source des valeurs (rapport, brochure, fichier marché, saisie manuelle).
 
-### Ajouter une nouvelle règle d'alerte
+### 5. Questions ouvertes
 
-1. Créer une classe héritant de `AlertRule`
-2. Implémenter la méthode `check()`
-3. L'ajouter dans `AlertManager.add_default_rules()` si pertinent
+Formule intrannuelle fonds euro ; convention exacte des coupons CMS ; distinction fine entre apports cumulés, apports nets, coût exposé, valeur actuelle.
 
-### Ajouter un nouveau provider de données
+---
 
-1. Créer une classe héritant de `MarketDataProvider`
-2. Implémenter les méthodes abstraites
-3. L'utiliser dans les moteurs de valorisation
-
-## 🚫 Hors Périmètre
-
-Ce que l'outil ne fait **PAS** :
-
-- ❌ Trading automatique
-- ❌ Recommandations d'investissement
-- ❌ Recalcul des fonds euros
-- ❌ Simulation fiscale avancée (IFI, plus-values)
-- ❌ Scraping des sites assureurs
-- ❌ API en temps réel
-
-## 🧪 Tests
+## Tests et qualité
 
 ```bash
-# Lancer les tests
-pytest
-
-# Avec couverture
-pytest --cov=portfolio_tracker --cov-report=html
+make test
+make test-cov
 ```
 
-## 📦 Exemple de Flux
+La validation de cohérence métier est couverte par les services V2 et la suite de tests.
 
-1. **Saisie** : Ajouter un actif dans `assets.yaml`
-2. **Saisie** : Ajouter une position initiale dans `positions.yaml`
-3. **Mise à jour** : Mettre à jour les données de marché dans `market_data/`
-4. **Consultation** : Lancer `python -m portfolio_tracker.cli global`
-5. **Alertes** : Vérifier `python -m portfolio_tracker.cli alerts`
+---
 
-## 🤝 Contribution
+## Documentation technique (`docs/`)
 
-Le projet est conçu pour être **lisible et maintenable**. Les contributions sont les bienvenues pour :
-- Nouveaux moteurs de valorisation
-- Nouvelles règles d'alerte
-- Nouveaux providers de données
-- Améliorations de la CLI
-- Documentation
+| Fichier | Contenu |
+|---------|---------|
+| [`docs/movements_valuation_architecture.md`](docs/movements_valuation_architecture.md) | Architecture mouvements / valorisation |
+| [`docs/v2_functional_spec.md`](docs/v2_functional_spec.md) | Spec fonctionnelle V2 |
+| [`docs/v2_data_spec.md`](docs/v2_data_spec.md) | Modèle de données V2 |
+| [`docs/v2_screens_spec.md`](docs/v2_screens_spec.md) | Écrans |
+| [`docs/v2_workflows_spec.md`](docs/v2_workflows_spec.md) | Workflows |
+| [`docs/v2_global_spec.md`](docs/v2_global_spec.md) | Vue globale |
+| [`docs/v2_implementation_plan.md`](docs/v2_implementation_plan.md) | Plan d’implémentation |
+| [`docs/v2_wireframes.md`](docs/v2_wireframes.md) | Wireframes |
+| [`docs/history_chart_options.md`](docs/history_chart_options.md) | Options de graphiques (historique) |
 
-## 📄 Licence
+Les specs V2 référencent les **règles métier** ci-dessus (section [Règles métier patrimoine](#règles-métier-patrimoine)).
 
-Ce projet est un outil personnel de gestion patrimoniale.
+---
 
-## ⚠️ Avertissement
+## GED, snapshots, mouvements et arbitrages
 
-Cet outil est fourni à titre informatif. Il ne constitue en aucun cas un conseil en investissement. Les valorisations sont indicatives et peuvent contenir des erreurs. Vérifiez toujours vos positions avec vos relevés officiels.
+### Chaîne métier cible
+
+1. **Relevé de situation annuel** : vérité de référence à la date du snapshot (import PDF → table `annual_snapshots`, statut `proposed` puis **validation** `validated` / `rejected`).
+2. **Arbitrages PDF et corrections manuelles** : complètent l’historique en base SQLite avec une provenance explicite par document ou par saisie manuelle.
+3. **Régularisation** : en fin d’année, rapprochement entre total officiel et reconstruction interne ; les écritures de régul restent à valider manuellement avant application durable.
+
+### Produits structurés : deux lectures
+
+- **Officiel assureur** : montants issus des relevés importés (`official_*` dans le dashboard). Pour les structurés, la part officielle peut être dérivée du total lorsque le PDF fournit total, UC et fonds euro.
+- **Modèle interne** : valorisation moteur à la date du snapshot (`model_structured_value`, écarts `structured_model_gap_*`). Les deux sont affichées dans l’UI (cartes contrats, table snapshots, pages contrat / support).
+
+Sur une **transaction** assureur (arbitrage PDF), les montants / unités issus du document font foi ; les mouvements persistés portent une provenance SQLite et les lots runtime gardent `source` / `model_anchor` pour tracer l’alignement modèle.
+
+### Arbitrages PDF
+
+- Classification `arbitration_letter` ; extraction Generali et SwissLife (`portfolio_tracker/arbitration.py`).
+- Proposition persistée en base ; **mapping manuel** des jambes si l’ISIN ne correspond à aucune position.
+- Application : persistance des mouvements issus du PDF en base SQLite puis `bootstrap`.
+
+### Réinitialiser la base V2
+
+```bash
+rm -f portfolio_tracker/data/.portfolio_tracker_v2.sqlite portfolio_tracker/data/.portfolio_tracker_v2.sqlite-*
+portfolio-tracker --data-dir portfolio_tracker/data bootstrap
+```
+
+---
+
+## Hors périmètre et avertissement
+
+L’outil ne fait pas : trading automatique, conseil en investissement automatisé, recalcul « exact » des fonds euros, fiscalité avancée, scraping des espaces assureurs, API temps réel.
+
+**Avertissement :** outil informatif ; les valorisations sont indicatives ; vérifier systématiquement sur les relevés officiels.
+
+---
+
+## Licence
+
+Usage personnel.

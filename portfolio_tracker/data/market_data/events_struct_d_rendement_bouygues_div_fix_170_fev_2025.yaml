@@ -4,6 +4,13 @@
 # events: événements réellement constatés (paiements)
 # expected_events: calendrier/conditions attendues (issu de la brochure)
 
+asset_metadata:
+  period_months: 6
+  coupon_label: "1,70 EUR"
+  underlying_id: "euronext_fr:FRIX00000185-XPAR"
+  initial_observation_date: "2025-02-27"
+  documentation: "product_brochure/BROCHURE D REND BOUYGUES DIV FIX  1,70 € FEV 25 - FR1459AB5562.pdf"
+
 events: []
 expected_events:
 - type: autocall_possible
@@ -196,5 +203,4 @@ expected_events:
   description: Échéance (paiement)
   metadata:
     final_observation_date: '2035-02-27'
-
 

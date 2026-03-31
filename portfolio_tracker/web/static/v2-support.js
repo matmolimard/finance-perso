@@ -247,8 +247,15 @@ function renderSnapshots() {
   document.querySelector("#support-snapshots").innerHTML = tableFromRows(supportState.payload.snapshots, [
     ["reference_date", "Réf."],
     ["official_total_value", "Total", (value) => euro(value)],
-    ["official_uc_value", "UC", (value) => euro(value)],
-    ["official_fonds_euro_value", "Fonds euro", (value) => euro(value)],
+    ["official_uc_value", "UC (officiel)", (value) => euro(value)],
+    ["official_structured_value", "Structurés (officiel)", (value) => euro(value)],
+    ["model_structured_value", "Structurés (modèle)", (value) => euro(value)],
+    ["structured_model_gap_value", "Écart", (_value, row) => {
+      if (typeof row.structured_model_gap_value !== "number") return "N/A";
+      const klass = row.structured_model_gap_value >= 0 ? "positive" : "negative";
+      return `<span class="${klass}">${euro(row.structured_model_gap_value)}</span>`;
+    }],
+    ["official_fonds_euro_value", "Fonds euro (officiel)", (value) => euro(value)],
   ]);
 }
 

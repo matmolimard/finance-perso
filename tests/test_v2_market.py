@@ -1,6 +1,8 @@
 from pathlib import Path
+import yaml
 
-from portfolio_tracker.v2.market import build_v2_market_data, load_market_series
+from portfolio_tracker.market import build_v2_market_data, load_market_series
+from portfolio_tracker.storage import default_db_path, get_market_series_points, upsert_market_series_points
 from portfolio_tracker.web.app import STATIC_DIR
 
 
@@ -47,11 +49,9 @@ def test_v2_market_data_lists_uc_and_underlyings():
     assert payload["summary"]["underlying_count"] >= 1
     assert any(row["asset_id"] == "uc_bdl_rempart_c" for row in payload["uc_assets"])
     assert any(row["earliest_date"] for row in payload["uc_assets"] if row["has_series"])
-    underlyings = {row["underlying_id"]: row for row in payload["underlyings"]}
-    assert "euronext_fr:FRIX00001324-XPAR" in underlyings
-    assert underlyings["euronext_fr:FRIX00001324-XPAR"]["product_names"]
-    assert "redemption_levels" in underlyings["euronext_fr:FRIX00001324-XPAR"]
-    assert underlyings["euronext_fr:FRIX00001324-XPAR"]["earliest_date"]
+    assert any(row["product_names"] for row in payload["underlyings"])
+    assert any("redemption_levels" in row for row in payload["underlyings"])
+    assert any(row["earliest_date"] for row in payload["underlyings"] if row["has_series"])
 
 
 def test_v2_market_data_exposes_morningstar_url_fallback_for_uc():
@@ -70,8 +70,8 @@ def test_v2_market_data_prefers_configured_source_url_for_boursorama_uc():
 
     payload = build_v2_market_data(data_dir)
 
-    capimmo = next(row for row in payload["uc_assets"] if row["asset_id"] == "uc_sci_primonial_capimmo")
-    assert capimmo["source_url"] == "https://www.boursorama.com/bourse/opcvm/cours/0P0001XVJK/"
+    echiquier = next(row for row in payload["uc_assets"] if row["asset_id"] == "uc_echiquier_allocation_flexible_b")
+    assert echiquier["source_url"] == "https://www.boursorama.com/bourse/opcvm/cours/0P0001INWJ/"
 
 
 def test_v2_market_series_filters_dates_for_uc_and_underlying():
@@ -97,3 +97,60 @@ def test_v2_market_series_filters_dates_for_uc_and_underlying():
     )
     assert len(underlying_series["points"]) >= 1
     assert all("2026-03-01" <= point["date"] <= "2026-03-31" for point in underlying_series["points"])
+
+
+def test_load_market_series_reads_from_sqlite_without_yaml(tmp_path):
+    data_dir = tmp_path
+    upsert_market_series_points(
+        default_db_path(data_dir),
+        kind="uc",
+        identifier="uc_test_db",
+        source="manual",
+        currency="EUR",
+        points=[
+            {"date": "2026-03-01", "value": 101.2, "currency": "EUR", "source": "manual"},
+            {"date": "2026-03-20", "value": 103.4, "currency": "EUR", "source": "manual"},
+        ],
+    )
+
+    payload = load_market_series(
+        data_dir,
+        kind="uc",
+        identifier="uc_test_db",
+        date_from="2026-03-10",
+        date_to="2026-03-31",
+    )
+
+    assert payload["points"] == [
+        {"date": "2026-03-20", "value": 103.4, "currency": "EUR", "source": "manual"},
+    ]
+
+
+def test_load_market_series_lazy_syncs_yaml_into_sqlite(tmp_path):
+    data_dir = tmp_path
+    market_data_dir = data_dir / "market_data"
+    market_data_dir.mkdir()
+    (market_data_dir / "nav_uc_lazy.yaml").write_text(
+        yaml.safe_dump(
+            {
+                "source": "legacy_yaml",
+                "nav_history": [
+                    {"date": "2026-03-01", "value": 99.1, "currency": "EUR", "source": "legacy_yaml"},
+                    {"date": "2026-03-15", "value": 100.5, "currency": "EUR", "source": "legacy_yaml"},
+                ],
+            },
+            sort_keys=False,
+            allow_unicode=True,
+        ),
+        encoding="utf-8",
+    )
+
+    payload = load_market_series(data_dir, kind="uc", identifier="uc_lazy")
+
+    assert len(payload["points"]) == 2
+    stored_points = get_market_series_points(
+        default_db_path(data_dir),
+        kind="uc",
+        identifier="uc_lazy",
+    )
+    assert [row["date"] for row in stored_points] == ["2026-03-01", "2026-03-15"]

@@ -6,11 +6,11 @@ Statut: brouillon a valider
 Ce document decrit comment un document entre dans la V2 et devient une donnee metier validee.
 Il complete :
 
-- [RULES.md](/Users/mathieu/Documents/Developpement/finance-perso/RULES.md)
-- [v2_global_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_global_spec.md)
-- [v2_functional_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_functional_spec.md)
-- [v2_data_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_data_spec.md)
-- [v2_screens_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_screens_spec.md)
+- [README.md — règles métier](../README.md)
+- [v2_global_spec.md](v2_global_spec.md)
+- [v2_functional_spec.md](v2_functional_spec.md)
+- [v2_data_spec.md](v2_data_spec.md)
+- [v2_screens_spec.md](v2_screens_spec.md)
 
 ## 1. Principes generaux
 

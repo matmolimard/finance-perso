@@ -4,6 +4,14 @@
 # events: événements réellement constatés (paiements)
 # expected_events: calendrier/conditions attendues (issu de la brochure)
 
+asset_metadata:
+  period_months: 6
+  coupon_label: "0,90 EUR"
+  underlying_id: "MQDCA09P Index"
+  underlying_label: "MerQube CA SA 0.9 Point Decrement (EUR)"
+  initial_observation_date: "2025-02-07"
+  documentation: "product_brochure/BROCH. D REND CA DIV FORF 0,90 EUR FEV 25 FRIP00000YI4.pdf"
+
 events: []
 expected_events:
 - type: autocall_observation
@@ -180,5 +188,4 @@ expected_events:
   description: Échéance (paiement)
   metadata:
     final_observation_date: '2035-02-07'
-
 

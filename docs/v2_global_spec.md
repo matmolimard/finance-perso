@@ -5,7 +5,7 @@ Derniere mise a jour: 2026-03-26
 Ce document sert de base produit pour la V2.
 Il decrit le perimetre, les objectifs, les principes de conception et les grandes briques fonctionnelles.
 
-Il complete [RULES.md](/Users/mathieu/Documents/Developpement/finance-perso/RULES.md), qui reste la reference des regles metier.
+Il complete la section *Règles métier patrimoine* du [README.md](../README.md), référence des règles métier.
 
 ## 1. Vision
 
@@ -137,7 +137,7 @@ Elle doit permettre :
 
 ## 7. Regles de valorisation cibles
 
-Le detail des regles vit dans [RULES.md](/Users/mathieu/Documents/Developpement/finance-perso/RULES.md).
+Le détail des règles vit dans le [README.md](../README.md).
 La V2 s'aligne sur les principes suivants.
 
 ### 7.1 Fonds euro
@@ -283,7 +283,7 @@ Interface locale sans login permettant :
 
 Les principaux arbitrages structurants ont ete valides :
 
-- le format du snapshot annuel est specifie dans [v2_data_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_data_spec.md)
+- le format du snapshot annuel est specifie dans [v2_data_spec.md](v2_data_spec.md)
 - la formule de valorisation intrannuelle des fonds euros est retenue
 - la gestion des retraits, arbitrages, coupons conditionnels et remboursements structures est definie
 - la GED sera navigable sous forme de liste, sans page dediee par document en phase 1

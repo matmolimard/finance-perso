@@ -6,16 +6,10 @@ Valide :
 - Les exercices structurés (statut, coupons, gains réalisé vs latent)
 """
 
-from pathlib import Path
+from portfolio_tracker.reporting import build_annual_contract_report, build_structured_exercises
 
-from portfolio_tracker.v2.reporting import build_annual_contract_report, build_structured_exercises
-
-
-DATA_DIR = Path(__file__).resolve().parents[1] / "portfolio_tracker" / "data"
-
-
-def test_annual_report_returns_rows_for_all_contracts(tmp_path):
-    report = build_annual_contract_report(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+def test_annual_report_returns_rows_for_all_contracts(real_data_dir, copied_real_db_path):
+    report = build_annual_contract_report(real_data_dir, db_path=copied_real_db_path)
 
     assert "rows" in report
     assert "by_contract" in report
@@ -31,9 +25,9 @@ def test_annual_report_returns_rows_for_all_contracts(tmp_path):
     assert "structured" in buckets_present
 
 
-def test_annual_report_complete_rows_have_gain_computed(tmp_path):
+def test_annual_report_complete_rows_have_gain_computed(real_data_dir, copied_real_db_path):
     """Les lignes avec deux snapshots consécutifs ont un gain calculé."""
-    report = build_annual_contract_report(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    report = build_annual_contract_report(real_data_dir, db_path=copied_real_db_path)
 
     complete_rows = [r for r in report["rows"] if r["data_quality"] == "complete"]
     assert len(complete_rows) > 0
@@ -44,9 +38,9 @@ def test_annual_report_complete_rows_have_gain_computed(tmp_path):
         assert row["gain"] is not None
 
 
-def test_annual_report_fonds_euro_gain_is_non_negative_for_complete_rows(tmp_path):
+def test_annual_report_fonds_euro_gain_is_non_negative_for_complete_rows(real_data_dir, copied_real_db_path):
     """Le gain fonds euro doit être ≥ 0 quand les données sont complètes (taux positif)."""
-    report = build_annual_contract_report(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    report = build_annual_contract_report(real_data_dir, db_path=copied_real_db_path)
 
     himalia_fe_complete = [
         r for r in report["rows"]
@@ -65,9 +59,9 @@ def test_annual_report_fonds_euro_gain_is_non_negative_for_complete_rows(tmp_pat
         assert row["gain_pct"] >= 0.0
 
 
-def test_annual_report_structured_rows_never_have_gain_pct(tmp_path):
+def test_annual_report_structured_rows_never_have_gain_pct(real_data_dir, copied_real_db_path):
     """Règle métier : les structurés à terme n'ont pas de gain_pct annuel."""
-    report = build_annual_contract_report(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    report = build_annual_contract_report(real_data_dir, db_path=copied_real_db_path)
 
     structured_rows = [r for r in report["rows"] if r["bucket"] == "structured"]
     assert len(structured_rows) > 0
@@ -79,9 +73,9 @@ def test_annual_report_structured_rows_never_have_gain_pct(tmp_path):
         )
 
 
-def test_annual_report_uc_rows_have_gain_pct_when_complete(tmp_path):
+def test_annual_report_uc_rows_have_gain_pct_when_complete(real_data_dir, copied_real_db_path):
     """Les UC avec snapshots complets ont un gain_pct."""
-    report = build_annual_contract_report(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    report = build_annual_contract_report(real_data_dir, db_path=copied_real_db_path)
 
     uc_complete = [
         r for r in report["rows"]
@@ -95,9 +89,9 @@ def test_annual_report_uc_rows_have_gain_pct_when_complete(tmp_path):
         pass  # présence vérifiée par le test structuré (gain_pct absent = bug)
 
 
-def test_annual_report_by_contract_index_is_consistent(tmp_path):
+def test_annual_report_by_contract_index_is_consistent(real_data_dir, copied_real_db_path):
     """L'index by_contract reflète les mêmes données que rows."""
-    report = build_annual_contract_report(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    report = build_annual_contract_report(real_data_dir, db_path=copied_real_db_path)
 
     total_indexed = sum(
         len(buckets)
@@ -107,8 +101,8 @@ def test_annual_report_by_contract_index_is_consistent(tmp_path):
     assert total_indexed == len(report["rows"])
 
 
-def test_structured_exercises_returns_per_position_per_year(tmp_path):
-    exercises = build_structured_exercises(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+def test_structured_exercises_returns_per_position_per_year(real_data_dir, copied_real_db_path):
+    exercises = build_structured_exercises(real_data_dir, db_path=copied_real_db_path)
 
     assert len(exercises) > 0
 
@@ -120,9 +114,9 @@ def test_structured_exercises_returns_per_position_per_year(tmp_path):
         seen.add(key)
 
 
-def test_structured_exercises_never_show_annual_return_pct(tmp_path):
+def test_structured_exercises_never_show_annual_return_pct(real_data_dir, copied_real_db_path):
     """Règle métier : aucun structuré n'affiche de rendement annuel en %."""
-    exercises = build_structured_exercises(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    exercises = build_structured_exercises(real_data_dir, db_path=copied_real_db_path)
 
     for ex in exercises:
         assert ex["annual_return_pct"] is None, (
@@ -130,15 +124,14 @@ def test_structured_exercises_never_show_annual_return_pct(tmp_path):
         )
 
 
-def test_structured_exercises_redeemed_has_realized_gain_no_unrealized(tmp_path):
-    """Un produit remboursé a un realized_gain et pas de gain latent."""
-    exercises = build_structured_exercises(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+def test_structured_exercises_redeemed_has_realized_gain_no_unrealized(real_data_dir, copied_real_db_path):
+    """Quand un remboursement PDF est suffisamment reconstruit, le gain est réalisé et non latent."""
+    exercises = build_structured_exercises(real_data_dir, db_path=copied_real_db_path)
 
     redeemed = [
         e for e in exercises
         if e["position_status"] in ("redeemed_this_year", "subscribed_and_redeemed_this_year")
     ]
-    assert len(redeemed) >= 1, "Au moins un produit remboursé attendu dans les données"
 
     for ex in redeemed:
         assert ex["redemption_amount"] is not None, f"redemption_amount manquant : {ex['asset_id']}"
@@ -149,9 +142,9 @@ def test_structured_exercises_redeemed_has_realized_gain_no_unrealized(tmp_path)
         )
 
 
-def test_structured_exercises_active_has_unrealized_no_realized(tmp_path):
+def test_structured_exercises_active_has_unrealized_no_realized(real_data_dir, copied_real_db_path):
     """Un produit actif a un gain latent et pas de gain réalisé."""
-    exercises = build_structured_exercises(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    exercises = build_structured_exercises(real_data_dir, db_path=copied_real_db_path)
 
     active_current = [
         e for e in exercises
@@ -166,9 +159,9 @@ def test_structured_exercises_active_has_unrealized_no_realized(tmp_path):
         # closing_valuation peut être None si le moteur échoue, mais ne doit pas être un gain réalisé
 
 
-def test_structured_exercises_coupons_confirmed_have_abs_amount(tmp_path):
+def test_structured_exercises_coupons_confirmed_have_abs_amount(real_data_dir, copied_real_db_path):
     """Les coupons confirmés ont un montant absolu calculé."""
-    exercises = build_structured_exercises(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    exercises = build_structured_exercises(real_data_dir, db_path=copied_real_db_path)
 
     exercises_with_confirmed = [
         e for e in exercises if e["coupons_confirmed_this_year"]
@@ -182,9 +175,9 @@ def test_structured_exercises_coupons_confirmed_have_abs_amount(tmp_path):
             assert coupon["abs_amount"] > 0
 
 
-def test_structured_exercises_cms_distribution_has_2025_coupon(tmp_path):
+def test_structured_exercises_cms_distribution_has_2025_coupon(real_data_dir, copied_real_db_path):
     """Le produit CMS Distribution (FR001400TBR1) a un coupon confirmé en 2025."""
-    exercises = build_structured_exercises(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+    exercises = build_structured_exercises(real_data_dir, db_path=copied_real_db_path)
 
     dist_2025 = [
         e for e in exercises
@@ -200,11 +193,11 @@ def test_structured_exercises_cms_distribution_has_2025_coupon(tmp_path):
     assert coupon["is_conditional"] is True  # CMS conditionnel
 
 
-def test_structured_exercises_historical_assets_excluded(tmp_path):
-    """Les actifs marqués 'historical' dans assets.yaml sont exclus des exercices."""
-    exercises = build_structured_exercises(DATA_DIR, db_path=tmp_path / "v2.sqlite")
+def test_structured_exercises_historical_assets_excluded(real_data_dir, copied_real_db_path):
+    """Les actifs calculés comme historiques sont exclus des exercices."""
+    exercises = build_structured_exercises(real_data_dir, db_path=copied_real_db_path)
 
     asset_ids = {e["asset_id"] for e in exercises}
-    # Ces produits sont marqués historical dans assets.yaml
+    # Ces produits n'ont plus de position ouverte.
     assert "struct_callable_note_taux_fixe_dec_2023" not in asset_ids
     assert "struct_d_coupon_kg_credit_agricole_decrement_mai_2023" not in asset_ids

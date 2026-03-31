@@ -6,6 +6,17 @@
 # Dates de constatation semestrielle: 23/09/2026 puis 19/03/2027, 23/09/2027, ... 23/03/2038
 # Échéance: 30/03/2038
 
+asset_metadata:
+  period_months: 6
+  coupon_label: "3,50% semestriel (TRA max 7%)"
+  underlying_id: "EURIBOR_12M"
+  underlying_label: "EURIBOR 12 mois"
+  coupon_condition_threshold: 2.50
+  autocall_condition_threshold: 1.85
+  initial_observation_date: "2026-09-23"
+  maturity_years: 12.25
+  documentation: "product_brochure/EURIBOR_12M_7pct_Mars_2026-FRSG00016ZQ9.pdf"
+
 events: []
 expected_events:
 - type: maturity_observation

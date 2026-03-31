@@ -1,7 +1,7 @@
 underlying_id: iEdge_Transatlantic_Luxury_Goods_Services_10EW_Decrement_50
 source: natixis
 identifier: LUXGSTDG
-last_updated: '2026-03-28T12:28:29'
+last_updated: '2026-03-30T18:22:09'
 history:
 - date: '2014-03-24'
   value: 394.88
@@ -5975,6 +5975,8 @@ history:
   value: 781.91
 - date: '2026-03-25'
   value: 789.84
+- date: '2026-03-26'
+  value: 783.09
 url: https://equityderivatives.natixis.com/fr/indice/luxgstdg/
 notes: 'iEdge Transatlantic Luxury Goods & Services 10 EW Decrement 50 Points GTR® - Bloomberg: LUXGSTDG
   Index'

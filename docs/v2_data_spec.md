@@ -6,9 +6,9 @@ Statut: brouillon a valider
 Ce document decrit les objets de donnees de la V2.
 Il complete :
 
-- [RULES.md](/Users/mathieu/Documents/Developpement/finance-perso/RULES.md)
-- [v2_global_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_global_spec.md)
-- [v2_functional_spec.md](/Users/mathieu/Documents/Developpement/finance-perso/docs/v2_functional_spec.md)
+- [README.md — règles métier](../README.md)
+- [v2_global_spec.md](v2_global_spec.md)
+- [v2_functional_spec.md](v2_functional_spec.md)
 
 ## 1. Principes de modelisation
 
